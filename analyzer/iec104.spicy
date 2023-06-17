@@ -1,0 +1,121 @@
+# TODO: Define your analyzer here.
+
+module iec104;
+
+import spicy;
+
+# Need to enforce a specific version of Spicy?
+#%spicy-version = "VERSION";
+
+#public type Packet = unit {
+#    payload: bytes &eod;
+#};
+
+#const ioa_len = 3;
+
+type Modes = enum {
+    I = 0,
+    S = 1,
+    U = 3
+};
+
+public type Apcis = unit {
+    :  Apci[]; 
+
+    on %init {
+       #print "Starting APCIs";
+    }
+    
+    on %done {
+        #print self;
+    }
+};
+
+# Just for testing
+global Apci_glob: Apci;
+Apci_glob.apduLen = 0;
+
+# We need to switch all bytes to little endian
+type Apci = unit {
+%byte-order = spicy::ByteOrder::Little;
+    # The IEC-104 has the below start byte in its beginning
+    start :  b"\x68" &convert=$$.to_uint(spicy::ByteOrder::Little);
+    apduLen : uint8 &byte-order = spicy::ByteOrder::Little;
+    # There can be four 8-bit control fields
+    ctrl : bitfield(32) {
+        not_i_type : 0; 
+        #Only of value when not_i_type == 1
+        #mode: 0..1 if ( self.not_i_type == 1 );
+        apci_type : 0..1;
+        #Only used when I mode
+        apci_tx : 1..15;
+        u_start_dt : 2..3;
+        u_stop_dt : 4..5;
+        u_test_fr : 6..7;
+        #Not used when we have U mode
+        apci_rx : 17..31;
+    };
+    # NOTE: Just testing for now until we have the ASDU completed.
+    #: void &size=(self.apduLen - 4);
+
+    # Only if there is not Type I we move on with ASDU.
+    asdu : Asdu if (self.ctrl.not_i_type == 0);
+    
+    # An alternative approach might be the following 
+    # but it also has some parsing issues based on the used data types 
+
+    #apci_type : bytes &size=1;
+    #txid : bytes &size=1;
+    #rxid : bytes &size=1;
+
+    #dumb : bytes &until=b"\x00";
+    # 4 is the minimum APDU lenght we can find.
+    #dumb_2 : skip &size=(apduLen - 4);
+    # : void &size=(self.apduLen - 4);
+
+    on %init {
+        #print "Init for APCI here";
+    }
+    
+    on ctrl {
+    #on apci_type {
+        #print "after parsing type for APCI", self;
+
+        # Just for testing.
+        #Apci_glob.apduLen = self.apduLen;
+    }
+
+    on %done {
+        print "Done with APCI here", self;
+    }
+};
+
+
+public type Asdu = unit {
+%byte-order = spicy::ByteOrder::Little;
+    # TODO: Needs to be mapped/converted to some strings (enum?)
+    info_obj_type : uint8 &byte-order = spicy::ByteOrder::Little;
+    data_unit_identifier : bitfield (8) {
+        seq : 7;
+        num_ix : 0..6;
+    };
+    cause_of_transmission : bitfield (8) {
+        # TODO: Needs to be mapped/converted to some causes     strings (enum?)
+        cause_tx : 0..5;
+        negative : 6;
+        test : 7;
+    };
+    originator_address : uint8 &byte-order = spicy::ByteOrder::Little;
+    common_address : uint16 &byte-order = spicy::ByteOrder::Little;
+
+    # Skipping the IOAs for now.
+
+    : void &size=(Apci_glob.apduLen - 10);
+
+    on %init {
+        print "Init for ASDU here";
+    }
+    on %done {
+        print "Done with ASDU here", self;
+    }
+};

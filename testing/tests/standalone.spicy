@@ -1,0 +1,7 @@
+# @TEST-DOC: Test parsing behavior of iec104.
+#
+# @TEST-EXEC: spicyc ${DIST}/analyzer/iec104.spicy -j -d -o iec104.hlto
+#
+# TODO: Add/adapt standalone parsing tests here.
+# @TEST-EXEC: printf "test string" | spicy-dump -p iec104::Packet iec104.hlto >output 2>&1
+# @TEST-EXEC: TEST_DIFF_CANONIFIER= btest-diff output

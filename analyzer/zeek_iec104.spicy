@@ -1,0 +1,24 @@
+# Set up protocol confirmation/rejection for analyzers, as well as any further
+# Zeek-specific analysis.
+
+module Zeek_iec104;
+
+import iec104;
+import zeek;
+
+# TODO: Protocol analyzers should confirm once they are reasonably sure that
+# they are indeed parsing the right protocol. Pick a unit that's a little bit
+# into the parsing process here.
+#
+# on iec104::SUITABLE_UNIT {
+#     zeek::confirm_protocol();
+# }
+
+# Any error bubbling up to the top unit will trigger a protocol rejection.
+#on iec104::Packet::%error {
+#    zeek::reject_protocol("error while parsing iec104");
+#}
+
+on iec104::Apcis::%error {
+    zeek::reject_protocol("error while parsing iec104");
+}

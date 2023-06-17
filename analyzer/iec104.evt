@@ -1,0 +1,44 @@
+import iec104;
+import Zeek_iec104;
+
+# TODO: Adjust below how/when the analyzer will be activated. The example
+# defines a well-known port to trigger it. For more information, see:
+#
+#   https://docs.zeek.org/projects/spicy/en/latest/zeek.html#interface-definitions-evt-files
+#
+#protocol analyzer spicy::iec104 over TCP:
+#    parse originator with iec104::Packet,
+#    parse responder with iec104::Packet,
+#    port 2404/tcp; # adapt port number in main.zeek accordingly
+
+# TODO: Connect Spicy-side events with Zeek-side events. The example just
+# defines a simple example event that forwards the raw data (which in practice
+# you don't want to do!).
+#on iec104::Packet -> event iec104::message($conn, $is_orig, self.payload);
+
+# ========================================================
+
+protocol analyzer spicy::iec104 over TCP:
+ 	parse with iec104::Apcis,
+ 	port 2404/tcp;
+
+# Specify the APCI and APCI modes (U, S, I) parsing for debugging
+
+on iec104::Apci -> 
+	event iec104::apci($conn, self.apduLen, self.ctrl.apci_type, self.ctrl.apci_tx, self.ctrl.u_start_dt, self.ctrl.u_stop_dt, self.ctrl.u_test_fr, self.ctrl.apci_rx);
+#	event iec104::apci($conn, self.apduLen, self.ctrl.apci_type, self.ctrl.apci_tx, self.ctrl.u_start_dt, self.ctrl.u_stop_dt, self.ctrl.u_test_fr, self.ctrl.apci_rx, self.info_obj_type, self.data_unit_identifier.seq, self.data_unit_identifier.num_ix);
+#	event iec104::apci($conn);
+
+on iec104::Apci if (!self.ctrl.not_i_type) -> 
+	event iec104::i($conn, self.ctrl.apci_tx, self.ctrl.apci_rx);
+
+on iec104::Apci if (self.ctrl.apci_type == 1) -> 
+	event iec104::s($conn, self.start, self.apduLen, self.ctrl.apci_rx);
+
+on iec104::Apci if (self.ctrl.apci_type == 3) -> 
+	event iec104::u($conn);
+
+# For the ASDU parsing
+
+on iec104::Asdu -> 
+	event iec104::asdu($conn, self.info_obj_type, self.data_unit_identifier.seq, self.data_unit_identifier.num_ix, self.cause_of_transmission.negative, self.cause_of_transmission.test, self.originator_address, self.common_address);	
