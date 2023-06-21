@@ -19,6 +19,52 @@ type Modes = enum {
     U = 3
 };
 
+
+type cause_tx_code = enum {
+    per_cyc = 1,
+    back = 2,
+    spont = 3,
+    inti  = 4, 
+    req = 5,
+    act = 6,
+    actcon = 7,
+    deact = 8,
+    deactcon = 9,
+    actterm = 10,
+    retrem = 11,
+    retloc = 12,
+    file_data_trans = 13, # Using this convention since "file" is already reserved
+    # The 14–19 are reserved for future compatible definitions
+    inrogen = 20,
+    inro1 = 21,
+    inro2 = 22,
+    inro3 = 23,
+    inro4 = 24,
+    inro5 = 25,
+    inro6 = 26,
+    inro7 = 27,
+    inro8 = 28,
+    inro9 = 29,
+    inro10 = 30,
+    inro11 = 31,
+    inro12 = 32,
+    inro13 = 33,
+    inro14 = 34,
+    inro15 = 35,
+    inro16 = 36,
+    reqcogen = 37,
+    reqco1 = 38,
+    reqco2 = 39,
+    reqco3 = 40,
+    reqco4 = 41,
+    reqco5 = 42,
+    reqco6 = 43,
+    uknown_type = 44,
+    uknown_cause = 45,
+    unknown_asdu_address = 46,
+    unknown_object_address = 47
+};
+
 public type Apcis = unit {
     :  Apci[]; 
 
@@ -82,7 +128,7 @@ type Apci = unit {
         #print "after parsing type for APCI", self;
 
         # Just for testing.
-        #Apci_glob.apduLen = self.apduLen;
+        Apci_glob.apduLen = self.apduLen;
     }
 
     on %done {
@@ -92,7 +138,7 @@ type Apci = unit {
 
 
 
-public type Asdu = unit {
+type Asdu = unit {
 %byte-order = spicy::ByteOrder::Little;
     # TODO: Needs to be mapped/converted to some strings (enum?)
     info_obj_type : uint8 &byte-order = spicy::ByteOrder::Little;
@@ -101,8 +147,9 @@ public type Asdu = unit {
         num_ix : 0..6;
     };
     cause_of_transmission : bitfield (8) {
-        # TODO: Needs to be mapped/converted to some causes     strings (enum?)
-        cause_tx : 0..5;
+        # TODO: Needs to be mapped/converted to some causes strings (enum?)
+        #cause_tx : 0..5;
+        cause_tx : 0..5 &convert=cause_tx_code($$);
         negative : 6;
         test : 7;
     };

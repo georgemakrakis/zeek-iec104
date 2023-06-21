@@ -41,4 +41,4 @@ on iec104::Apci if (self.ctrl.apci_type == 3) ->
 # For the ASDU parsing
 
 on iec104::Asdu -> 
-	event iec104::asdu($conn, self.info_obj_type, self.data_unit_identifier.seq, self.data_unit_identifier.num_ix, self.cause_of_transmission.negative, self.cause_of_transmission.test, self.originator_address, self.common_address);	
+	event iec104::asdu($conn, self.info_obj_type, self.data_unit_identifier.seq, self.data_unit_identifier.num_ix, self.cause_of_transmission.cause_tx, self.cause_of_transmission.negative, self.cause_of_transmission.test, self.originator_address, self.common_address);	

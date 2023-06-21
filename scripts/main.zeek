@@ -15,11 +15,57 @@ export {
 	## Log stream identifier.
 	redef enum Log::ID += { LOG };
 
+	type cause_tx_code : enum {
+		per_cyc = 1,
+		back = 2,
+		spont = 3,
+		inti  = 4, 
+		req = 5,
+		act = 6,
+		actcon = 7,
+		deact = 8,
+		deactcon = 9,
+		actterm = 10,
+		retrem = 11,
+		retloc = 12,
+		file_data_trans = 13, # Using this convention since "file" is already reserved
+		# The 14–19 are reserved for future compatible definitions
+		inrogen = 20,
+		inro1 = 21,
+		inro2 = 22,
+		inro3 = 23,
+		inro4 = 24,
+		inro5 = 25,
+		inro6 = 26,
+		inro7 = 27,
+		inro8 = 28,
+		inro9 = 29,
+		inro10 = 30,
+		inro11 = 31,
+		inro12 = 32,
+		inro13 = 33,
+		inro14 = 34,
+		inro15 = 35,
+		inro16 = 36,
+		reqcogen = 37,
+		reqco1 = 38,
+		reqco2 = 39,
+		reqco3 = 40,
+		reqco4 = 41,
+		reqco5 = 42,
+		reqco6 = 43,
+		uknown_type = 44,
+		uknown_cause = 45,
+		unknown_asdu_address = 46,
+		unknown_object_address = 47
+	};
+
 	type Asdu: record {
 		info_obj_type : count &log &optional;
 		seq :  count &log &optional;
 		num_ix :  count &log &optional;
-		cause_tx :  count &log &optional;
+		# cause_tx :  count &log &optional;
+		cause_tx :  cause_tx_code &log &optional;
 		negative :  count &log &optional;
 		test :  count &log &optional;
 		originator_address : count &log &optional;
@@ -240,7 +286,7 @@ event iec104::u (c: connection){
 	info$type_u_counter = type_u_counter;
 }
 
-event iec104::asdu (c: connection, info_obj_type : count, seq : count, num_ix : count, negative : count, test : count, originator_address : count, common_address : count) &priority=3 {
+event iec104::asdu (c: connection, info_obj_type : count, seq : count, num_ix : count, cause_tx: cause_tx_code, negative : count, test : count, originator_address : count, common_address : count) &priority=3 {
 
 	hook set_session(c);
 
@@ -248,6 +294,13 @@ event iec104::asdu (c: connection, info_obj_type : count, seq : count, num_ix : 
 	info$asdu$info_obj_type = info_obj_type;
 	info$asdu$seq = seq;
 	info$asdu$num_ix = num_ix;
+
+	info$asdu$cause_tx = cause_tx;
+	info$asdu$negative = negative;
+	info$asdu$test = test;
+
+	info$asdu$originator_address = originator_address;
+	info$asdu$common_address = common_address;
 	
 	# print fmt("info_obj_type: %d", info_obj_type);
 
