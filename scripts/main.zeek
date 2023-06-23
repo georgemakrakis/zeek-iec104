@@ -104,7 +104,7 @@ export {
 		per_cyc = 1,
 		back = 2,
 		spont = 3,
-		inti  = 4, 
+		init  = 4, 
 		req = 5,
 		act = 6,
 		actcon = 7,
@@ -212,7 +212,7 @@ export {
 
 redef record connection += {
 	iec104: Info &optional;
-	iec104_ASDU: Asdu &optional;
+	# iec104_ASDU: Asdu &optional;
 };
 
 const ports = {
@@ -239,7 +239,7 @@ hook set_session(c: connection)
 	c$iec104 = Info($ts=network_time(), $uid=c$uid, $id=c$id,  $apduLen=apduLen, $apci_type=apci_type);
 	c$iec104$asdu = Asdu();
 	
-	c$iec104_ASDU = Asdu();
+	# c$iec104_ASDU = Asdu();
 	}
 
 function emit_log(c: connection)
@@ -263,8 +263,7 @@ function emit_log(c: connection)
 # 		info$reply = payload;
 # 	}
 
-# event iec104::apci($conn, self.apduLen, self.ctrl.apci_type, self.ctrl.i_send_seq, self.ctrl.u_start_dt, self.ctrl.u_stop_dt, self.ctrl.u_test_fr, self.ctrl.recv_seq);
-event iec104::apci(c: connection, apduLen : count, apci_type : count, apci_tx : count, u_start_dt : count, u_stop_dt : count, u_test_fr : count, apci_rx : count) &priority=4
+event iec104::apci(c: connection, apduLen : count, not_i_type : count, apci_type : count, apci_tx : count, u_start_dt : count, u_stop_dt : count, u_test_fr : count, apci_rx : count) &priority=4
 # event iec104::apci(c: connection)
 	{
 		hook set_session(c);
@@ -276,35 +275,15 @@ event iec104::apci(c: connection, apduLen : count, apci_type : count, apci_tx : 
 		# 	U = 3
 		# };
 
-		# NOTE: Just for debugging, can be removed.
-		local conv_type: string;
-
-		switch (apci_type) {
-            case 0:
-                # print "We have an I";
-				conv_type = "I";
-				break;
-            case 1:
-                # print "We have an S";
-				conv_type = "S";
-				break;
-            case 2:
-                # print "We have something else";
-				conv_type = "Ukn";
-				break;
-            case 3:
-                # print "We have an U";
-				conv_type = "U";
-				break;
-            default:
-                # print "We have nothing";
-				conv_type = "Err";
-				break;
-        }
-
 		local info = c$iec104;
 		info$apduLen = apduLen;
-		info$apci_type = apci_types[apci_type];
+		if (not_i_type == 0) {
+			info$apci_type = apci_types[0];
+		}
+		else {
+			info$apci_type = apci_types[apci_type];
+		}
+		
 
 		if (info$apci_type != "U") {
 			info$apci_tx = apci_tx;
@@ -313,6 +292,10 @@ event iec104::apci(c: connection, apduLen : count, apci_type : count, apci_tx : 
 		else {
 			info$apci_tx = 0;
 			info$apci_rx = 0;
+		}
+
+		if (info$apci_type == "U" || info$apci_type == "S") {
+			info$asdu = Asdu();
 		}
 
 		# print "APCI request", c$id, info$apduLen, conv_type, i_send_seq, u_start_dt, u_stop_dt, u_test_fr, recv_seq;
@@ -342,7 +325,7 @@ event iec104::apci(c: connection, apduLen : count, apci_type : count, apci_tx : 
 			print "STOPDT con";
 		}
 
-		# Log::write(iec104::LOG, info);
+		Log::write(iec104::LOG, info);
 	}
 
 event iec104::i (c:connection, send_seq: count, recv_seq: count) {
@@ -400,7 +383,7 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 
 	# Log::write(iec104::LOG, info_ASDU);
 
-	Log::write(iec104::LOG, info);
+	# Log::write(iec104::LOG, info);
 
 }
 

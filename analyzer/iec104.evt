@@ -25,7 +25,7 @@ protocol analyzer spicy::iec104 over TCP:
 # Specify the APCI and APCI modes (U, S, I) parsing for debugging
 
 on iec104::Apci -> 
-	event iec104::apci($conn, self.apduLen, self.ctrl.apci_type, self.ctrl.apci_tx, self.ctrl.u_start_dt, self.ctrl.u_stop_dt, self.ctrl.u_test_fr, self.ctrl.apci_rx);
+	event iec104::apci($conn, self.apduLen, self.ctrl.not_i_type, self.ctrl.apci_type, self.ctrl.apci_tx, self.ctrl.u_start_dt, self.ctrl.u_stop_dt, self.ctrl.u_test_fr, self.ctrl.apci_rx);
 #	event iec104::apci($conn, self.apduLen, self.ctrl.apci_type, self.ctrl.apci_tx, self.ctrl.u_start_dt, self.ctrl.u_stop_dt, self.ctrl.u_test_fr, self.ctrl.apci_rx, self.info_obj_type, self.data_unit_identifier.seq, self.data_unit_identifier.num_ix);
 #	event iec104::apci($conn);
 
