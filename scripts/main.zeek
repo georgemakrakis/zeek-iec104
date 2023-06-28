@@ -263,10 +263,21 @@ function emit_log(c: connection)
 # 		info$reply = payload;
 # 	}
 
-event iec104::apci(c: connection, apduLen : count, not_i_type : count, apci_type : count, apci_tx : count, u_start_dt : count, u_stop_dt : count, u_test_fr : count, apci_rx : count) &priority=4
-# event iec104::apci(c: connection)
+event iec104::apci(c: connection, is_orig : bool, apduLen : count, not_i_type : count, apci_type : count, apci_tx : count, u_start_dt : count, u_stop_dt : count, u_test_fr : count, apci_rx : count) &priority=4
+# event iec104::apci(c: connection)	
 	{
 		hook set_session(c);
+
+		local info = c$iec104;
+
+		# if ( is_orig ) {
+		# 	info$request = "ORIGINATOR";
+		# 	info$reply = "";
+		# }
+		# else {
+		# 	info$request = "";
+		# 	info$reply = "RESPONDER";
+		# }
 
 		# local types = enum {
 		# 	I = 0,
@@ -275,7 +286,6 @@ event iec104::apci(c: connection, apduLen : count, not_i_type : count, apci_type
 		# 	U = 3
 		# };
 
-		local info = c$iec104;
 		info$apduLen = apduLen;
 		if (not_i_type == 0) {
 			info$apci_type = apci_types[0];

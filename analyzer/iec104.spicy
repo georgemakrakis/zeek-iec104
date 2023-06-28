@@ -151,6 +151,7 @@ type cause_tx_code = enum {
 };
 
 public type Apcis = unit {
+    %port = 2404/tcp &originator;
     :  Apci[]; 
 
     on %init {
@@ -241,9 +242,12 @@ type Asdu = unit {
     originator_address : uint8 &byte-order = spicy::ByteOrder::Little;
     common_address : uint16 &byte-order = spicy::ByteOrder::Little;
 
+    # The length is 3 bytes for IEC 104
+    info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+
     # Skipping the IOAs for now.
 
-    : void &size=(Apci_glob.apduLen - 10);
+    : void &size=(Apci_glob.apduLen - 13);
 
     on %init {
         print "Init for ASDU here";
