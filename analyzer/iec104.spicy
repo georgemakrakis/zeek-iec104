@@ -246,8 +246,18 @@ type Asdu = unit {
     info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
 
     # Skipping the IOAs for now.
+    #: void &size=(Apci_glob.apduLen - 13);
 
-    : void &size=(Apci_glob.apduLen - 13);
+    QOI: uint8 if (self.info_obj_type == info_obj_code::C_IC_NA_1) ;
+    #SCO: uint8 if (self.info_obj_type == info_obj_code::C_SC_NA_1) ;
+
+    SCO : bitfield(8) {
+        sco_on : 0;    
+        qu : 2..6;
+        se : 7;
+    } if (self.info_obj_type == info_obj_code::C_SC_NA_1) ;
+
+    # TODO: We have to specify the rest here of fields based on info_obj_type
 
     on %init {
         print "Init for ASDU here";
