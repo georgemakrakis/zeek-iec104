@@ -155,6 +155,22 @@ type cause_tx_code = enum {
 #    se : 7;
 #};
 
+type NVA_QOS = unit{
+    NVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qos : bitfield(8) {
+        ql : 0..6;
+        se : 7;
+    };
+};
+
+type SVA_QOS = unit{
+    SVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qos : bitfield(8) {
+        ql : 0..6;
+        se : 7;
+    };
+};
+
 public type Apcis = unit {
     %port = 2404/tcp &originator;
     :  Apci[]; 
@@ -280,11 +296,18 @@ type Asdu = unit {
     } if (self.info_obj_type == info_obj_code::C_BO_NA_1);
 
     #TODO: Can we combine these two in one type (as unit)?
-    NVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little) if (self.info_obj_type == info_obj_code::C_SE_NA_1);
-    QOS : bitfield(8) {
-        ql : 0..6;
-        se : 7;
-    } if (self.info_obj_type == info_obj_code::C_SE_NA_1);
+    #NVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little) if (self.info_obj_type == info_obj_code::C_SE_NA_1);
+
+    nva_qos : NVA_QOS if (self.info_obj_type == info_obj_code::C_SE_NA_1);
+    sva_qos : SVA_QOS if (self.info_obj_type == info_obj_code::C_SE_NB_1);
+
+
+    #TODO: Can we combine these two in one type (as unit)?
+    #SVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little) if (self.info_obj_type == info_obj_code::C_SE_NB_1);
+    #QOS : bitfield(8) {
+    #   ql : 0..6;
+    #    se : 7;
+    #} if ((self.info_obj_type == info_obj_code::C_SE_NA_1) || (self.info_obj_type == info_obj_code::C_SE_NB_1));
 
     #qos : QOS_type if (self.info_obj_type == info_obj_code::C_SE_NA_1);
 
