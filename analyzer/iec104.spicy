@@ -150,6 +150,11 @@ type cause_tx_code = enum {
     unknown_object_address = 47
 };
 
+#type QOS_type = bitfield(8) {
+#    ql : 0..6;
+#    se : 7;
+#};
+
 public type Apcis = unit {
     %port = 2404/tcp &originator;
     :  Apci[]; 
@@ -248,14 +253,40 @@ type Asdu = unit {
     # Skipping the IOAs for now.
     #: void &size=(Apci_glob.apduLen - 13);
 
-    QOI: uint8 if (self.info_obj_type == info_obj_code::C_IC_NA_1) ;
-    #SCO: uint8 if (self.info_obj_type == info_obj_code::C_SC_NA_1) ;
+    QOI: uint8 if (self.info_obj_type == info_obj_code::C_IC_NA_1);
+    #SCO: uint8 if (self.info_obj_type == info_obj_code::C_SC_NA_1);
 
     SCO : bitfield(8) {
         sco_on : 0;    
         qu : 2..6;
         se : 7;
-    } if (self.info_obj_type == info_obj_code::C_SC_NA_1) ;
+    } if (self.info_obj_type == info_obj_code::C_SC_NA_1);
+    
+
+    DCO : bitfield(8) {
+        dco_on : 0..1;    
+        qu : 2..6;
+        se : 7;
+    } if (self.info_obj_type == info_obj_code::C_DC_NA_1);
+
+    RCO : bitfield(8) {
+        up_down : 0..1;    
+        qu : 2..6;
+        se : 7;
+    } if (self.info_obj_type == info_obj_code::C_RC_NA_1);
+
+    BSI : bitfield(32) {
+        value : 0..31;
+    } if (self.info_obj_type == info_obj_code::C_BO_NA_1);
+
+    #TODO: Can we combine these two in one type (as unit)?
+    NVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little) if (self.info_obj_type == info_obj_code::C_SE_NA_1);
+    QOS : bitfield(8) {
+        ql : 0..6;
+        se : 7;
+    } if (self.info_obj_type == info_obj_code::C_SE_NA_1);
+
+    #qos : QOS_type if (self.info_obj_type == info_obj_code::C_SE_NA_1);
 
     # TODO: We have to specify the rest here of fields based on info_obj_type
 
