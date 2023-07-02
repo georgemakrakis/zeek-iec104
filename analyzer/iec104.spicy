@@ -163,6 +163,28 @@ type NVA_QOS = unit{
     };
 };
 
+type NVA_QDS = unit{
+    NVA : bytes &size=1 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+};
+
+type BSI_QDS = unit{
+    bsi : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+};
+
 type SVA_QOS = unit{
     SVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
     qos : bitfield(8) {
@@ -171,13 +193,45 @@ type SVA_QOS = unit{
     };
 };
 
+type SVA_QDS = unit{
+    SVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+};
+
 type IEEE_754_QOS = unit{
-    #value : bytes &size=2 &convert=$$.to_real(spicy::ByteOrder::Little);
-    #value : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
     value : real &type=spicy::RealType::IEEE754_Single &byte-order = spicy::ByteOrder::Little;
     qos : bitfield(8) {
         ql : 0..6;
         se : 7;
+    };
+};
+
+
+type IEEE_754_QDS = unit{
+    value : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+};
+
+type VTI_QDS = unit{
+    value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
     };
 };
 
@@ -311,8 +365,38 @@ type Asdu = unit {
     nva_qos : NVA_QOS if (self.info_obj_type == info_obj_code::C_SE_NA_1);
     sva_qos : SVA_QOS if (self.info_obj_type == info_obj_code::C_SE_NB_1);
 
-    ieee_754_QOS : IEEE_754_QOS  if (self.info_obj_type == info_obj_code::C_SE_NC_1);
+    ieee_754_qds : IEEE_754_QOS  if (self.info_obj_type == info_obj_code::C_SE_NC_1);
 
+    COI : bitfield(8) {
+        r : 0..6;
+        i : 7;
+    } if (self.info_obj_type == info_obj_code::M_EI_NA_1);
+
+    SIQ : bitfield(8) { 
+        spi : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    } if (self.info_obj_type == info_obj_code::M_SP_NA_1);
+
+    vti_qds : VTI_QDS if (self.info_obj_type == info_obj_code::M_ST_NA_1);
+
+    bsi_qds : BSI_QDS if (self.info_obj_type == info_obj_code::M_BO_NA_1);
+
+    nva_qds : NVA_QDS if (self.info_obj_type == info_obj_code::M_ME_NA_1);
+
+    sva_qds : SVA_QDS if (self.info_obj_type == info_obj_code::M_ME_NB_1);
+
+    ieee_754_qds : IEEE_754_QDS if (self.info_obj_type == info_obj_code::M_ME_NC_1);
+
+    siq_CP56Time2a : SIQ_CP56Time2a if (self.info_obj_type == info_obj_code::M_SP_TB_1);
+
+    diq_CP56Time2a : DIQ_CP56Time2a if (self.info_obj_type == info_obj_code::M_DP_TB_1);
+
+    vti_qds_CP56Time2a : VTI_QDS_CP56Time2a if (self.info_obj_type == info_obj_code::M_ST_TB_1);
+
+    bsi_qds_CP56Time2a : BSI_QDS_CP56Time2a if (self.info_obj_type == info_obj_code::M_BO_TB_1);
     
     # TODO: We have to specify the rest here of fields based on info_obj_type
 
