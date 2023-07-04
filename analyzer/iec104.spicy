@@ -155,6 +155,35 @@ type cause_tx_code = enum {
 #    se : 7;
 #};
 
+
+type SIQ = unit {
+    siq : bitfield(8) { 
+        spi : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+};
+
+type DIQ = unit {
+    diq : bitfield(8) {
+        dpi : 0..1;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+};
+
+#type SIQ = bitfield(8) { 
+#        spi : 0;
+#        bl : 4;
+#        sb : 5;
+#        nt : 6;
+#        iv : 7;
+#};
+
 type NVA_QOS = unit{
     NVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
     qos : bitfield(8) {
@@ -233,6 +262,74 @@ type VTI_QDS = unit{
         nt : 6;
         iv : 7;
     };
+};
+
+type CP56TIME2A = unit{
+    milli : uint16 &byte-order = spicy::ByteOrder::Little; 
+    #minute : uint8;
+    minute : bitfield(8){
+        mins : 0..6; 
+        iv: 7;
+    };
+    #hour : uint8;
+    hour : bitfield(8){
+        hours : 0..6; 
+        su: 7;
+    };
+    #day : uint8;
+    day_dow : bitfield(8){
+        day : 0..4; 
+        day_of_week: 5..7;
+    };
+    mon : uint8;
+    year : uint8;
+};
+
+type SIQ_CP56Time2a = unit {
+    #siq : SIQ;
+    siq : bitfield(8) { 
+        spi : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP56Time2a : CP56TIME2A;
+};
+
+type DIQ_CP56Time2a = unit {
+     diq : bitfield(8) {
+        dpi : 0..1;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP56Time2a : CP56TIME2A;
+};
+
+type VTI_QDS_CP56Time2a = unit {
+    value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP56Time2a : CP56TIME2A;
+};
+
+type BSI_QDS_CP56Time2a = unit {
+    bsi : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP56Time2a : CP56TIME2A;
 };
 
 public type Apcis = unit {
@@ -365,38 +462,42 @@ type Asdu = unit {
     nva_qos : NVA_QOS if (self.info_obj_type == info_obj_code::C_SE_NA_1);
     sva_qos : SVA_QOS if (self.info_obj_type == info_obj_code::C_SE_NB_1);
 
-    ieee_754_qds : IEEE_754_QOS  if (self.info_obj_type == info_obj_code::C_SE_NC_1);
+    ieee_754_qos : IEEE_754_QOS  if (self.info_obj_type == info_obj_code::C_SE_NC_1);
 
     COI : bitfield(8) {
         r : 0..6;
         i : 7;
     } if (self.info_obj_type == info_obj_code::M_EI_NA_1);
 
-    SIQ : bitfield(8) { 
-        spi : 0;
-        bl : 4;
-        sb : 5;
-        nt : 6;
-        iv : 7;
-    } if (self.info_obj_type == info_obj_code::M_SP_NA_1);
+    siq : SIQ()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_SP_NA_1);
+    
+    #siq : bitfield(8) {
+    #    spi : 0;
+    #    bl : 4;
+    #    sb : 5;
+    #    nt : 6;
+    #    iv : 7;
+    #} if (self.info_obj_type == info_obj_code::M_SP_NA_1);
+        
+    diq : DIQ()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_DP_NA_1);
 
-    vti_qds : VTI_QDS if (self.info_obj_type == info_obj_code::M_ST_NA_1);
+    vti_qds : VTI_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_NA_1);
 
-    bsi_qds : BSI_QDS if (self.info_obj_type == info_obj_code::M_BO_NA_1);
+    bsi_qds : BSI_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_BO_NA_1);
 
-    nva_qds : NVA_QDS if (self.info_obj_type == info_obj_code::M_ME_NA_1);
+    nva_qds : NVA_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_NA_1);
 
-    sva_qds : SVA_QDS if (self.info_obj_type == info_obj_code::M_ME_NB_1);
+    sva_qds : SVA_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_NB_1);
 
-    ieee_754_qds : IEEE_754_QDS if (self.info_obj_type == info_obj_code::M_ME_NC_1);
+    ieee_754_qds : IEEE_754_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_NC_1);
 
-    siq_CP56Time2a : SIQ_CP56Time2a if (self.info_obj_type == info_obj_code::M_SP_TB_1);
+    siq_CP56Time2a : SIQ_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_SP_TB_1);
 
-    diq_CP56Time2a : DIQ_CP56Time2a if (self.info_obj_type == info_obj_code::M_DP_TB_1);
+    diq_CP56Time2a : DIQ_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_DP_TB_1);
 
-    vti_qds_CP56Time2a : VTI_QDS_CP56Time2a if (self.info_obj_type == info_obj_code::M_ST_TB_1);
+    vti_qds_CP56Time2a : VTI_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_TB_1);
 
-    bsi_qds_CP56Time2a : BSI_QDS_CP56Time2a if (self.info_obj_type == info_obj_code::M_BO_TB_1);
+    bsi_qds_CP56Time2a : BSI_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_BO_TB_1);
     
     # TODO: We have to specify the rest here of fields based on info_obj_type
 
@@ -404,6 +505,6 @@ type Asdu = unit {
         print "Init for ASDU here";
     }
     on %done {
-        print "Done with ASDU here", self;
+        #print "Done with ASDU here", self;
     }
 };
