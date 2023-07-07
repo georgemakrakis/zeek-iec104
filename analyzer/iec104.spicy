@@ -295,9 +295,16 @@ type CP56TIME2A = unit{
     year : uint8;
 };
 
+type CP24TIME2A = unit{
+    milli : uint16 &byte-order = spicy::ByteOrder::Little; 
+    minute : bitfield(8){
+        mins : 0..6; 
+        iv: 7;
+    };
+};
+
 type SIQ_CP56Time2a = unit {
     info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
-    #siq : SIQ;
     siq : bitfield(8) { 
         spi : 0;
         bl : 4;
@@ -306,6 +313,18 @@ type SIQ_CP56Time2a = unit {
         iv : 7;
     };
     CP56Time2a : CP56TIME2A;
+};
+
+type SIQ_CP24Time2a = unit {
+    info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    siq : bitfield(8) { 
+        spi : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP24Time2a : CP24TIME2A;
 };
 
 type DIQ_CP56Time2a = unit {
@@ -318,6 +337,18 @@ type DIQ_CP56Time2a = unit {
         iv : 7;
     };
     CP56Time2a : CP56TIME2A;
+};
+
+ype DIQ_CP24Time2a = unit {
+    info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    diq : bitfield(8) {
+        dpi : 0..1;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP24Time2a : CP24TIME2A;
 };
 
 type VTI_QDS_CP56Time2a = unit {
@@ -333,6 +364,19 @@ type VTI_QDS_CP56Time2a = unit {
     CP56Time2a : CP56TIME2A;
 };
 
+type VTI_QDS_CP24Time2a = unit {
+    info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP24Time2a : CP24TIME2A;
+};
+
 type BSI_QDS_CP56Time2a = unit {
     info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
     bsi : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
@@ -344,6 +388,19 @@ type BSI_QDS_CP56Time2a = unit {
         iv : 7;
     };
     CP56Time2a : CP56TIME2A;
+};
+
+type BSI_QDS_CP24Time2a = unit {
+    info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    bsi : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP24Time2a : CP24TIME2A;
 };
 
 type SCO = unit {
@@ -406,6 +463,19 @@ type NVA_QDS_CP56Time2a = unit {
     CP56Time2a : CP56TIME2A;  
 };
 
+type NVA_QDS_CP24Time2a = unit { 
+    info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    NVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP24Time2a : CP24TIME2A;  
+};
+
 type SVA_QDS_CP56Time2a = unit{
     info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
     SVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
@@ -419,6 +489,18 @@ type SVA_QDS_CP56Time2a = unit{
     CP56Time2a : CP56TIME2A;  
 };
 
+type SVA_QDS_CP24Time2a = unit{
+    info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    SVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP24Time2a : CP24TIME2A;  
+};
 
 type IEEE_754_QDS_CP56Time2a = unit{
     info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
@@ -433,6 +515,18 @@ type IEEE_754_QDS_CP56Time2a = unit{
     CP56Time2a : CP56TIME2A;
 };
 
+type IEEE_754_QDS_CP24Time2a = unit{
+    info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    value : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    qds : bitfield(8) {
+        ov : 0;
+        bl : 4;
+        sb : 5;
+        nt : 6;
+        iv : 7;
+    };
+    CP24Time2a : CP24TIME2A;
+};
 
 public type Apcis = unit {
     %port = 2404/tcp &originator;
@@ -573,17 +667,31 @@ type Asdu = unit {
 
     siq_CP56Time2a_f : SIQ_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_SP_TB_1);
 
+    siq_CP24Time2a_f : SIQ_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_SP_TA_1);
+
     diq_CP56Time2a_f : DIQ_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_DP_TB_1);
+    
+    diq_CP24Time2a_f : DIQ_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_DP_TA_1);
 
     vti_qds_CP56Time2a_f : VTI_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_TB_1);
+    
+    vti_qds_CP24Time2a_f : VTI_QDS_CP4Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_TA_1);
 
     bsi_qds_CP56Time2a_f : BSI_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_BO_TB_1);
     
+    bsi_qds_CP24Time2a_f : BSI_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_BO_TA_1);
+    
     nva_qds_CP56Time2a_f : NVA_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TD_1);
+    
+    nva_qds_CP24Time2a_f : NVA_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TA_1);
     
     sva_qds_CP56Time2a_f : SVA_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TE_1);
     
+    sva_qds_CP24Time2a_f : SVA_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TB_1);
+    
     ieee_754_qds_CP56Time2a_f : IEEE_754_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TF_1);
+    
+    ieee_754_qds_CP56Time2a_f : IEEE_754_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TC_1);
     
 
     # TODO: We have to specify the rest here of fields based on info_obj_type
