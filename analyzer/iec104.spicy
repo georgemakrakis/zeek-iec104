@@ -339,7 +339,7 @@ type DIQ_CP56Time2a = unit {
     CP56Time2a : CP56TIME2A;
 };
 
-ype DIQ_CP24Time2a = unit {
+type DIQ_CP24Time2a = unit {
     info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
     diq : bitfield(8) {
         dpi : 0..1;
@@ -675,7 +675,7 @@ type Asdu = unit {
 
     vti_qds_CP56Time2a_f : VTI_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_TB_1);
     
-    vti_qds_CP24Time2a_f : VTI_QDS_CP4Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_TA_1);
+    vti_qds_CP24Time2a_f : VTI_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_TA_1);
 
     bsi_qds_CP56Time2a_f : BSI_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_BO_TB_1);
     
@@ -691,7 +691,7 @@ type Asdu = unit {
     
     ieee_754_qds_CP56Time2a_f : IEEE_754_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TF_1);
     
-    ieee_754_qds_CP56Time2a_f : IEEE_754_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TC_1);
+    ieee_754_qds_CP24Time2a_f : IEEE_754_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TC_1);
     
 
     # TODO: We have to specify the rest here of fields based on info_obj_type
