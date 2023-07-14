@@ -528,6 +528,11 @@ type IEEE_754_QDS_CP24Time2a = unit{
     CP24Time2a : CP24TIME2A;
 };
 
+type Read_Command = unit{
+    info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+    raw_data : bytes &size=1  &convert=spicy::bytes_to_hexstring($$);
+};
+
 public type Apcis = unit {
     %port = 2404/tcp &originator;
     :  Apci[]; 
@@ -693,6 +698,11 @@ type Asdu = unit {
     
     ieee_754_qds_CP24Time2a_f : IEEE_754_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TC_1);
     
+    #: void if (self.info_obj_type == info_obj_code::C_RD_NA_1);
+    
+    read_command_f : Read_Command()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RD_NA_1);
+
+
 
     # TODO: We have to specify the rest here of fields based on info_obj_type
 
