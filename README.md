@@ -37,7 +37,7 @@ Various resources that assist to the development of this parser.
 
 * The trace under [first](./testing/Traces/first/) has been acquired form: https://github.com/automayt/ICS-pcap/blob/master/IEC%2060870/iec104/iec104.pcap
 
-* The traces under the [second](./testing/Traces/second/) directory come from the "20200608_UOWM_IEC104_Dataset_mitm_drop" in: https://zenodo.org/record/7108614#.ZFR6oJHML0o
+* The traces under the [second](./testing/Traces/second/) directory come from the "20200608_UOWM_IEC104_Dataset_mitm_drop" in: Panagiotis, Konstantinos, Thomas, Vasileios, & Panagiotis. (2022). IEC 60870-5-104 Intrusion Detection Dataset [Data set]. https://doi.org/10.21227/fj7s-f281 and https://zenodo.org/record/7108614#.ZFR6oJHML0o 
 
 ## Streams
 
