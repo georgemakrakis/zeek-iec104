@@ -5,6 +5,7 @@ module iec104;
 import spicy;
 
 # Need to enforce a specific version of Spicy?
+# Use command "spicy-config --version-number" to find version
 #%spicy-version = "VERSION";
 
 #public type Packet = unit {
@@ -528,9 +529,43 @@ type IEEE_754_QDS_CP24Time2a = unit{
     CP24Time2a : CP24TIME2A;
 };
 
-type Read_Command = unit{
+type Read_Command_client = unit{
+    #%skip-pre = /b"\x68"/;
     info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
-    raw_data : bytes &size=1  &convert=spicy::bytes_to_hexstring($$);
+    #raw_data : /68/;
+    #raw_data : bytes &size=1 &convert=spicy::bytes_to_hexstring($$);
+    #raw_data : bytes &size=1 &convert=spicy::bytes_to_hexstring($$) {
+    #    if ( $$ == "68" )
+    #        self.backtrack();
+    #}
+    
+    #    : /\x68/;
+
+    #raw_data : bytes &size=1 &until=b"\x68";
+
+    #: void {
+    #    if ($$ == b"\x68")
+    #        return;    
+    #}
+
+    #switch (self.raw_data) {
+    #    "68" -> : void;
+    #};
+
+    #: skip bytes &size=1;
+    # : void &size=1;
+    
+    # This one skips but it still parses the bytes after 68.
+    #%skip = /\x68/;
+    raw_data : bytes &size=1 &convert=spicy::bytes_to_hexstring($$);
+
+    #var raw_data: bytes &size=1 &optional;
+
+    #raw_data : bytes &until=b"\x68" &max-size=1;
+};
+
+type Read_Command_server = unit{
+    info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
 };
 
 public type Apcis = unit {
@@ -700,8 +735,8 @@ type Asdu = unit {
     
     #: void if (self.info_obj_type == info_obj_code::C_RD_NA_1);
     
-    read_command_f : Read_Command()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RD_NA_1);
-
+    read_command_f_client : Read_Command_client()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RD_NA_1 && self.cause_of_transmission.negative == 0);
+    read_command_f_server: Read_Command_server()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RD_NA_1 && self.cause_of_transmission.negative == 1);
 
 
     # TODO: We have to specify the rest here of fields based on info_obj_type
