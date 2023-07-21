@@ -23,7 +23,7 @@ TODO: Neede to add some installation instructions once sure that most of the fea
 #### Fields Captured
 This log captures and logs each IEC 104 message transmitted over TCP port 2404 to `iec104.log`. All packets related to IEC 104 are captured in that single file for now.
 
-TODO: Have a simple table with all the fields that we currently support.
+TODO: Have a simple table with all the fields that we currently support. Also another table for the implemented information object codes.
 
 ## Resources
 
