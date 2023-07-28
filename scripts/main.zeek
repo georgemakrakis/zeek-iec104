@@ -145,6 +145,23 @@ export {
 		unknown_object_address = 47
 	};
 
+	type QOI : record {
+    	info_obj_addr: count;
+    	qoi : count;
+	};
+
+	type SCO : record {
+    	info_obj_addr: count &log;
+		# This is bifield in packet/spicy
+    	sco : count &log;
+	};
+
+	type DCO : record {
+    	info_obj_addr: count &log;
+		# This is bifield in packet/spicy
+    	dco : count &log;
+	};
+
 	type Asdu: record {
 		# info_obj_type : count &log &optional;
 		info_obj_type : info_obj_code &log &optional;
@@ -156,6 +173,11 @@ export {
 		test :  count &log &optional;
 		originator_address : count &log &optional;
 		common_address :  count &log &optional;
+
+		# interrogation_command : QOI &log &optional;
+		interrogation_command : vector of QOI;
+		single_command : vector of SCO;
+		double_command : vector of DCO;
 	};
 
 	## Record type containing the column fields of the iec104 log.
@@ -365,7 +387,9 @@ event iec104::u (c: connection){
 	info$type_u_counter = type_u_counter;
 }
 
-event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, num_ix : count, cause_tx: cause_tx_code, negative : count, test : count, originator_address : count, common_address : count) &priority=3 {
+event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, num_ix : count, cause_tx: cause_tx_code, 
+					negative : count, test : count, originator_address : count, common_address : count
+					, interrogation_command : vector of QOI, single_command : vector of SCO, double_command : vector of DCO) &priority=3 {
 
 	hook set_session(c);
 
@@ -381,6 +405,19 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 	info$asdu$originator_address = originator_address;
 	info$asdu$common_address = common_address;
 	
+	# info$asdu$interrogation_command = interrogation_command;
+
+	# if (|interrogation_command| > 0) {
+	# 	info$asdu$interrogation_command = vector();
+	# 	info$asdu$interrogation_command = interrogation_command;
+	# 	# for (pair in interrogation_command) {
+	# 	# 	message$payload += fmt("%d=%d", payload[pair]$address, payload[pair]$data);
+	# 	# }
+	# }
+
+	# info$asdu$single_command = single_command;
+	# info$asdu$double_command = double_command;
+
 	# print fmt("info_obj_type: %d", info_obj_type);
 
 	print fmt("info$asdu$info_obj_type: %d", info$asdu$info_obj_type);

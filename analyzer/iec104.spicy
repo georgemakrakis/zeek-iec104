@@ -647,7 +647,7 @@ type Asdu = unit {
     # Skipping the IOAs for now.
     #: void &size=(Apci_glob.apduLen - 13);
 
-    qoi_f : QOI if (self.info_obj_type == info_obj_code::C_IC_NA_1);
+    qoi_f : QOI()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_IC_NA_1);
     #SCO: uint8 if (self.info_obj_type == info_obj_code::C_SC_NA_1);
 
     sco_f : SCO()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_SC_NA_1);
