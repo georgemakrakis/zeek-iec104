@@ -733,3 +733,8 @@ type Asdu = unit {
         #print "Done with ASDU here", self;
     }
 };
+
+
+public function QOI_ret (asdu: QOI) : tuple <uint64, uint8> {
+    return (asdu.info_obj_addr, asdu.qoi);
+}

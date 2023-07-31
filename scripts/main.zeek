@@ -388,8 +388,9 @@ event iec104::u (c: connection){
 }
 
 event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, num_ix : count, cause_tx: cause_tx_code, 
-					negative : count, test : count, originator_address : count, common_address : count
-					, interrogation_command : vector of QOI, single_command : vector of SCO, double_command : vector of DCO) &priority=3 {
+					negative : count, test : count, originator_address : count, common_address : count){
+					# , interrogation_command : vector of QOI, single_command : vector of SCO, double_command : vector of DCO) &priority=3 {
+					# , interrogation_command : vector of QOI) &priority=3 {
 
 	hook set_session(c);
 
@@ -404,6 +405,12 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 
 	info$asdu$originator_address = originator_address;
 	info$asdu$common_address = common_address;
+
+	# if (info$asdu$info_obj_type == 100) {
+	# 	iec104::QOI_evt(c: connection, qoi: info$asdu);
+	# }
+
+	# print fmt("info$asdu$interrogation_command vector: %s", info$asdu$interrogation_command);
 	
 	# info$asdu$interrogation_command = interrogation_command;
 
@@ -432,6 +439,19 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 
 	# Log::write(iec104::LOG, info);
 
+}
+
+
+event iec104::QOI_evt(c: connection, qoi: QOI) {
+	
+	local info = c$iec104;
+	print fmt("QOI");
+
+	# if (info$asdu$info_obj_type == 100) {
+
+	# 	# print fmt("info$asdu$interrogation_command vector: %s", info$asdu$interrogation_command);
+	# 	print fmt("info$asdu$interrogation_command vector: ");
+	# }
 }
 
 
