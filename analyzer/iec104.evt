@@ -51,3 +51,7 @@ on iec104::Asdu ->
 
 on iec104::QOI ->
 	event iec104::QOI_evt($conn, iec104::QOI_ret(self));
+
+
+on iec104::SIQ ->
+	event iec104::SIQ_evt($conn, iec104::SIQ_ret(self));

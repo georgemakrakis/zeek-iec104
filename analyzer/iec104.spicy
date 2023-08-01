@@ -738,3 +738,7 @@ type Asdu = unit {
 public function QOI_ret (asdu: QOI) : tuple <uint64, uint8> {
     return (asdu.info_obj_addr, asdu.qoi);
 }
+
+public function SIQ_ret (asdu: SIQ) : tuple<uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
+    return (asdu.info_obj_addr, asdu.siq);
+}

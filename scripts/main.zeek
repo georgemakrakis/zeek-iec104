@@ -161,6 +161,20 @@ export {
 		# This is bifield in packet/spicy
     	dco : count &log;
 	};
+	
+	type SIQ_field : record {
+		spi : count &log;
+    	bl : count &log;
+    	sb : count &log;
+    	nt : count &log;
+    	iv : count &log;
+	};
+
+	type SIQ : record {
+    	info_obj_addr: count &log;
+		# This is bifield in packet/spicy
+    	siq : SIQ_field &log;
+	};
 
 	type Asdu: record {
 		# info_obj_type : count &log &optional;
@@ -174,10 +188,11 @@ export {
 		originator_address : count &log &optional;
 		common_address :  count &log &optional;
 
-		# interrogation_command : QOI &log &optional;
-		interrogation_command : vector of QOI;
-		single_command : vector of SCO;
-		double_command : vector of DCO;
+		interrogation_command : QOI &log &optional;
+		single_point_information: SIQ &log &optional;
+		# interrogation_command : vector of QOI;
+		# single_command : vector of SCO;
+		# double_command : vector of DCO;
 	};
 
 	## Record type containing the column fields of the iec104 log.
@@ -445,7 +460,12 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 event iec104::QOI_evt(c: connection, qoi: QOI) {
 	
 	local info = c$iec104;
-	print fmt("QOI");
+	# print fmt("QOI");
+	# print (qoi);
+
+	info$asdu$interrogation_command = qoi;
+
+	print fmt("info$asdu$interrogation_command: %s", info$asdu$interrogation_command);
 
 	# if (info$asdu$info_obj_type == 100) {
 
@@ -454,6 +474,15 @@ event iec104::QOI_evt(c: connection, qoi: QOI) {
 	# }
 }
 
+
+
+event iec104::SIQ_evt(c: connection, siq: SIQ) {
+	
+	local info = c$iec104;
+	info$asdu$single_point_information = siq;
+
+	print fmt("info$asdu$single_point_information: %s", info$asdu$single_point_information);
+}
 
 # ============
 # HERE WILL BE THE REST
