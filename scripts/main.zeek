@@ -236,6 +236,38 @@ export {
 		qds : QDS_field &log;
 	};
 
+	type VTI_QDS : record {
+		info_obj_addr: count &log;
+		value: count &log;
+		qds : QDS_field &log;
+	};
+
+	# TODO: CP56TIME2A and CP56TIME2A types need to be here
+
+	type SIQ_CP56Time2a : record {
+		info_obj_addr: count &log;
+		sqi : SIQ_field &log;
+		CP56Time2a : CP56TIME2A &log;
+	};
+
+	type SIQ_CP24Time2a : record {
+		info_obj_addr: count &log;
+		sqi : SIQ_field &log;
+		CP24Time2a : CP24TIME2A &log;
+	};
+
+	type DIQ_CP56Time2a : record {
+		info_obj_addr: count &log;
+		dqi : DIQ_field &log;
+		CP56Time2a : CP56TIME2A &log;
+	};
+
+	type DIQ_CP24Time2a : record {
+		info_obj_addr: count &log;
+		dqi : DIQ_field &log;
+		CP24Time2a : CP24TIME2A &log;
+	};
+
 	type Asdu: record {
 		# info_obj_type : count &log &optional;
 		info_obj_type : info_obj_code &log &optional;
@@ -256,6 +288,12 @@ export {
 		bit_string_32_bit : BSI &log &optional;
 		setpoint_command_scaled_value : SVA_QOS &log &optional;
 		measured_value_scaled_value : SVA_QDS &log &optional;
+
+		step_position_information : VTI_QDS &log &optional;
+		single_point_information_CP56Time2a : SIQ_CP56Time2a &log &optional;
+		single_point_information_CP24Time2a : SIQ_CP24Time2a &log &optional;
+		double_point_information_CP56Time2a : DIQ_CP56Time2a_evt &log &optional;
+		double_point_information_CP24Time2a : DIQ_CP24Time2a_evt &log &optional;
 
 	};
 
@@ -597,7 +635,46 @@ event iec104::SVA_QDS_evt(c: connection, sva_qds: SVA_QDS) {
 	print fmt("info$asdu$measured_value_scaled_value: %s", info$asdu$measured_value_scaled_value);
 }
 
+event iec104::VTI_QDS_evt(c: connection, vti_qds: VTI_QDS) {
+	
+	local info = c$iec104;
+	info$asdu$step_position_information = vti_qds;
 
+	print fmt("info$asdu$step_position_information: %s", info$asdu$step_position_information);
+}
+
+
+event iec104::SIQ_CP56Time2a_evt(c: connection, siq_CP56Time2a: SIQ_CP56Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$single_point_information_CP56Time2a = siq_CP56Time2a;
+
+	print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
+}
+
+event iec104::SIQ_CP24Time2a_evt(c: connection, siq_CP24Time2a: SIQ_CP24Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$single_point_information_CP24Time2a = siq_CP24Time2a;
+
+	print fmt("info$asdu$single_point_information_CP24Time2a: %s", info$asdu$single_point_information_CP24Time2a);
+}
+
+event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: dIQ_CP56Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$double_point_information_CP56Time2a = diq_CP56Time2a;
+
+	print fmt("info$asdu$double_point_information_CP56Time2a: %s", info$asdu$double_point_information_CP56Time2a);
+}
+
+event iec104::DIQ_CP24Time2a_evt(c: connection, diq_CP24Time2a: dIQ_CP24Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$double_point_information_CP24Time2a = diq_CP24Time2a;
+
+	print fmt("info$asdu$double_point_information_CP24Time2a: %s", info$asdu$double_point_information_CP24Time2a);
+}
 
 # ============
 # HERE WILL BE THE REST
