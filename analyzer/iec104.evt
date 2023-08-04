@@ -78,3 +78,18 @@ on iec104::IEEE_754_QOS ->
 
 on iec104::IEEE_754_QDS ->
 	event iec104::IEEE_754_QDS_evt($conn, iec104::IEEE_754_QDS_ret(self));
+
+on iec104::VTI_QDS ->
+	event iec104::VTI_QDS_evt($conn, iec104::VTI_QDS_ret(self));
+
+on iec104::SIQ_CP56Time2a ->
+	event iec104::SIQ_CP56Time2a_evt($conn, iec104::SIQ_CP56Time2a_ret(self));
+
+on iec104::SIQ_CP24Time2a ->
+	event iec104::SIQ_CP24Time2a_evt($conn, iec104::SIQ_CP24Time2a_ret(self));
+
+on iec104::DIQ_CP56Time2a ->
+	event iec104::DIQ_CP56Time2a_evt($conn, iec104::DIQ_CP56Time2a_ret(self));
+
+on iec104::DIQ_CP24Time2a ->
+	event iec104::DIQ_CP24Time2a_evt($conn, iec104::DIQ_CP24Time2a_ret(self));
