@@ -146,20 +146,32 @@ export {
 	};
 
 	type QOI : record {
-    	info_obj_addr: count;
-    	qoi : count;
+    	info_obj_addr: count &log;
+    	qoi : count &log;
+	};
+
+	type SCO_field : record {
+		sco_on : count &log;    
+        qu : count &log;
+        se : count &log;
 	};
 
 	type SCO : record {
     	info_obj_addr: count &log;
 		# This is bifield in packet/spicy
-    	sco : count &log;
+    	sco : SCO_field &log;
+	};
+
+	type DCO_field : record {
+		dco_on : count &log;    
+        qu : count &log;
+        se : count &log;
 	};
 
 	type DCO : record {
     	info_obj_addr: count &log;
 		# This is bifield in packet/spicy
-    	dco : count &log;
+    	dco : DCO_field &log;
 	};
 	
 	type SIQ_field : record {
@@ -176,6 +188,54 @@ export {
     	siq : SIQ_field &log;
 	};
 
+	type RCO_field : record {
+		up_down : count &log;    
+        qu : count &log;
+        se : count &log;
+	};
+
+	type RCO : record {
+    	info_obj_addr: count &log;
+		# This is bifield in packet/spicy
+    	RCO : RCO_field &log;
+	};
+
+
+	type BSI_field : record {
+		value : count &log;
+	};
+
+	type BSI : record {
+    	info_obj_addr: count &log;
+		# This is bifield in packet/spicy
+    	BSI : BSI_field &log;
+	};
+
+	type QOS_field : record {
+		ql : count &log;
+		se : count &log;
+	};
+
+	type SVA_QOS : record {
+		info_obj_addr: count &log;
+		SVA: count &log;
+		qos : QOS_field &log;
+	};
+
+	type QDS_field : record {
+		ov : count &log;
+        bl : count &log;
+        sb : count &log;
+        nt : count &log;
+        iv : count &log;
+	};
+
+	type SVA_QDS : record {
+		info_obj_addr: count &log;
+		SVA: count &log;
+		qds : QDS_field &log;
+	};
+
 	type Asdu: record {
 		# info_obj_type : count &log &optional;
 		info_obj_type : info_obj_code &log &optional;
@@ -189,10 +249,14 @@ export {
 		common_address :  count &log &optional;
 
 		interrogation_command : QOI &log &optional;
-		single_point_information: SIQ &log &optional;
-		# interrogation_command : vector of QOI;
-		# single_command : vector of SCO;
-		# double_command : vector of DCO;
+		single_point_information : SIQ &log &optional;
+		single_command : SCO &log &optional;
+		double_command : DCO &log &optional;
+		regulating_step_command : RCO &log &optional;
+		bit_string_32_bit : BSI &log &optional;
+		setpoint_command_scaled_value : SVA_QOS &log &optional;
+		measured_value_scaled_value : SVA_QDS &log &optional;
+
 	};
 
 	## Record type containing the column fields of the iec104 log.
@@ -483,6 +547,57 @@ event iec104::SIQ_evt(c: connection, siq: SIQ) {
 
 	print fmt("info$asdu$single_point_information: %s", info$asdu$single_point_information);
 }
+
+event iec104::SCO_evt(c: connection, sco: SCO) {
+	
+	local info = c$iec104;
+	info$asdu$single_command = sco;
+
+	print fmt("info$asdu$single_command: %s", info$asdu$single_command);
+}
+
+event iec104::DCO_evt(c: connection, dco: DCO) {
+	
+	local info = c$iec104;
+	info$asdu$double_command = dco;
+
+	print fmt("info$asdu$double_command: %s", info$asdu$double_command);
+}
+
+event iec104::RCO_evt(c: connection, rco: RCO) {
+	
+	local info = c$iec104;
+	info$asdu$regulating_step_command = rco;
+
+	print fmt("info$asdu$regulating_step_command: %s", info$asdu$regulating_step_command);
+}
+
+event iec104::BSI_evt(c: connection, bsi: BSI) {
+	
+	local info = c$iec104;
+	info$asdu$bit_string_32_bit = bsi;
+
+	print fmt("info$asdu$bit_string_32_bit: %s", info$asdu$bit_string_32_bit);
+}
+
+
+event iec104::SVA_QOS_evt(c: connection, sva_qos: SVA_QOS) {
+	
+	local info = c$iec104;
+	info$asdu$setpoint_command_scaled_value = sva_qos;
+
+	print fmt("info$asdu$setpoint_command_scaled_value: %s", info$asdu$setpoint_command_scaled_value);
+}
+
+event iec104::SVA_QDS_evt(c: connection, sva_qds: SVA_QDS) {
+	
+	local info = c$iec104;
+	info$asdu$measured_value_scaled_value = sva_qds;
+
+	print fmt("info$asdu$measured_value_scaled_value: %s", info$asdu$measured_value_scaled_value);
+}
+
+
 
 # ============
 # HERE WILL BE THE REST

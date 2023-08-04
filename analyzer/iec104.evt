@@ -46,8 +46,6 @@ on iec104::Asdu ->
 	event iec104::asdu($conn, self.info_obj_type, self.data_unit_identifier.seq, self.data_unit_identifier.num_ix, 
 	            		self.cause_of_transmission.cause_tx, self.cause_of_transmission.negative, self.cause_of_transmission.test, 
 						self.originator_address, self.common_address);
-						#, self.qoi_f, self.sco_f, self.dco_f);	
-						#, self.qoi_f);	
 
 on iec104::QOI ->
 	event iec104::QOI_evt($conn, iec104::QOI_ret(self));
@@ -55,3 +53,28 @@ on iec104::QOI ->
 
 on iec104::SIQ ->
 	event iec104::SIQ_evt($conn, iec104::SIQ_ret(self));
+
+on iec104::SCO -> 
+	event iec104::SCO_evt($conn, iec104::SCO_ret(self));
+
+on iec104::DCO ->
+	event iec104::DCO_evt($conn, iec104::DCO_ret(self));
+
+
+on iec104::RCO ->
+	event iec104::RCO_evt($conn, iec104::RCO_ret(self));
+
+on iec104::BSI ->
+	event iec104::BSI_evt($conn, iec104::BSI_ret(self));
+
+on iec104::SVA_QOS ->
+	event iec104::SVA_QOS_evt($conn, iec104::SVA_QOS_ret(self));
+
+on iec104::SVA_QDS ->
+	event iec104::SVA_QDS_evt($conn, iec104::SVA_QDS_ret(self));
+
+on iec104::IEEE_754_QOS ->
+	event iec104::IEEE_754_QOS_evt($conn, iec104::IEEE_754_QOS_ret(self));
+
+on iec104::IEEE_754_QDS ->
+	event iec104::IEEE_754_QDS_evt($conn, iec104::IEEE_754_QDS_ret(self));

@@ -742,3 +742,36 @@ public function QOI_ret (asdu: QOI) : tuple <uint64, uint8> {
 public function SIQ_ret (asdu: SIQ) : tuple<uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
     return (asdu.info_obj_addr, asdu.siq);
 }
+
+public function SCO_ret (asdu: SCO) :tuple<uint64, tuple<sco_on: uint8, qu: uint8, se: uint8>> {
+    return (asdu.info_obj_addr, asdu.sco);
+}
+
+public function DCO_ret (asdu: DCO) :tuple<uint64, tuple<dco_on: uint8, qu: uint8, se: uint8>> {
+    return (asdu.info_obj_addr, asdu.dco);
+}
+
+public function RCO_ret (asdu: RCO) :tuple<uint64, tuple<up_down: uint8, qu: uint8, se: uint8>> {
+    return (asdu.info_obj_addr, asdu.rco);
+}
+
+public function BSI_ret (asdu: BSI) :tuple<uint64, tuple<value: uint32>> {
+    return (asdu.info_obj_addr, asdu.bsi);
+}
+
+public function SVA_QOS_ret (asdu: SVA_QOS) :tuple<uint64, uint64, tuple<ql: uint8, se: uint8>> {
+    return (asdu.info_obj_addr, asdu.SVA, asdu.qos);
+}
+
+public function SVA_QDS_ret (asdu: SVA_QDS) :tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
+    return (asdu.info_obj_addr, asdu.SVA, asdu.qds);
+}
+
+
+public function IEEE_754_QOS_ret (asdu: IEEE_754_QOS) : tuple<uint64, real, tuple<ql: uint8, se: uint8>> {
+    return (asdu.info_obj_addr, asdu.value, asdu.qos);
+}
+
+public function IEEE_754_QDS_ret (asdu: IEEE_754_QDS) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
+    return (asdu.info_obj_addr, asdu.value, asdu.qds);
+}
