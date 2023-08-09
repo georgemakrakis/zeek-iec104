@@ -238,11 +238,38 @@ export {
 
 	type VTI_QDS : record {
 		info_obj_addr: count &log;
-		value: count &log;
+		value: string &log;
 		qds : QDS_field &log;
 	};
 
-	# TODO: CP56TIME2A and CP56TIME2A types need to be here
+	type minutes : record {
+		mins : count; 
+		iv : count;
+	};
+
+	type hours : record {
+		hours : count; 
+		su : count;
+	};
+
+	type day_dows : record {
+		day : count; 
+		day_of_week : count;
+	};
+
+	type CP24TIME2A : record {
+		milli : count; 
+		min : minutes;
+	};
+
+	type CP56TIME2A : record {
+		milli : count; 
+		minute : minutes;
+		hour : hours;
+		day_dow : day_dows;
+		mon : count;
+		year : count;
+	};
 
 	type SIQ_CP56Time2a : record {
 		info_obj_addr: count &log;
@@ -254,6 +281,14 @@ export {
 		info_obj_addr: count &log;
 		sqi : SIQ_field &log;
 		CP24Time2a : CP24TIME2A &log;
+	};
+
+	type DIQ_field : record {
+        dpi : count;
+        bl : count;
+        sb : count;
+        nt : count;
+        iv : count;
 	};
 
 	type DIQ_CP56Time2a : record {
@@ -292,8 +327,8 @@ export {
 		step_position_information : VTI_QDS &log &optional;
 		single_point_information_CP56Time2a : SIQ_CP56Time2a &log &optional;
 		single_point_information_CP24Time2a : SIQ_CP24Time2a &log &optional;
-		double_point_information_CP56Time2a : DIQ_CP56Time2a_evt &log &optional;
-		double_point_information_CP24Time2a : DIQ_CP24Time2a_evt &log &optional;
+		double_point_information_CP56Time2a : DIQ_CP56Time2a &log &optional;
+		double_point_information_CP24Time2a : DIQ_CP24Time2a &log &optional;
 
 	};
 
@@ -660,7 +695,7 @@ event iec104::SIQ_CP24Time2a_evt(c: connection, siq_CP24Time2a: SIQ_CP24Time2a) 
 	print fmt("info$asdu$single_point_information_CP24Time2a: %s", info$asdu$single_point_information_CP24Time2a);
 }
 
-event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: dIQ_CP56Time2a) {
+event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: DIQ_CP56Time2a) {
 	
 	local info = c$iec104;
 	info$asdu$double_point_information_CP56Time2a = diq_CP56Time2a;
@@ -668,7 +703,7 @@ event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: dIQ_CP56Time2a) 
 	print fmt("info$asdu$double_point_information_CP56Time2a: %s", info$asdu$double_point_information_CP56Time2a);
 }
 
-event iec104::DIQ_CP24Time2a_evt(c: connection, diq_CP24Time2a: dIQ_CP24Time2a) {
+event iec104::DIQ_CP24Time2a_evt(c: connection, diq_CP24Time2a: DIQ_CP24Time2a) {
 	
 	local info = c$iec104;
 	info$asdu$double_point_information_CP24Time2a = diq_CP24Time2a;
