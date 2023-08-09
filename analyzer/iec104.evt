@@ -93,3 +93,37 @@ on iec104::DIQ_CP56Time2a ->
 
 on iec104::DIQ_CP24Time2a ->
 	event iec104::DIQ_CP24Time2a_evt($conn, iec104::DIQ_CP24Time2a_ret(self));
+
+
+on iec104::VTI_QDS_CP56Time2a ->
+	event iec104::VTI_QDS_CP56Time2a_evt($conn, iec104::VTI_QDS_CP56Time2a_ret(self));
+
+on iec104::VTI_QDS_CP24Time2a ->
+	event iec104::VTI_QDS_CP24Time2a_evt($conn, iec104::VTI_QDS_CP24Time2a_ret(self));
+
+on iec104::BSI_QDS_CP56Time2a ->
+	event iec104::BSI_QDS_CP56Time2a_evt($conn, iec104::BSI_QDS_CP56Time2a_ret(self));
+
+on iec104::BSI_QDS_CP24Time2a ->
+	event iec104::BSI_QDS_CP24Time2a_evt($conn, iec104::BSI_QDS_CP24Time2a_ret(self));
+
+on iec104::COI ->
+	event iec104::COI_evt($conn, iec104::COI_ret(self));
+
+on iec104::NVA_QDS_CP56Time2a ->
+	event iec104::NVA_QDS_CP56Time2a_evt($conn, iec104::NVA_QDS_CP56Time2a_ret(self));
+
+on iec104::NVA_QDS_CP24Time2a ->
+	event iec104::NVA_QDS_CP24Time2a_evt($conn, iec104::NVA_QDS_CP24Time2a_ret(self));
+
+on iec104::SVA_QDS_CP56Time2a ->
+	event iec104::SVA_QDS_CP56Time2a_evt($conn, iec104::SVA_QDS_CP56Time2a_ret(self));
+
+on iec104::SVA_QDS_CP24Time2a ->
+	event iec104::SVA_QDS_CP24Time2a_evt($conn, iec104::SVA_QDS_CP24Time2a_ret(self));
+
+on iec104::IEEE_754_QDS_CP56Time2a ->
+	event iec104::IEEE_754_QDS_CP56Time2a_evt($conn, iec104::IEEE_754_QDS_CP56Time2a_ret(self));
+
+on iec104::IEEE_754_QDS_CP24Time2a ->
+	event iec104::IEEE_754_QDS_CP24Time2a_evt($conn, iec104::IEEE_754_QDS_CP24Time2a_ret(self));

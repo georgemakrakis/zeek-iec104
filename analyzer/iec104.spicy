@@ -440,7 +440,7 @@ type BSI = unit{
 
 type QOI = unit {
     info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
-    qoi uint8;
+    qoi : uint8;
 };
 
 type COI = unit {
@@ -794,4 +794,48 @@ public function DIQ_CP56Time2a_ret (asdu: DIQ_CP56Time2a) : tuple<uint64, tuple<
 
 public function DIQ_CP24Time2a_ret (asdu: DIQ_CP24Time2a) : tuple<uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
     return (asdu.info_obj_addr, asdu.diq ,asdu.CP24Time2a);
+}
+
+public function VTI_QDS_CP56Time2a_ret (asdu: VTI_QDS_CP56Time2a) : tuple<uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    return (asdu.info_obj_addr, asdu.value, asdu.qds, asdu.CP56Time2a);
+}
+
+public function VTI_QDS_CP24Time2a_ret (asdu: VTI_QDS_CP24Time2a) : tuple<uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    return (asdu.info_obj_addr, asdu.value, asdu.qds, asdu.CP24Time2a);
+}
+
+public function BSI_QDS_CP56Time2a_ret (asdu: BSI_QDS_CP56Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    return (asdu.info_obj_addr, asdu.bsi, asdu.qds, asdu.CP56Time2a);
+}
+
+public function BSI_QDS_CP24Time2a_ret (asdu: BSI_QDS_CP24Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    return (asdu.info_obj_addr, asdu.bsi, asdu.qds, asdu.CP24Time2a);
+}
+
+public function COI_ret (asdu: COI) : tuple<uint64, tuple<r: uint8, i: uint8>> {
+    return (asdu.info_obj_addr, asdu.coi);
+}
+
+public function NVA_QDS_CP56Time2a_ret (asdu: NVA_QDS_CP56Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    return (asdu.info_obj_addr, asdu.NVA, asdu.qds, asdu.CP56Time2a);
+}
+
+public function NVA_QDS_CP24Time2a_ret (asdu: NVA_QDS_CP24Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    return (asdu.info_obj_addr, asdu.NVA, asdu.qds, asdu.CP24Time2a);
+}
+
+public function SVA_QDS_CP56Time2a_ret (asdu: SVA_QDS_CP56Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    return (asdu.info_obj_addr, asdu.SVA, asdu.qds, asdu.CP56Time2a);
+}
+
+public function SVA_QDS_CP24Time2a_ret (asdu: SVA_QDS_CP24Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    return (asdu.info_obj_addr, asdu.SVA, asdu.qds, asdu.CP24Time2a);
+}
+
+public function IEEE_754_QDS_CP56Time2a_ret (asdu: IEEE_754_QDS_CP56Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    return (asdu.info_obj_addr, asdu.value, asdu.qds, asdu.CP56Time2a);
+}
+
+public function IEEE_754_QDS_CP24Time2a_ret (asdu: IEEE_754_QDS_CP24Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    return (asdu.info_obj_addr, asdu.value, asdu.qds, asdu.CP24Time2a);
 }
