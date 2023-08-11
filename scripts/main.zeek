@@ -320,16 +320,26 @@ export {
 
 	type BSI_QDS_CP56Time2a : record {
 		info_obj_addr: count &log;
-		bsi : count &log;
+		bsi : BSI_field &log;
 		qds : QDS_field &log;
 		CP56Time2a : CP56TIME2A &log;
 	};
 
 	type BSI_QDS_CP24Time2a : record {
 		info_obj_addr: count &log;
-		bsi : count &log;
+		bsi : BSI_field &log;
 		qds : QDS_field &log;
 		CP24Time2a : CP24TIME2A &log;
+	};
+
+	type COI_field : record {
+		r: count &log;
+		i: count &log;
+	};
+
+	type COI : record {
+		info_obj_addr: count &log;
+    	coi : COI_field &log;
 	};
 
 	type NVA_QDS_CP56Time2a : record {
@@ -418,6 +428,22 @@ export {
 		single_point_information_CP24Time2a : SIQ_CP24Time2a &log &optional;
 		double_point_information_CP56Time2a : DIQ_CP56Time2a &log &optional;
 		double_point_information_CP24Time2a : DIQ_CP24Time2a &log &optional;
+
+		step_position_information_CP56Time2a : VTI_QDS_CP56Time2a &log &optional;
+		step_position_information_CP24Time2a : VTI_QDS_CP24Time2a &log &optional;
+		bit_string_32_bit_CP56Time2a : BSI_QDS_CP56Time2a &log &optional;
+		bit_string_32_bit_CP24Time2a : BSI_QDS_CP24Time2a &log &optional;
+		end_of_initialization : COI &log &optional;
+		measured_value_normalized_CP56Time2a : NVA_QDS_CP56Time2a &log &optional;
+		measured_value_normalized_CP24Time2a : NVA_QDS_CP24Time2a &log &optional;
+		measured_value_scaled_CP24Time2a : SVA_QDS_CP24Time2a &log &optional;
+		measured_value_scaled_CP56Time2a : SVA_QDS_CP56Time2a &log &optional;
+		measured_value_short_floating_point_CP56Time2a : IEEE_754_QDS_CP56Time2a &log &optional;
+		measured_value_short_floating_point_CP24Time2a : IEEE_754_QDS_CP24Time2a &log &optional;
+		read_Command_client : Read_Command_client &log &optional;
+		read_Command_server : Read_Command_server &log &optional;
+		qrp_client : QRP_client &log &optional;
+		qrp_server : QRP_server &log &optional;
 
 	};
 
@@ -800,9 +826,132 @@ event iec104::DIQ_CP24Time2a_evt(c: connection, diq_CP24Time2a: DIQ_CP24Time2a) 
 	print fmt("info$asdu$double_point_information_CP24Time2a: %s", info$asdu$double_point_information_CP24Time2a);
 }
 
-# ============
-# HERE WILL BE THE REST
-# ============
+event iec104::VTI_QDS_CP56Time2a_evt(c: connection, vti_QDS_CP56Time2a: VTI_QDS_CP56Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$step_position_information_CP56Time2a = vti_QDS_CP56Time2a;
+
+	print fmt("info$asdu$step_position_information_CP56Time2a: %s", info$asdu$step_position_information_CP56Time2a);
+}
+
+event iec104::VTI_QDS_CP24Time2a_evt(c: connection, vti_QDS_CP24Time2a: VTI_QDS_CP24Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$step_position_information_CP24Time2a = vti_QDS_CP24Time2a;
+
+	print fmt("info$asdu$step_position_information_CP24Time2a: %s", info$asdu$step_position_information_CP24Time2a);
+}
+
+event iec104::BSI_QDS_CP56Time2a_evt(c: connection, bsi_QDS_CP56Time2a: BSI_QDS_CP56Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$bit_string_32_bit_CP56Time2a = bsi_QDS_CP56Time2a;
+
+	print fmt("info$asdu$bit_string_32_bit_CP56Time2a: %s", info$asdu$bit_string_32_bit_CP56Time2a);
+}
+
+
+event iec104::BSI_QDS_CP24Time2a_evt(c: connection, bsi_QDS_CP24Time2a: BSI_QDS_CP24Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$bit_string_32_bit_CP24Time2a = bsi_QDS_CP24Time2a;
+
+	print fmt("info$asdu$bit_string_32_bit_CP24Time2a: %s", info$asdu$bit_string_32_bit_CP24Time2a);
+}
+
+event iec104::COI_evt(c: connection, coi: COI) {
+	
+	local info = c$iec104;
+	info$asdu$end_of_initialization = coi;
+
+	print fmt("info$asdu$end_of_initialization: %s", info$asdu$end_of_initialization);
+}
+
+event iec104::NVA_QDS_CP56Time2a_evt(c: connection, nva_QDS_CP56Time2a: NVA_QDS_CP56Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$measured_value_normalized_CP56Time2a = nva_QDS_CP56Time2a;
+
+	print fmt("info$asdu$measured_value_normalized_CP56Time2a: %s", info$asdu$measured_value_normalized_CP56Time2a);
+}
+
+event iec104::NVA_QDS_CP24Time2a_evt(c: connection, nva_QDS_CP24Time2a: NVA_QDS_CP24Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$measured_value_normalized_CP24Time2a = nva_QDS_CP24Time2a;
+
+	print fmt("info$asdu$measured_value_normalized_CP24Time2a: %s", info$asdu$measured_value_normalized_CP24Time2a);
+}
+
+event iec104::SVA_QDS_CP24Time2a_evt(c: connection, sva_QDS_CP24Time2a: SVA_QDS_CP24Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$measured_value_scaled_CP24Time2a = sva_QDS_CP24Time2a;
+
+	print fmt("info$asdu$measured_value_scaled_CP24Time2a: %s", info$asdu$measured_value_scaled_CP24Time2a);
+}
+
+event iec104::SVA_QDS_CP56Time2a_evt(c: connection, sva_QDS_CP56Time2a: SVA_QDS_CP56Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$measured_value_scaled_CP56Time2a = sva_QDS_CP56Time2a;
+
+	print fmt("info$asdu$measured_value_scaled_CP56Time2a: %s", info$asdu$measured_value_scaled_CP56Time2a);
+}
+
+event iec104::IEEE_754_QDS_CP56Time2a_evt(c: connection, ieee_754_QDS_CP56Time2a: IEEE_754_QDS_CP56Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$measured_value_short_floating_point_CP56Time2a = ieee_754_QDS_CP56Time2a;
+
+	print fmt("info$asdu$measured_value_short_floating_point_CP56Time2a: %s", info$asdu$measured_value_short_floating_point_CP56Time2a);
+}
+
+event iec104::IEEE_754_QDS_CP24Time2a_evt(c: connection, ieee_754_QDS_CP24Time2a: IEEE_754_QDS_CP24Time2a) {
+	
+	local info = c$iec104;
+	info$asdu$measured_value_short_floating_point_CP24Time2a = ieee_754_QDS_CP24Time2a;
+
+	print fmt("info$asdu$measured_value_short_floating_point_CP24Time2a: %s", info$asdu$measured_value_short_floating_point_CP24Time2a);
+}
+
+event iec104::Read_Command_client_evt(c: connection, read_Command_client: Read_Command_client) {
+	
+	local info = c$iec104;
+	info$asdu$read_Command_client = read_Command_client;
+
+	print fmt("info$asdu$read_Command_client: %s", info$asdu$read_Command_client);
+}
+
+
+event iec104::Read_Command_server_evt(c: connection, read_Command_server: Read_Command_server) {
+	
+	local info = c$iec104;
+	info$asdu$read_Command_server = read_Command_server;
+
+	print fmt("info$asdu$read_Command_server: %s", info$asdu$read_Command_server);
+}
+
+
+event iec104::QRP_client_evt(c: connection, qrp_client: QRP_client) {
+	
+	local info = c$iec104;
+	info$asdu$qrp_client = qrp_client;
+
+	print fmt("info$asdu$qrp_client: %s", info$asdu$qrp_client);
+}
+
+
+event iec104::QRP_server_evt(c: connection, qrp_server: QRP_server) {
+	
+	local info = c$iec104;
+	info$asdu$qrp_server = qrp_server;
+
+	print fmt("info$asdu$qrp_server: %s", info$asdu$qrp_server);
+}
+
+
+
 
 event connection_state_remove(c: connection) &priority=-5
 	{
