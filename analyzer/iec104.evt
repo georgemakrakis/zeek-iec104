@@ -127,3 +127,15 @@ on iec104::IEEE_754_QDS_CP56Time2a ->
 
 on iec104::IEEE_754_QDS_CP24Time2a ->
 	event iec104::IEEE_754_QDS_CP24Time2a_evt($conn, iec104::IEEE_754_QDS_CP24Time2a_ret(self));
+
+on iec104::Read_Command_client ->
+	event iec104::Read_Command_client_evt($conn, iec104::Read_Command_client_ret(self));
+
+on iec104::Read_Command_server ->
+	event iec104::Read_Command_server_evt($conn, iec104::Read_Command_server_ret(self));
+
+on iec104::QRP_client ->
+	event iec104::QRP_client_evt($conn, iec104::QRP_client_ret(self));
+
+on iec104::QRP_server ->
+	event iec104::QRP_server_evt($conn, iec104::QRP_server_ret(self));

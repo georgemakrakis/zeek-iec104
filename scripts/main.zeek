@@ -303,6 +303,95 @@ export {
 		CP24Time2a : CP24TIME2A &log;
 	};
 
+	type VTI_QDS_CP56Time2a : record {
+		info_obj_addr: count &log;
+		value : count &log;
+		qds : QDS_field &log;
+		CP56Time2a : CP56TIME2A &log;
+	};
+
+	
+	type VTI_QDS_CP24Time2a : record {
+		info_obj_addr: count &log;
+		value : count &log;
+		qds : QDS_field &log;
+		CP24Time2a : CP24TIME2A &log;
+	};
+
+	type BSI_QDS_CP56Time2a : record {
+		info_obj_addr: count &log;
+		bsi : count &log;
+		qds : QDS_field &log;
+		CP56Time2a : CP56TIME2A &log;
+	};
+
+	type BSI_QDS_CP24Time2a : record {
+		info_obj_addr: count &log;
+		bsi : count &log;
+		qds : QDS_field &log;
+		CP24Time2a : CP24TIME2A &log;
+	};
+
+	type NVA_QDS_CP56Time2a : record {
+		info_obj_addr: count &log;
+		NVA : count &log;
+		qds : QDS_field &log;
+		CP56Time2a : CP56TIME2A &log;
+	};
+
+	type NVA_QDS_CP24Time2a : record {
+		info_obj_addr: count &log;
+		NVA : count &log;
+		qds : QDS_field &log;
+		CP24Time2a : CP24TIME2A &log;
+	};
+
+	type SVA_QDS_CP56Time2a : record {
+		info_obj_addr: count &log;
+		SVA : count &log;
+		qds : QDS_field &log;
+		CP56Time2a : CP56TIME2A &log;
+	};
+
+	type SVA_QDS_CP24Time2a : record {
+		info_obj_addr: count &log;
+		SVA : count &log;
+		qds : QDS_field &log;
+		CP24Time2a : CP24TIME2A &log;
+	};
+
+	type IEEE_754_QDS_CP56Time2a : record {
+		info_obj_addr: count &log;
+		value : count &log;
+		qds : QDS_field &log;
+		CP56Time2a : CP56TIME2A &log;
+	};
+
+	type IEEE_754_QDS_CP24Time2a : record {
+		info_obj_addr: count &log;
+		value : count &log;
+		qds : QDS_field &log;
+		CP24Time2a : CP24TIME2A &log;
+	};
+
+	type Read_Command_client : record {
+		info_obj_addr: count &log;
+		raw_data : count &log;
+	};
+
+	type Read_Command_server : record {
+		info_obj_addr: count &log;
+	};
+
+	type QRP_client : record {
+		info_obj_addr: count &log;
+		raw_data : count &log;
+	};
+
+	type QRP_server : record {
+		info_obj_addr: count &log;
+	};
+
 	type Asdu: record {
 		# info_obj_type : count &log &optional;
 		info_obj_type : info_obj_code &log &optional;

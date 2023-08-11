@@ -839,3 +839,20 @@ public function IEEE_754_QDS_CP56Time2a_ret (asdu: IEEE_754_QDS_CP56Time2a) : tu
 public function IEEE_754_QDS_CP24Time2a_ret (asdu: IEEE_754_QDS_CP24Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
     return (asdu.info_obj_addr, asdu.value, asdu.qds, asdu.CP24Time2a);
 }
+
+public function Read_Command_client_ret (asdu: Read_Command_client) : tuple<uint64, string> {
+    return (asdu.info_obj_addr, asdu.raw_data);
+}
+
+public function Read_Command_server_ret (asdu: Read_Command_server) : uint64 {
+    return (asdu.info_obj_addr);
+}
+
+public function QRP_client_ret (asdu: QRP_client) : tuple<uint64, string> {
+    return (asdu.info_obj_addr, asdu.raw_data);
+}
+
+
+public function QRP_server_ret (asdu: QRP_server) : uint64 {
+    return (asdu.info_obj_addr);
+}
