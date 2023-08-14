@@ -82,8 +82,13 @@ on iec104::IEEE_754_QDS ->
 on iec104::VTI_QDS ->
 	event iec104::VTI_QDS_evt($conn, iec104::VTI_QDS_ret(self));
 
+#on iec104::SIQ_CP56Time2a if (iec104::Asdu.info_obj_type == iec104::info_obj_code::M_SP_TB_1) ->
 on iec104::SIQ_CP56Time2a ->
+	#event iec104::SIQ_CP56Time2a_evt($conn, iec104::Asdu, iec104::SIQ_CP56Time2a_ret(self));
 	event iec104::SIQ_CP56Time2a_evt($conn, iec104::SIQ_CP56Time2a_ret(self));
+
+#on iec104::Asdu if (self.info_obj_type == iec104::info_obj_code::M_SP_TB_1) ->
+#	event iec104::SIQ_CP56Time2a_evt($conn, iec104::SIQ_CP56Time2a_ret($conn, iec104::SIQ_CP56Time2a));
 
 on iec104::SIQ_CP24Time2a ->
 	event iec104::SIQ_CP24Time2a_evt($conn, iec104::SIQ_CP24Time2a_ret(self));

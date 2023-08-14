@@ -780,16 +780,23 @@ public function VTI_QDS_ret (asdu: VTI_QDS) : tuple<uint64, bytes, tuple<ov: uin
     return (asdu.info_obj_addr, asdu.value, asdu.qds);
 }
 
-public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
-    return (asdu.info_obj_addr, asdu.siq ,asdu.CP56Time2a);
+#public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+#    return (asdu.info_obj_addr, asdu.siq ,asdu.CP56Time2a);
+#}
+
+#public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<iec104::info_obj_code, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<uint64, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    return (30, asdu.info_obj_addr, asdu.siq, asdu.CP56Time2a);
 }
 
 public function SIQ_CP24Time2a_ret (asdu: SIQ_CP24Time2a) : tuple<uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
     return (asdu.info_obj_addr, asdu.siq ,asdu.CP24Time2a);
 }
 
-public function DIQ_CP56Time2a_ret (asdu: DIQ_CP56Time2a) : tuple<uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
-    return (asdu.info_obj_addr, asdu.diq ,asdu.CP56Time2a);
+#public function DIQ_CP56Time2a_ret (asdu: DIQ_CP56Time2a) : tuple<uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+public function DIQ_CP56Time2a_ret (asdu: DIQ_CP56Time2a) : tuple<uint64, uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    return (31 ,asdu.info_obj_addr, asdu.diq ,asdu.CP56Time2a);
+    
 }
 
 public function DIQ_CP24Time2a_ret (asdu: DIQ_CP24Time2a) : tuple<uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
