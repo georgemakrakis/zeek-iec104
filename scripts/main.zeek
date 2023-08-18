@@ -13,7 +13,7 @@ global total_time: interval;
 
 export {
 	## Log stream identifier.
-	redef enum Log::ID += { LOG };
+	redef enum Log::ID += { LOG, LOG_2};
 
 	type info_obj_code : enum {
 		# Process information in monitoring direction:
@@ -272,14 +272,15 @@ export {
 	};
 
 	type SIQ_CP56Time2a : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
-		sqi : SIQ_field &log &optional;
+		siq : SIQ_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
 	type SIQ_CP24Time2a : record {
 		info_obj_addr: count &log &optional;
-		sqi : SIQ_field &log &optional;
+		siq : SIQ_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
@@ -300,7 +301,7 @@ export {
 
 	type DIQ_CP24Time2a : record {
 		info_obj_addr: count &log &optional;
-		dqi : DIQ_field &log &optional;
+		diq : DIQ_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
@@ -428,8 +429,9 @@ export {
 
 		step_position_information : VTI_QDS &log &optional;
 		# single_point_information_CP56Time2a : SIQ_CP56Time2a &log &optional;
-		# single_point_information_CP56Time2a : vector of SIQ_CP56Time2a &optional;
-		single_point_information_CP56Time2a : set[SIQ_CP56Time2a] &optional;
+		# single_point_information_CP56Time2a : vector of SIQ_CP56Time2a &log &optional;
+		# single_point_information_CP56Time2a : set[SIQ_CP56Time2a] &optional;
+		single_point_information_CP56Time2a : vector of count &log &optional;
 		single_point_information_CP24Time2a : SIQ_CP24Time2a &log &optional;
 		# double_point_information_CP56Time2a : DIQ_CP56Time2a &log &optional;
 		double_point_information_CP56Time2a : vector of DIQ_CP56Time2a &optional;
@@ -478,6 +480,9 @@ export {
 		asdu: Asdu &log &optional;
 		# asdu: count &log &optional;
 
+		asdu_uid: string &log &optional;
+
+
 		# Counters can be for statistics but also serve good indicator for correct parsing.
 		# type_i_counter: count &log;
 		type_i_counter: count &optional;
@@ -503,7 +508,7 @@ export {
 	type siq_CP56Time2a_w_info_obj_type : record {
 		info_obj_type_b : count &optional;
 		info_obj_addr: count &log;
-		sqi : SIQ_field &log;
+		siq : SIQ_field &log;
 		CP56Time2a : CP56TIME2A &log;
 	};
 
@@ -512,7 +517,9 @@ export {
 	global log_iec104: event(rec: Info);
 }
 
-global single_point_information_CP56Time2a_set : set[SIQ_CP56Time2a];
+# global single_point_information_CP56Time2a_set : set[SIQ_CP56Time2a];
+global single_point_information_CP56Time2a_vec : vector of count;
+global single_point_information_CP56Time2a_temp : vector of count;
 
 redef record connection += {
 	iec104: Info &optional;
@@ -529,6 +536,10 @@ redef likely_server_ports += { ports };
 event zeek_init() &priority=5
 	{
 	Log::create_stream(iec104::LOG, [$columns=Info, $ev=log_iec104, $path="iec104"]);
+	# TODO: Shall we create another log stream here that we correlate it to have multiple records for the
+	# num_ix ASDUs that we might have? Correllated with an ASDU_UUID?
+	# Log::create_stream(iec104::LOG_2, [$columns=SIQ_CP56Time2a, $path="iec104-SIQ"]);
+	Log::create_stream(iec104::LOG_2, [$columns=SIQ_CP56Time2a, $path="iec104-SIQ"]);
 	}
 
 # Initialize logging state.
@@ -639,7 +650,21 @@ event iec104::apci(c: connection, is_orig : bool, apduLen : count, not_i_type : 
 			print "STOPDT con";
 		}
 
+		info$asdu$single_point_information_CP56Time2a = single_point_information_CP56Time2a_temp;
+		print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
+
 		Log::write(iec104::LOG, info);
+
+		# for ( entry in info$asdu$single_point_information_CP56Time2a)
+		
+		# for ( entry in single_point_information_CP56Time2a_set)
+		# 	Log::write(iec104::LOG_2, entry);
+		# 	print fmt("  single_point_information_CP56Time2a ENTRY: %s", entry);
+			
+		# single_point_information_CP56Time2a_set = set();
+
+		local v1: vector of count;
+		single_point_information_CP56Time2a_temp = v1;
 	}
 
 event iec104::i (c:connection, send_seq: count, recv_seq: count) {
@@ -670,7 +695,7 @@ event iec104::u (c: connection){
 }
 
 event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, num_ix : count, cause_tx: cause_tx_code, 
-					negative : count, test : count, originator_address : count, common_address : count){
+					negative : count, test : count, originator_address : count, common_address : count) &priority=3{
 					# , interrogation_command : vector of QOI, single_command : vector of SCO, double_command : vector of DCO) &priority=3 {
 					# , interrogation_command : vector of QOI) &priority=3 {
 
@@ -810,7 +835,7 @@ event iec104::VTI_QDS_evt(c: connection, vti_qds: VTI_QDS) {
 
 # event iec104::SIQ_CP56Time2a_evt(c: connection, asdu_b: Asdu, siq_CP56Time2a: SIQ_CP56Time2a) {
 # event iec104::SIQ_CP56Time2a_evt(c: connection, siq_CP56Time2a: SIQ_CP56Time2a) {
-event iec104::SIQ_CP56Time2a_evt(c: connection, final: siq_CP56Time2a_w_info_obj_type) {
+event iec104::SIQ_CP56Time2a_evt(c: connection, final: siq_CP56Time2a_w_info_obj_type) &priority=2 {
 	
 	hook set_session(c);
 	
@@ -830,25 +855,52 @@ event iec104::SIQ_CP56Time2a_evt(c: connection, final: siq_CP56Time2a_w_info_obj
 	# info$asdu$interrogation_command = QOI();
 
 	info$asdu = Asdu();
+
+	print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	
 	if (final$info_obj_type_b == 30) {
 		# info$asdu$single_point_information_CP56Time2a = SIQ_CP56Time2a();
 		# local v1: vector of SIQ_CP56Time2a;
-		local v1: set[SIQ_CP56Time2a];
-		info$asdu$single_point_information_CP56Time2a = v1;
+		# local v1: set[SIQ_CP56Time2a];
+		# info$asdu$single_point_information_CP56Time2a = v1;
 		
-		local new_SIQ_CP56Time2a = SIQ_CP56Time2a();
-		new_SIQ_CP56Time2a$info_obj_addr = final$info_obj_addr;
-		new_SIQ_CP56Time2a$sqi = final$sqi;
-		new_SIQ_CP56Time2a$CP56Time2a = final$CP56Time2a;
+		# local new_SIQ_CP56Time2a = SIQ_CP56Time2a();
+		# new_SIQ_CP56Time2a$info_obj_addr = final$info_obj_addr;
+		# new_SIQ_CP56Time2a$siq = final$siq;
+		# new_SIQ_CP56Time2a$CP56Time2a = final$CP56Time2a;
 
 		# print fmt("NEW!!! %s", new_SIQ_CP56Time2a);
 
-		add single_point_information_CP56Time2a_set[new_SIQ_CP56Time2a];
+		# add single_point_information_CP56Time2a_set[new_SIQ_CP56Time2a];
 
-		info$asdu$single_point_information_CP56Time2a = single_point_information_CP56Time2a_set;
+		# info$asdu$single_point_information_CP56Time2a = single_point_information_CP56Time2a_set;
+		# info$asdu$single_point_information_CP56Time2a = vector(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-		print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
+		# local v1: vector of SIQ_CP56Time2a;
+		# info$asdu$single_point_information_CP56Time2a = v1;
+		# info$asdu$single_point_information_CP56Time2a += new_SIQ_CP56Time2a;
+
+		# local v1: vector of count;
+		# v1 += |single_point_information_CP56Time2a_vec| + 1;
+		# info$asdu$single_point_information_CP56Time2a = v1;
+		# single_point_information_CP56Time2a_temp = v1;
+
+		local next_num: count;
+		next_num = |single_point_information_CP56Time2a_vec| + 1;
+		
+		single_point_information_CP56Time2a_temp += next_num;
+		single_point_information_CP56Time2a_vec += next_num;
+		
+		print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		print(single_point_information_CP56Time2a_temp);
+		# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
+		
+		local new_SIQ_CP56Time2a = SIQ_CP56Time2a($Asdu_num=next_num);
+		new_SIQ_CP56Time2a$info_obj_addr = final$info_obj_addr;
+		new_SIQ_CP56Time2a$siq = final$siq;
+		new_SIQ_CP56Time2a$CP56Time2a = final$CP56Time2a;
+		
+		Log::write(iec104::LOG_2, new_SIQ_CP56Time2a);
 	}
 
 	# TODO: We do not have the info_obj_type yet here, needs to figure this out.
@@ -893,6 +945,7 @@ event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: DIQ_CP56Time2a) 
 
 		# info$asdu$double_point_information_CP56Time2a += new_DIQ_CP56Time2a;
 
+		# print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		# print fmt("info$asdu$double_point_information_CP56Time2a: %s", info$asdu$double_point_information_CP56Time2a);
 	}
 	
@@ -901,6 +954,9 @@ event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: DIQ_CP56Time2a) 
 
 	# 	print fmt("info$asdu$double_point_information_CP24Time2a: %s", info$asdu$double_point_information_CP56Time2a);
 	# }
+
+	# Log::write(iec104::LOG, info);
+
 }
 
 event iec104::DIQ_CP24Time2a_evt(c: connection, diq_CP24Time2a: DIQ_CP24Time2a) {
