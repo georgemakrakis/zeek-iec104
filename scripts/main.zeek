@@ -13,7 +13,36 @@ global total_time: interval;
 
 export {
 	## Log stream identifier.
-	redef enum Log::ID += { LOG, LOG_2};
+	redef enum Log::ID += { LOG,
+		LOG_COI,
+		LOG_QOI,
+		LOG_SCO,
+		LOG_DCO,
+		LOG_SIQ,
+		LOG_RCO,
+		LOG_BSI,
+		LOG_SVA_QOS,
+		LOG_SVA_QDS,
+		LOG_VTI_QDS,
+		LOG_SIQ_CP56Time2a,
+		LOG_SIQ_CP24Time2a,
+		LOG_DIQ_CP56Time2a,
+		LOG_DIQ_CP24Time2a,
+		LOG_VTI_QDS_CP56Time2a,
+		LOG_VTI_QDS_CP24Time2a,
+		LOG_BSI_QDS_CP56Time2a,
+		LOG_BSI_QDS_CP24Time2a,
+		LOG_NVA_QDS_CP56Time2a,
+		LOG_NVA_QDS_CP24Time2a,
+		LOG_SVA_QDS_CP56Time2a,
+		LOG_SVA_QDS_CP24Time2a,
+		LOG_IEEE_754_QDS_CP56Time2a,
+		LOG_IEEE_754_QDS_CP24Time2a,
+		LOG_Read_Command_client,
+		LOG_Read_Command_server,
+		LOG_QRP_client,
+		LOG_QRP_server,
+	};
 
 	type info_obj_code : enum {
 		# Process information in monitoring direction:
@@ -145,7 +174,8 @@ export {
 		unknown_object_address = 47
 	};
 
-	type QOI : record {
+	type QOI  : record {
+		Asdu_num : count &log &optional; 
     	info_obj_addr: count &log &optional;
     	qoi : count &log &optional;
 	};
@@ -156,7 +186,8 @@ export {
         se : count &log &optional;
 	};
 
-	type SCO : record {
+	type SCO  : record {
+		Asdu_num : count &log; 
     	info_obj_addr: count &log &optional;
 		# This is bifield in packet/spicy
     	sco : SCO_field &log &optional;
@@ -168,7 +199,8 @@ export {
         se : count &log &optional;
 	};
 
-	type DCO : record {
+	type DCO  : record {
+		Asdu_num : count &log; 
     	info_obj_addr: count &log &optional;
 		# This is bifield in packet/spicy
     	dco : DCO_field &log &optional;
@@ -182,7 +214,8 @@ export {
     	iv : count &log &optional;
 	};
 
-	type SIQ : record {
+	type SIQ  : record {
+		Asdu_num : count &log; 
     	info_obj_addr: count &log &optional;
 		# This is bifield in packet/spicy
     	siq : SIQ_field &log &optional;
@@ -194,7 +227,8 @@ export {
         se : count &log &optional;
 	};
 
-	type RCO : record {
+	type RCO  : record {
+		Asdu_num : count &log; 
     	info_obj_addr: count &log &optional;
 		# This is bifield in packet/spicy
     	RCO : RCO_field &log &optional;
@@ -205,7 +239,8 @@ export {
 		value : count &log &optional;
 	};
 
-	type BSI : record {
+	type BSI  : record {
+		Asdu_num : count &log; 
     	info_obj_addr: count &log &optional;
 		# This is bifield in packet/spicy
     	BSI : BSI_field &log &optional;
@@ -216,7 +251,8 @@ export {
 		se : count &log &optional;
 	};
 
-	type SVA_QOS : record {
+	type SVA_QOS  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		SVA: count &log &optional;
 		qos : QOS_field &log &optional;
@@ -230,13 +266,15 @@ export {
         iv : count &log &optional;
 	};
 
-	type SVA_QDS : record {
+	type SVA_QDS  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		SVA: count &log &optional;
 		qds : QDS_field &log &optional;
 	};
 
-	type VTI_QDS : record {
+	type VTI_QDS  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		value: string &log &optional;
 		qds : QDS_field &log &optional;
@@ -278,7 +316,8 @@ export {
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
-	type SIQ_CP24Time2a : record {
+	type SIQ_CP24Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		siq : SIQ_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
@@ -292,20 +331,23 @@ export {
         iv : count &log &optional;
 	};
 
-	type DIQ_CP56Time2a : record {
+	type DIQ_CP56Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_type: count &log &optional;
 		info_obj_addr: count &log &optional;
 		diq : DIQ_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
-	type DIQ_CP24Time2a : record {
+	type DIQ_CP24Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		diq : DIQ_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
-	type VTI_QDS_CP56Time2a : record {
+	type VTI_QDS_CP56Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		value : string &log &optional;
 		qds : QDS_field &log &optional;
@@ -313,14 +355,16 @@ export {
 	};
 
 	
-	type VTI_QDS_CP24Time2a : record {
+	type VTI_QDS_CP24Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		value : string &log &optional;
 		qds : QDS_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
-	type BSI_QDS_CP56Time2a : record {
+	type BSI_QDS_CP56Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		# bsi : BSI_field &log &optional;
 		bsi : count &log &optional;
@@ -328,7 +372,8 @@ export {
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
-	type BSI_QDS_CP24Time2a : record {
+	type BSI_QDS_CP24Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		# bsi : BSI_field &log &optional;
 		bsi : count &log &optional;
@@ -341,68 +386,79 @@ export {
 		i: count &log &optional;
 	};
 
-	type COI : record {
+	type COI  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
     	coi : COI_field &log &optional;
 	};
 
-	type NVA_QDS_CP56Time2a : record {
+	type NVA_QDS_CP56Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		NVA : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
-	type NVA_QDS_CP24Time2a : record {
+	type NVA_QDS_CP24Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		NVA : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
-	type SVA_QDS_CP56Time2a : record {
+	type SVA_QDS_CP56Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		SVA : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
-	type SVA_QDS_CP24Time2a : record {
+	type SVA_QDS_CP24Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		SVA : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
-	type IEEE_754_QDS_CP56Time2a : record {
+	type IEEE_754_QDS_CP56Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		value : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
-	type IEEE_754_QDS_CP24Time2a : record {
+	type IEEE_754_QDS_CP24Time2a  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		value : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
-	type Read_Command_client : record {
+	type Read_Command_client  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		raw_data : count &log &optional;
 	};
 
-	type Read_Command_server : record {
+	type Read_Command_server  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 	};
 
-	type QRP_client : record {
+	type QRP_client  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 		raw_data : count &log &optional;
 	};
 
-	type QRP_server : record {
+	type QRP_server  : record {
+		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
 	};
 
@@ -418,7 +474,9 @@ export {
 		originator_address : count &log &optional;
 		common_address :  count &log &optional;
 
-		interrogation_command : QOI &log &optional;
+		# interrogation_command : QOI &log &optional;
+		interrogation_command : vector of count &log &optional;
+
 		single_point_information : SIQ &log &optional;
 		single_command : SCO &log &optional;
 		double_command : DCO &log &optional;
@@ -517,7 +575,9 @@ export {
 	global log_iec104: event(rec: Info);
 }
 
-# global single_point_information_CP56Time2a_set : set[SIQ_CP56Time2a];
+global QOI_vec : vector of count;
+global QOI_temp : vector of count;
+
 global single_point_information_CP56Time2a_vec : vector of count;
 global single_point_information_CP56Time2a_temp : vector of count;
 
@@ -538,8 +598,35 @@ event zeek_init() &priority=5
 	Log::create_stream(iec104::LOG, [$columns=Info, $ev=log_iec104, $path="iec104"]);
 	# TODO: Shall we create another log stream here that we correlate it to have multiple records for the
 	# num_ix ASDUs that we might have? Correllated with an ASDU_UUID?
-	# Log::create_stream(iec104::LOG_2, [$columns=SIQ_CP56Time2a, $path="iec104-SIQ"]);
-	Log::create_stream(iec104::LOG_2, [$columns=SIQ_CP56Time2a, $path="iec104-SIQ"]);
+	# Log::create_stream(iec104::LOG_SIQ_CP56Time2a, [$columns=SIQ_CP56Time2a, $path="iec104-SIQ"]);
+		Log::create_stream(iec104::LOG_COI, [$columns=COI, $path="iec104-COI"]);
+		Log::create_stream(iec104::LOG_QOI, [$columns=QOI, $path="iec104-QOI"]);
+		Log::create_stream(iec104::LOG_SCO, [$columns=SCO, $path="iec104-SCO"]);
+		Log::create_stream(iec104::LOG_DCO, [$columns=DCO, $path="iec104-DCO"]);
+		Log::create_stream(iec104::LOG_SIQ, [$columns=SIQ, $path="iec104-SIQ"]);
+		Log::create_stream(iec104::LOG_RCO, [$columns=RCO, $path="iec104-RCO"]);
+		Log::create_stream(iec104::LOG_BSI, [$columns=BSI, $path="iec104-BSI"]);
+		Log::create_stream(iec104::LOG_SVA_QOS, [$columns=SVA_QOS, $path="iec104-SVA_QOS"]);
+		Log::create_stream(iec104::LOG_SVA_QDS, [$columns=SVA_QDS, $path="iec104-SVA_QDS"]);
+		Log::create_stream(iec104::LOG_VTI_QDS, [$columns=VTI_QDS, $path="iec104-VTI_QDS"]);
+		Log::create_stream(iec104::LOG_SIQ_CP56Time2a, [$columns=SIQ_CP56Time2a, $path="iec104-SIQ_CP56Time2a"]);
+		Log::create_stream(iec104::LOG_SIQ_CP24Time2a, [$columns=SIQ_CP24Time2a, $path="iec104-SIQ_CP24Time2a"]);
+		Log::create_stream(iec104::LOG_DIQ_CP56Time2a, [$columns=DIQ_CP56Time2a, $path="iec104-DIQ_CP56Time2a"]);
+		Log::create_stream(iec104::LOG_DIQ_CP24Time2a, [$columns=DIQ_CP24Time2a, $path="iec104-DIQ_CP24Time2a"]);
+		Log::create_stream(iec104::LOG_VTI_QDS_CP56Time2a, [$columns=VTI_QDS_CP56Time2a, $path="iec104-VTI_QDS_CP56Time2a"]);
+		Log::create_stream(iec104::LOG_VTI_QDS_CP24Time2a, [$columns=VTI_QDS_CP24Time2a, $path="iec104-VTI_QDS_CP24Time2a"]);
+		Log::create_stream(iec104::LOG_BSI_QDS_CP56Time2a, [$columns=BSI_QDS_CP56Time2a, $path="iec104-BSI_QDS_CP56Time2a"]);
+		Log::create_stream(iec104::LOG_BSI_QDS_CP24Time2a, [$columns=BSI_QDS_CP24Time2a, $path="iec104-BSI_QDS_CP24Time2a"]);
+		Log::create_stream(iec104::LOG_NVA_QDS_CP56Time2a, [$columns=NVA_QDS_CP56Time2a, $path="iec104-NVA_QDS_CP56Time2a"]);
+		Log::create_stream(iec104::LOG_NVA_QDS_CP24Time2a, [$columns=NVA_QDS_CP24Time2a, $path="iec104-NVA_QDS_CP24Time2a"]);
+		Log::create_stream(iec104::LOG_SVA_QDS_CP56Time2a, [$columns=SVA_QDS_CP56Time2a, $path="iec104-SVA_QDS_CP56Time2a"]);
+		Log::create_stream(iec104::LOG_SVA_QDS_CP24Time2a, [$columns=SVA_QDS_CP24Time2a, $path="iec104-SVA_QDS_CP24Time2a"]);
+		Log::create_stream(iec104::LOG_IEEE_754_QDS_CP56Time2a, [$columns=IEEE_754_QDS_CP56Time2a, $path="iec104-IEEE_754_QDS_CP56Time2a"]);
+		Log::create_stream(iec104::LOG_IEEE_754_QDS_CP24Time2a, [$columns=IEEE_754_QDS_CP24Time2a, $path="iec104-IEEE_754_QDS_CP24Time2a"]);
+		Log::create_stream(iec104::LOG_Read_Command_client, [$columns=Read_Command_client, $path="iec104-Read_Command_client"]);
+		Log::create_stream(iec104::LOG_Read_Command_server, [$columns=Read_Command_server, $path="iec104-Read_Command_server"]);
+		Log::create_stream(iec104::LOG_QRP_client, [$columns=QRP_client, $path="iec104-QRP_client"]);
+		Log::create_stream(iec104::LOG_QRP_server, [$columns=QRP_server, $path="iec104-QRP_server"]);
 	}
 
 # Initialize logging state.
@@ -650,21 +737,29 @@ event iec104::apci(c: connection, is_orig : bool, apduLen : count, not_i_type : 
 			print "STOPDT con";
 		}
 
+		
 		info$asdu$single_point_information_CP56Time2a = single_point_information_CP56Time2a_temp;
+		info$asdu$interrogation_command = QOI_temp;
 		print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
+		print fmt("info$asdu$interrogation_command: %s", info$asdu$interrogation_command);
 
 		Log::write(iec104::LOG, info);
 
 		# for ( entry in info$asdu$single_point_information_CP56Time2a)
 		
 		# for ( entry in single_point_information_CP56Time2a_set)
-		# 	Log::write(iec104::LOG_2, entry);
+		# 	Log::write(iec104::LOG_SIQ_CP56Time2a, entry);
 		# 	print fmt("  single_point_information_CP56Time2a ENTRY: %s", entry);
 			
 		# single_point_information_CP56Time2a_set = set();
 
-		local v1: vector of count;
-		single_point_information_CP56Time2a_temp = v1;
+		local empty_single_point_information_CP56Time2a_temp: vector of count;
+		single_point_information_CP56Time2a_temp = empty_single_point_information_CP56Time2a_temp;
+
+		local empty_QOI_temp: vector of count;
+		QOI_temp = empty_QOI_temp;
+		
+
 	}
 
 event iec104::i (c:connection, send_seq: count, recv_seq: count) {
@@ -755,9 +850,30 @@ event iec104::QOI_evt(c: connection, qoi: QOI) {
 	# print fmt("QOI");
 	# print (qoi);
 
-	info$asdu$interrogation_command = qoi;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$interrogation_command: %s", info$asdu$interrogation_command);
+	print fmt("!!!!!!!!!!!!!!!!!!!!!QOI!!!!!!!!!!!!!!!!!!!!!!!!");
+
+	local next_num: count;
+	next_num = |QOI_vec| + 1;
+	
+	QOI_temp += next_num;
+	QOI_vec += next_num;
+	
+	print fmt("!!!!!!!!!!!!!!!!!!!!!QOI!!!!!!!!!!!!!!!!!!!!!!!!");
+	print(QOI_temp);
+	# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
+	
+	local new_QOI = QOI($Asdu_num=next_num);
+	# local new_QOI = QOI();
+	new_QOI$info_obj_addr = qoi$info_obj_addr;
+	new_QOI$qoi = qoi$qoi;
+	
+	Log::write(iec104::LOG_QOI, new_QOI);
+
+	# info$asdu$interrogation_command = qoi;
+
+	# print fmt("info$asdu$interrogation_command: %s", info$asdu$interrogation_command);
 
 	# if (info$asdu$info_obj_type == 100) {
 
@@ -834,8 +950,8 @@ event iec104::VTI_QDS_evt(c: connection, vti_qds: VTI_QDS) {
 }
 
 # event iec104::SIQ_CP56Time2a_evt(c: connection, asdu_b: Asdu, siq_CP56Time2a: SIQ_CP56Time2a) {
-# event iec104::SIQ_CP56Time2a_evt(c: connection, siq_CP56Time2a: SIQ_CP56Time2a) {
-event iec104::SIQ_CP56Time2a_evt(c: connection, final: siq_CP56Time2a_w_info_obj_type) &priority=2 {
+event iec104::SIQ_CP56Time2a_evt(c: connection, siq_CP56Time2a: SIQ_CP56Time2a) {
+# event iec104::SIQ_CP56Time2a_evt(c: connection, final: siq_CP56Time2a_w_info_obj_type) &priority=2 {
 	
 	hook set_session(c);
 	
@@ -857,8 +973,24 @@ event iec104::SIQ_CP56Time2a_evt(c: connection, final: siq_CP56Time2a_w_info_obj
 	info$asdu = Asdu();
 
 	print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	local next_num: count;
+	next_num = |single_point_information_CP56Time2a_vec| + 1;
 	
-	if (final$info_obj_type_b == 30) {
+	single_point_information_CP56Time2a_temp += next_num;
+	single_point_information_CP56Time2a_vec += next_num;
+	
+	print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	print(single_point_information_CP56Time2a_temp);
+	# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
+	
+	local new_SIQ_CP56Time2a = SIQ_CP56Time2a($Asdu_num=next_num);
+	new_SIQ_CP56Time2a$info_obj_addr = siq_CP56Time2a$info_obj_addr;
+	new_SIQ_CP56Time2a$siq = siq_CP56Time2a$siq;
+	new_SIQ_CP56Time2a$CP56Time2a = siq_CP56Time2a$CP56Time2a;
+	
+	Log::write(iec104::LOG_SIQ_CP56Time2a, new_SIQ_CP56Time2a);
+	
+	# if (final$info_obj_type_b == 30) {
 		# info$asdu$single_point_information_CP56Time2a = SIQ_CP56Time2a();
 		# local v1: vector of SIQ_CP56Time2a;
 		# local v1: set[SIQ_CP56Time2a];
@@ -885,23 +1017,24 @@ event iec104::SIQ_CP56Time2a_evt(c: connection, final: siq_CP56Time2a_w_info_obj
 		# info$asdu$single_point_information_CP56Time2a = v1;
 		# single_point_information_CP56Time2a_temp = v1;
 
-		local next_num: count;
-		next_num = |single_point_information_CP56Time2a_vec| + 1;
+		# ====================
+		# local next_num: count;
+		# next_num = |single_point_information_CP56Time2a_vec| + 1;
 		
-		single_point_information_CP56Time2a_temp += next_num;
-		single_point_information_CP56Time2a_vec += next_num;
+		# single_point_information_CP56Time2a_temp += next_num;
+		# single_point_information_CP56Time2a_vec += next_num;
 		
-		print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		print(single_point_information_CP56Time2a_temp);
-		# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
+		# print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		# print(single_point_information_CP56Time2a_temp);
+		# # print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
 		
-		local new_SIQ_CP56Time2a = SIQ_CP56Time2a($Asdu_num=next_num);
-		new_SIQ_CP56Time2a$info_obj_addr = final$info_obj_addr;
-		new_SIQ_CP56Time2a$siq = final$siq;
-		new_SIQ_CP56Time2a$CP56Time2a = final$CP56Time2a;
+		# local new_SIQ_CP56Time2a = SIQ_CP56Time2a($Asdu_num=next_num);
+		# new_SIQ_CP56Time2a$info_obj_addr = final$info_obj_addr;
+		# new_SIQ_CP56Time2a$siq = final$siq;
+		# new_SIQ_CP56Time2a$CP56Time2a = final$CP56Time2a;
 		
-		Log::write(iec104::LOG_2, new_SIQ_CP56Time2a);
-	}
+		# Log::write(iec104::LOG_SIQ_CP56Time2a, new_SIQ_CP56Time2a);
+	# }
 
 	# TODO: We do not have the info_obj_type yet here, needs to figure this out.
 	# if (info$asdu$info_obj_type == iec104::M_SP_TB_1) {
@@ -932,22 +1065,22 @@ event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: DIQ_CP56Time2a) 
 
 	local asdu_loc = info$asdu;
 
-	if (diq_CP56Time2a$info_obj_type == 31) {
-		# info$asdu$double_point_information_CP56Time2a = DIQ_CP56Time2a();
-		# info$asdu$double_point_information_CP56Time2a$info_obj_addr = diq_CP56Time2a$info_obj_addr;
-		# info$asdu$double_point_information_CP56Time2a$diq = diq_CP56Time2a$diq;
-		# info$asdu$double_point_information_CP56Time2a$CP56Time2a = diq_CP56Time2a$CP56Time2a;
+	# if (diq_CP56Time2a$info_obj_type == 31) {
+	# 	# info$asdu$double_point_information_CP56Time2a = DIQ_CP56Time2a();
+	# 	# info$asdu$double_point_information_CP56Time2a$info_obj_addr = diq_CP56Time2a$info_obj_addr;
+	# 	# info$asdu$double_point_information_CP56Time2a$diq = diq_CP56Time2a$diq;
+	# 	# info$asdu$double_point_information_CP56Time2a$CP56Time2a = diq_CP56Time2a$CP56Time2a;
 
-		local new_DIQ_CP56Time2a = DIQ_CP56Time2a();
-		new_DIQ_CP56Time2a$info_obj_addr = diq_CP56Time2a$info_obj_addr;
-		new_DIQ_CP56Time2a$diq = diq_CP56Time2a$diq;
-		new_DIQ_CP56Time2a$CP56Time2a = diq_CP56Time2a$CP56Time2a;
+	# 	local new_DIQ_CP56Time2a = DIQ_CP56Time2a();
+	# 	new_DIQ_CP56Time2a$info_obj_addr = diq_CP56Time2a$info_obj_addr;
+	# 	new_DIQ_CP56Time2a$diq = diq_CP56Time2a$diq;
+	# 	new_DIQ_CP56Time2a$CP56Time2a = diq_CP56Time2a$CP56Time2a;
 
-		# info$asdu$double_point_information_CP56Time2a += new_DIQ_CP56Time2a;
+	# 	# info$asdu$double_point_information_CP56Time2a += new_DIQ_CP56Time2a;
 
-		# print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		# print fmt("info$asdu$double_point_information_CP56Time2a: %s", info$asdu$double_point_information_CP56Time2a);
-	}
+	# 	# print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	# 	# print fmt("info$asdu$double_point_information_CP56Time2a: %s", info$asdu$double_point_information_CP56Time2a);
+	# }
 	
 	# if (asdu_loc$info_obj_type == iec104::M_DP_TB_1) {
 	# 	info$asdu$double_point_information_CP56Time2a = diq_CP56Time2a;
