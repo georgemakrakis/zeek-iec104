@@ -494,7 +494,7 @@ export {
 		single_point_information_CP56Time2a : vector of count &log &optional;
 		single_point_information_CP24Time2a : vector of count &log &optional;
 		# double_point_information_CP56Time2a : DIQ_CP56Time2a &log &optional;
-		double_point_information_CP56Time2a : vector of DIQ_CP56Time2a &optional;
+		double_point_information_CP56Time2a : vector of count &log &optional;
 		double_point_information_CP24Time2a : vector of count &log &optional;
 
 		step_position_information_CP56Time2a : vector of count &log &optional;
@@ -582,10 +582,6 @@ global COI_temp : vector of count;
 
 global QOI_vec : vector of count;
 global QOI_temp : vector of count;
-
-# TODO: Replace that with the "SIQ_CP56Time2a_vec" and temp all over the code
-global single_point_information_CP56Time2a_vec : vector of count;
-global single_point_information_CP56Time2a_temp : vector of count;
 
 global SCO_vec : vector of count;
 global SCO_temp : vector of count;
@@ -799,8 +795,37 @@ event iec104::apci(c: connection, is_orig : bool, apduLen : count, not_i_type : 
 		}
 
 		# TODO: Neews for the rest as well
-		info$asdu$single_point_information_CP56Time2a = SIQ_CP56Time2a_temp;
+		
+		info$asdu$end_of_initialization = COI_temp;
 		info$asdu$interrogation_command = QOI_temp;
+		info$asdu$single_point_information = SIQ_temp;
+		info$asdu$single_command = SCO_temp;
+		info$asdu$double_command = DCO_temp;
+		info$asdu$regulating_step_command = RCO_temp;
+		info$asdu$bit_string_32_bit = BSI_temp;
+		info$asdu$setpoint_command_scaled_value = SVA_QOS_temp;
+		info$asdu$measured_value_scaled_value = SVA_QDS_temp;
+		info$asdu$step_position_information = VTI_QDS_temp;
+		info$asdu$single_point_information_CP56Time2a = SIQ_CP56Time2a_temp;
+		info$asdu$single_point_information_CP24Time2a = SIQ_CP24Time2a_temp;
+		info$asdu$double_point_information_CP56Time2a = DIQ_CP56Time2a_temp;
+		info$asdu$double_point_information_CP24Time2a = DIQ_CP24Time2a_temp;
+		info$asdu$step_position_information_CP56Time2a = VTI_QDS_CP56Time2a_temp;
+		info$asdu$step_position_information_CP24Time2a = VTI_QDS_CP24Time2a_temp;
+		info$asdu$bit_string_32_bit_CP56Time2a = BSI_QDS_CP56Time2a_temp;
+		info$asdu$bit_string_32_bit_CP24Time2a = BSI_QDS_CP24Time2a_temp;
+		info$asdu$measured_value_normalized_CP56Time2a = NVA_QDS_CP56Time2a_temp;
+		info$asdu$measured_value_normalized_CP24Time2a = NVA_QDS_CP24Time2a_temp;
+		info$asdu$measured_value_scaled_CP24Time2a = SVA_QDS_CP24Time2a_temp;
+		info$asdu$measured_value_scaled_CP56Time2a = SVA_QDS_CP56Time2a_temp;
+		info$asdu$measured_value_short_floating_point_CP56Time2a = IEEE_754_QDS_CP56Time2a_temp;
+		info$asdu$measured_value_short_floating_point_CP24Time2a = IEEE_754_QDS_CP24Time2a_temp;
+		info$asdu$read_Command_client = Read_Command_client_temp;
+		info$asdu$read_Command_server = Read_Command_server_temp;
+		info$asdu$qrp_client = QRP_client_temp;
+		info$asdu$qrp_server = QRP_server_temp;
+		
+		
 		print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
 		print fmt("info$asdu$interrogation_command: %s", info$asdu$interrogation_command);
 
@@ -813,15 +838,67 @@ event iec104::apci(c: connection, is_orig : bool, apduLen : count, not_i_type : 
 		# 	print fmt("  single_point_information_CP56Time2a ENTRY: %s", entry);
 			
 		# single_point_information_CP56Time2a_set = set();
-
-		local empty_SIQ_CP56Time2a_temp: vector of count;
-		SIQ_CP56Time2a_temp = empty_SIQ_CP56Time2a_temp;
+		
+		local empty_COI_temp : vector of count;
+		COI_temp = empty_COI_temp;
 
 		local empty_QOI_temp: vector of count;
 		QOI_temp = empty_QOI_temp;
-		
-		# TODO: Neews for the rest here as the above
 
+		local empty_SCO_temp : vector of count;
+		SCO_temp = empty_SCO_temp;
+		local empty_DCO_temp : vector of count;
+		DCO_temp = empty_DCO_temp;
+
+		local empty_SIQ_temp : vector of count;
+		SIQ_temp = empty_SIQ_temp;
+		local empty_RCO_temp : vector of count;
+		RCO_temp = empty_RCO_temp;
+		local empty_BSI_temp : vector of count;
+		BSI_temp = empty_BSI_temp;
+		local empty_SVA_QOS_temp : vector of count;
+		SVA_QOS_temp =  empty_SVA_QOS_temp;
+		local empty_SVA_QDS_temp : vector of count;
+		SVA_QDS_temp = empty_SVA_QDS_temp;
+		local empty_VTI_QDS_temp : vector of count;
+		VTI_QDS_temp = empty_VTI_QDS_temp;
+
+		local empty_SIQ_CP56Time2a_temp : vector of count;
+		SIQ_CP56Time2a_temp = empty_SIQ_CP56Time2a_temp;
+		local empty_SIQ_CP24Time2a_temp : vector of count;
+		SIQ_CP24Time2a_temp = empty_SIQ_CP24Time2a_temp;
+		local empty_DIQ_CP56Time2a_temp : vector of count;
+		DIQ_CP56Time2a_temp = empty_DIQ_CP56Time2a_temp;
+		local empty_DIQ_CP24Time2a_temp : vector of count;
+		DIQ_CP24Time2a_temp = empty_DIQ_CP24Time2a_temp;
+		local empty_VTI_QDS_CP56Time2a_temp : vector of count;
+		VTI_QDS_CP56Time2a_temp = empty_VTI_QDS_CP56Time2a_temp;
+		local empty_VTI_QDS_CP24Time2a_temp : vector of count;
+		VTI_QDS_CP24Time2a_temp = empty_VTI_QDS_CP24Time2a_temp;
+		local empty_BSI_QDS_CP56Time2a_temp : vector of count;
+		BSI_QDS_CP56Time2a_temp = empty_BSI_QDS_CP56Time2a_temp;
+		local empty_BSI_QDS_CP24Time2a_temp : vector of count;
+		BSI_QDS_CP24Time2a_temp = empty_BSI_QDS_CP24Time2a_temp;
+		local empty_NVA_QDS_CP56Time2a_temp : vector of count;
+		NVA_QDS_CP56Time2a_temp = empty_NVA_QDS_CP56Time2a_temp;
+		local empty_NVA_QDS_CP24Time2a_temp : vector of count;
+		NVA_QDS_CP24Time2a_temp = empty_NVA_QDS_CP24Time2a_temp;
+		local empty_SVA_QDS_CP56Time2a_temp : vector of count;
+		SVA_QDS_CP56Time2a_temp = empty_SVA_QDS_CP56Time2a_temp;
+		local empty_SVA_QDS_CP24Time2a_temp : vector of count;
+		SVA_QDS_CP24Time2a_temp = empty_SVA_QDS_CP24Time2a_temp;
+		local empty_IEEE_754_QDS_CP56Time2a_temp : vector of count;
+		IEEE_754_QDS_CP56Time2a_temp = empty_IEEE_754_QDS_CP56Time2a_temp;
+		local empty_IEEE_754_QDS_CP24Time2a_temp : vector of count;
+		IEEE_754_QDS_CP24Time2a_temp = empty_IEEE_754_QDS_CP24Time2a_temp;
+		local empty_Read_Command_client_temp : vector of count;
+		Read_Command_client_temp = empty_Read_Command_client_temp;
+		local empty_Read_Command_server_temp : vector of count;
+		Read_Command_server_temp = empty_Read_Command_server_temp;
+		local empty_QRP_client_temp : vector of count;
+		QRP_client_temp = empty_QRP_client_temp;
+		local empty_QRP_server_temp : vector of count;
+		QRP_server_temp = empty_QRP_server_temp;
 	}
 
 event iec104::i (c:connection, send_seq: count, recv_seq: count) {
