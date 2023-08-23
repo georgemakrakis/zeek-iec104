@@ -1375,92 +1375,234 @@ event iec104::BSI_QDS_CP24Time2a_evt(c: connection, bsi_QDS_CP24Time2a: BSI_QDS_
 event iec104::COI_evt(c: connection, coi: COI) {
 	
 	local info = c$iec104;
-	info$asdu$end_of_initialization = coi;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$end_of_initialization: %s", info$asdu$end_of_initialization);
+	local next_num: count;
+	next_num = |COI_vec| + 1;
+	
+	COI_temp += next_num;
+	COI_vec += next_num;
+	
+	print(COI_temp);
+	# print fmt("info$asdu$single_point_information_CP24Time2a: %s", info$asdu$single_point_information_CP24Time2a);
+	
+	local new_coi = COI($Asdu_num=next_num);
+	new_coi$info_obj_addr = coi$info_obj_addr;
+	new_coi$coi = coi$coi;
+	
+	Log::write(iec104::LOG_COI, new_coi);
 }
 
 event iec104::NVA_QDS_CP56Time2a_evt(c: connection, nva_QDS_CP56Time2a: NVA_QDS_CP56Time2a) {
-	
 	local info = c$iec104;
-	info$asdu$measured_value_normalized_CP56Time2a = nva_QDS_CP56Time2a;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$measured_value_normalized_CP56Time2a: %s", info$asdu$measured_value_normalized_CP56Time2a);
+	local next_num: count;
+	next_num = |NVA_QDS_CP56Time2a_vec| + 1;
+	
+	NVA_QDS_CP56Time2a_temp += next_num;
+	NVA_QDS_CP56Time2a_vec += next_num;
+	
+	print(NVA_QDS_CP56Time2a_temp);
+	
+	local new_NVA_QDS_CP56Time2a = NVA_QDS_CP56Time2a($Asdu_num=next_num);
+	new_NVA_QDS_CP56Time2a$info_obj_addr = nva_QDS_CP56Time2a$info_obj_addr;
+	new_NVA_QDS_CP56Time2a$NVA = nva_QDS_CP56Time2a$NVA;
+	new_NVA_QDS_CP56Time2a$qds = nva_QDS_CP56Time2a$qds;
+	new_NVA_QDS_CP56Time2a$CP56Time2a = nva_QDS_CP56Time2a$CP56Time2a;
+	
+	Log::write(iec104::LOG_NVA_QDS_CP56Time2a, new_NVA_QDS_CP56Time2a);	
 }
 
 event iec104::NVA_QDS_CP24Time2a_evt(c: connection, nva_QDS_CP24Time2a: NVA_QDS_CP24Time2a) {
 	
 	local info = c$iec104;
-	info$asdu$measured_value_normalized_CP24Time2a = nva_QDS_CP24Time2a;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$measured_value_normalized_CP24Time2a: %s", info$asdu$measured_value_normalized_CP24Time2a);
+	local next_num: count;
+	next_num = |NVA_QDS_CP24Time2a_vec| + 1;
+	
+	NVA_QDS_CP24Time2a_temp += next_num;
+	NVA_QDS_CP24Time2a_vec += next_num;
+	
+	print(NVA_QDS_CP24Time2a_temp);
+	
+	local new_NVA_QDS_CP24Time2a = NVA_QDS_CP24Time2a($Asdu_num=next_num);
+	new_NVA_QDS_CP24Time2a$info_obj_addr = nva_QDS_CP24Time2a$info_obj_addr;
+	new_NVA_QDS_CP24Time2a$NVA = nva_QDS_CP24Time2a$NVA;
+	new_NVA_QDS_CP24Time2a$qds = nva_QDS_CP24Time2a$qds;
+	new_NVA_QDS_CP24Time2a$CP24Time2a = nva_QDS_CP24Time2a$CP24Time2a;
+	
+	Log::write(iec104::LOG_NVA_QDS_CP24Time2a, new_NVA_QDS_CP24Time2a);	
 }
 
 event iec104::SVA_QDS_CP24Time2a_evt(c: connection, sva_QDS_CP24Time2a: SVA_QDS_CP24Time2a) {
 	
 	local info = c$iec104;
-	info$asdu$measured_value_scaled_CP24Time2a = sva_QDS_CP24Time2a;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$measured_value_scaled_CP24Time2a: %s", info$asdu$measured_value_scaled_CP24Time2a);
+	local next_num: count;
+	next_num = |SVA_QDS_CP24Time2a_vec| + 1;
+	
+	SVA_QDS_CP24Time2a_temp += next_num;
+	SVA_QDS_CP24Time2a_vec += next_num;
+	
+	print(SVA_QDS_CP24Time2a_temp);
+	
+	local new_SVA_QDS_CP24Time2a = SVA_QDS_CP24Time2a($Asdu_num=next_num);
+	new_SVA_QDS_CP24Time2a$info_obj_addr = sva_QDS_CP24Time2a$info_obj_addr;
+	new_SVA_QDS_CP24Time2a$SVA = sva_QDS_CP24Time2a$SVA;
+	new_SVA_QDS_CP24Time2a$qds = sva_QDS_CP24Time2a$qds;
+	new_SVA_QDS_CP24Time2a$CP24Time2a = sva_QDS_CP24Time2a$CP24Time2a;
+	
+	Log::write(iec104::LOG_SVA_QDS_CP24Time2a, new_SVA_QDS_CP24Time2a);	
 }
 
 event iec104::SVA_QDS_CP56Time2a_evt(c: connection, sva_QDS_CP56Time2a: SVA_QDS_CP56Time2a) {
 	
 	local info = c$iec104;
-	info$asdu$measured_value_scaled_CP56Time2a = sva_QDS_CP56Time2a;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$measured_value_scaled_CP56Time2a: %s", info$asdu$measured_value_scaled_CP56Time2a);
+	local next_num: count;
+	next_num = |SVA_QDS_CP56Time2a_vec| + 1;
+	
+	SVA_QDS_CP56Time2a_temp += next_num;
+	SVA_QDS_CP56Time2a_vec += next_num;
+	
+	print(SVA_QDS_CP56Time2a_temp);
+	
+	local new_SVA_QDS_CP56Time2a = SVA_QDS_CP56Time2a($Asdu_num=next_num);
+	new_SVA_QDS_CP56Time2a$info_obj_addr = sva_QDS_CP56Time2a$info_obj_addr;
+	new_SVA_QDS_CP56Time2a$SVA = sva_QDS_CP56Time2a$SVA;
+	new_SVA_QDS_CP56Time2a$qds = sva_QDS_CP56Time2a$qds;
+	new_SVA_QDS_CP56Time2a$CP56Time2a = sva_QDS_CP56Time2a$CP56Time2a;
+	
+	Log::write(iec104::LOG_SVA_QDS_CP56Time2a, new_SVA_QDS_CP56Time2a);
 }
 
 event iec104::IEEE_754_QDS_CP56Time2a_evt(c: connection, ieee_754_QDS_CP56Time2a: IEEE_754_QDS_CP56Time2a) {
 	
 	local info = c$iec104;
-	info$asdu$measured_value_short_floating_point_CP56Time2a = ieee_754_QDS_CP56Time2a;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$measured_value_short_floating_point_CP56Time2a: %s", info$asdu$measured_value_short_floating_point_CP56Time2a);
+	local next_num: count;
+	next_num = |IEEE_754_QDS_CP56Time2a_vec| + 1;
+	
+	IEEE_754_QDS_CP56Time2a_temp += next_num;
+	IEEE_754_QDS_CP56Time2a_vec += next_num;
+	
+	print(IEEE_754_QDS_CP56Time2a_temp);
+	
+	local new_IEEE_754_QDS_CP56Time2a = IEEE_754_QDS_CP56Time2a($Asdu_num=next_num);
+	new_IEEE_754_QDS_CP56Time2a$info_obj_addr = ieee_754_QDS_CP56Time2a$info_obj_addr;
+	new_IEEE_754_QDS_CP56Time2a$value = ieee_754_QDS_CP56Time2a$value;
+	new_IEEE_754_QDS_CP56Time2a$qds = ieee_754_QDS_CP56Time2a$qds;
+	new_IEEE_754_QDS_CP56Time2a$CP56Time2a = ieee_754_QDS_CP56Time2a$CP56Time2a;
+	
+	Log::write(iec104::LOG_IEEE_754_QDS_CP56Time2a, new_IEEE_754_QDS_CP56Time2a);
 }
 
 event iec104::IEEE_754_QDS_CP24Time2a_evt(c: connection, ieee_754_QDS_CP24Time2a: IEEE_754_QDS_CP24Time2a) {
 	
 	local info = c$iec104;
-	info$asdu$measured_value_short_floating_point_CP24Time2a = ieee_754_QDS_CP24Time2a;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$measured_value_short_floating_point_CP24Time2a: %s", info$asdu$measured_value_short_floating_point_CP24Time2a);
+	local next_num: count;
+	next_num = |IEEE_754_QDS_CP24Time2a_vec| + 1;
+	
+	IEEE_754_QDS_CP24Time2a_temp += next_num;
+	IEEE_754_QDS_CP24Time2a_vec += next_num;
+	
+	print(IEEE_754_QDS_CP24Time2a_temp);
+	
+	local new_IEEE_754_QDS_CP24Time2a = IEEE_754_QDS_CP24Time2a($Asdu_num=next_num);
+	new_IEEE_754_QDS_CP24Time2a$info_obj_addr = ieee_754_QDS_CP24Time2a$info_obj_addr;
+	new_IEEE_754_QDS_CP24Time2a$value = ieee_754_QDS_CP24Time2a$value;
+	new_IEEE_754_QDS_CP24Time2a$qds = ieee_754_QDS_CP24Time2a$qds;
+	new_IEEE_754_QDS_CP24Time2a$CP24Time2a = ieee_754_QDS_CP24Time2a$CP24Time2a;
+	
+	Log::write(iec104::LOG_IEEE_754_QDS_CP24Time2a, new_IEEE_754_QDS_CP24Time2a);
 }
 
 event iec104::Read_Command_client_evt(c: connection, read_Command_client: Read_Command_client) {
 	
 	local info = c$iec104;
-	info$asdu$read_Command_client = read_Command_client;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$read_Command_client: %s", info$asdu$read_Command_client);
+	local next_num: count;
+	next_num = |Read_Command_client_vec| + 1;
+	
+	Read_Command_client_temp += next_num;
+	Read_Command_client_vec += next_num;
+	
+	print(Read_Command_client_temp);
+	
+	local new_Read_Command_client = Read_Command_client($Asdu_num=next_num);
+	new_Read_Command_client$info_obj_addr = read_Command_client$info_obj_addr;
+	new_Read_Command_client$raw_data = read_Command_client$raw_data;
+	
+	Log::write(iec104::LOG_Read_Command_client, new_Read_Command_client);
 }
 
 
 event iec104::Read_Command_server_evt(c: connection, read_Command_server: Read_Command_server) {
 	
 	local info = c$iec104;
-	info$asdu$read_Command_server = read_Command_server;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$read_Command_server: %s", info$asdu$read_Command_server);
+	local next_num: count;
+	next_num = |Read_Command_server_vec| + 1;
+	
+	Read_Command_server_temp += next_num;
+	Read_Command_server_vec += next_num;
+	
+	print(Read_Command_server_temp);
+	
+	local new_Read_Command_server = Read_Command_server($Asdu_num=next_num);
+	new_Read_Command_server$info_obj_addr = read_Command_server$info_obj_addr;
+	
+	Log::write(iec104::LOG_Read_Command_server, new_Read_Command_server);
 }
 
 
 event iec104::QRP_client_evt(c: connection, qrp_client: QRP_client) {
 	
 	local info = c$iec104;
-	info$asdu$qrp_client = qrp_client;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$qrp_client: %s", info$asdu$qrp_client);
+	local next_num: count;
+	next_num = |QRP_client_vec| + 1;
+	
+	QRP_client_temp += next_num;
+	QRP_client_vec += next_num;
+	
+	print(QRP_client_temp);
+	
+	local new_QRP_client = QRP_client($Asdu_num=next_num);
+	new_QRP_client$info_obj_addr = qrp_client$info_obj_addr;
+	new_QRP_client$raw_data = qrp_client$raw_data;
+	
+	Log::write(iec104::LOG_QRP_client, new_QRP_client);
 }
 
 
 event iec104::QRP_server_evt(c: connection, qrp_server: QRP_server) {
 	
 	local info = c$iec104;
-	info$asdu$qrp_server = qrp_server;
+	info$asdu = Asdu();
 
-	print fmt("info$asdu$qrp_server: %s", info$asdu$qrp_server);
+	local next_num: count;
+	next_num = |QRP_server_vec| + 1;
+	
+	QRP_server_temp += next_num;
+	QRP_server_vec += next_num;
+	
+	print(QRP_server_temp);
+	
+	local new_QRP_server = QRP_server($Asdu_num=next_num);
+	new_QRP_server$info_obj_addr = qrp_server$info_obj_addr;
+	
+	Log::write(iec104::LOG_QRP_server, new_QRP_server);
 }
 
 
