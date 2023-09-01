@@ -443,7 +443,7 @@ export {
 	type Read_Command_client  : record {
 		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
-		raw_data : count &log &optional;
+		raw_data : string &log &optional;
 	};
 
 	type Read_Command_server  : record {
@@ -454,7 +454,7 @@ export {
 	type QRP_client  : record {
 		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
-		raw_data : count &log &optional;
+		raw_data : string &log &optional;
 	};
 
 	type QRP_server  : record {
@@ -826,8 +826,8 @@ event iec104::apci(c: connection, is_orig : bool, apduLen : count, not_i_type : 
 		info$asdu$qrp_server = QRP_server_temp;
 		
 		
-		print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
-		print fmt("info$asdu$interrogation_command: %s", info$asdu$interrogation_command);
+		# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
+		# print fmt("info$asdu$interrogation_command: %s", info$asdu$interrogation_command);
 
 		Log::write(iec104::LOG, info);
 
@@ -991,15 +991,12 @@ event iec104::QOI_evt(c: connection, qoi: QOI) {
 
 	info$asdu = Asdu();
 
-	print fmt("!!!!!!!!!!!!!!!!!!!!!QOI!!!!!!!!!!!!!!!!!!!!!!!!");
-
 	local next_num: count;
 	next_num = |QOI_vec| + 1;
 	
 	QOI_temp += next_num;
 	QOI_vec += next_num;
 	
-	print fmt("!!!!!!!!!!!!!!!!!!!!!QOI!!!!!!!!!!!!!!!!!!!!!!!!");
 	print(QOI_temp);
 	# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
 	
@@ -1009,16 +1006,6 @@ event iec104::QOI_evt(c: connection, qoi: QOI) {
 	new_QOI$qoi = qoi$qoi;
 	
 	Log::write(iec104::LOG_QOI, new_QOI);
-
-	# info$asdu$interrogation_command = qoi;
-
-	# print fmt("info$asdu$interrogation_command: %s", info$asdu$interrogation_command);
-
-	# if (info$asdu$info_obj_type == 100) {
-
-	# 	# print fmt("info$asdu$interrogation_command vector: %s", info$asdu$interrogation_command);
-	# 	print fmt("info$asdu$interrogation_command vector: ");
-	# }
 }
 
 
