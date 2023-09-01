@@ -85,7 +85,7 @@ type info_obj_code = enum {
     C_RD_NA_1 = 102,
     C_CS_NA_1 = 103,
     C_TS_NA_1 = 104,
-    C_RP_NA_1 = 105,
+    C_RP_NC_1 = 105,
     C_CD_NA_1 = 106,
     C_TS_TA_1 = 107,
     # The 108-109 do not exist or are reserved? 

@@ -108,7 +108,7 @@ export {
 		C_RD_NA_1 = 102,
 		C_CS_NA_1 = 103,
 		C_TS_NA_1 = 104,
-		C_RP_NA_1 = 105,
+		C_RP_NC_1 = 105,
 		C_CD_NA_1 = 106,
 		C_TS_TA_1 = 107,
 		# The 108-109 do not exist or are reserved? 
@@ -526,7 +526,7 @@ export {
 
 		# TODO: Adapt subsequent fields as needed.
 
-		apduLen: count &log;
+		apdu_len: count &log;
 		# apduLen : count &optional;
 
 		# apci_type : count &log;
@@ -946,40 +946,6 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 
 	info$asdu$originator_address = originator_address;
 	info$asdu$common_address = common_address;
-
-	# if (info$asdu$info_obj_type == 100) {
-	# 	iec104::QOI_evt(c: connection, qoi: info$asdu);
-	# }
-
-	# print fmt("info$asdu$interrogation_command vector: %s", info$asdu$interrogation_command);
-	
-	# info$asdu$interrogation_command = interrogation_command;
-
-	# if (|interrogation_command| > 0) {
-	# 	info$asdu$interrogation_command = vector();
-	# 	info$asdu$interrogation_command = interrogation_command;
-	# 	# for (pair in interrogation_command) {
-	# 	# 	message$payload += fmt("%d=%d", payload[pair]$address, payload[pair]$data);
-	# 	# }
-	# }
-
-	# info$asdu$single_command = single_command;
-	# info$asdu$double_command = double_command;
-
-	# print fmt("info_obj_type: %d", info_obj_type);
-
-	print fmt("info$asdu$info_obj_type: %d", info$asdu$info_obj_type);
-	
-	# local info_ASDU = c$iec104_ASDU;
-	# info_ASDU$info_obj_type = info_obj_type;
-	# info_ASDU$seq = seq;
-
-	# print fmt("info_ASDU$info_obj_type: %d", info_ASDU$info_obj_type);
-
-	# Log::write(iec104::LOG, info_ASDU);
-
-	# Log::write(iec104::LOG, info);
-
 }
 
 
@@ -996,9 +962,6 @@ event iec104::QOI_evt(c: connection, qoi: QOI) {
 	
 	QOI_temp += next_num;
 	QOI_vec += next_num;
-	
-	print(QOI_temp);
-	# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
 	
 	local new_QOI = QOI($Asdu_num=next_num);
 	# local new_QOI = QOI();
@@ -1022,8 +985,6 @@ event iec104::SIQ_evt(c: connection, siq: SIQ) {
 	SIQ_temp += next_num;
 	SIQ_vec += next_num;
 	
-	print(SIQ_temp);
-	
 	local new_SIQ = SIQ($Asdu_num=next_num);
 	new_SIQ$info_obj_addr = siq$info_obj_addr;
 	new_SIQ$siq = siq$siq;
@@ -1042,8 +1003,6 @@ event iec104::SCO_evt(c: connection, sco: SCO) {
 	
 	SCO_temp += next_num;
 	SCO_vec += next_num;
-	
-	print(SCO_temp);
 	
 	local new_SCO = SCO($Asdu_num=next_num);
 	new_SCO$info_obj_addr = sco$info_obj_addr;
@@ -1064,8 +1023,6 @@ event iec104::DCO_evt(c: connection, dco: DCO) {
 	DCO_temp += next_num;
 	DCO_vec += next_num;
 	
-	print(DCO_temp);
-	
 	local new_DCO = DCO($Asdu_num=next_num);
 	new_DCO$info_obj_addr = dco$info_obj_addr;
 	new_DCO$dco = dco$dco;
@@ -1084,8 +1041,6 @@ event iec104::RCO_evt(c: connection, rco: RCO) {
 	RCO_temp += next_num;
 	RCO_vec += next_num;
 	
-	print(RCO_temp);
-	
 	local new_RCO = RCO($Asdu_num=next_num);
 	new_RCO$info_obj_addr = rco$info_obj_addr;
 	new_RCO$RCO = rco$RCO;
@@ -1103,8 +1058,6 @@ event iec104::BSI_evt(c: connection, bsi: BSI) {
 	
 	BSI_temp += next_num;
 	BSI_vec += next_num;
-	
-	print(BSI_temp);
 	
 	local new_BSI = BSI($Asdu_num=next_num);
 	new_BSI$info_obj_addr = bsi$info_obj_addr;
@@ -1125,8 +1078,6 @@ event iec104::SVA_QOS_evt(c: connection, sva_qos: SVA_QOS) {
 	SVA_QOS_temp += next_num;
 	SVA_QOS_vec += next_num;
 	
-	print(SVA_QOS_temp);
-	
 	local new_SVA_QOS = SVA_QOS($Asdu_num=next_num);
 	new_SVA_QOS$info_obj_addr = sva_qos$info_obj_addr;
 	new_SVA_QOS$SVA = sva_qos$SVA;
@@ -1145,8 +1096,6 @@ event iec104::SVA_QDS_evt(c: connection, sva_qds: SVA_QDS) {
 	
 	SVA_QDS_temp += next_num;
 	SVA_QDS_vec += next_num;
-	
-	print(SVA_QDS_temp);
 	
 	local new_SVA_QDS = SVA_QDS($Asdu_num=next_num);
 	new_SVA_QDS$info_obj_addr = sva_qds$info_obj_addr;
@@ -1167,8 +1116,6 @@ event iec104::VTI_QDS_evt(c: connection, vti_qds: VTI_QDS) {
 	VTI_QDS_temp += next_num;
 	VTI_QDS_vec += next_num;
 	
-	print(VTI_QDS_temp);
-	
 	local new_VTI_QDS = VTI_QDS($Asdu_num=next_num);
 	new_VTI_QDS$info_obj_addr = vti_qds$info_obj_addr;
 	new_VTI_QDS$value = vti_qds$value;
@@ -1185,30 +1132,14 @@ event iec104::SIQ_CP56Time2a_evt(c: connection, siq_CP56Time2a: SIQ_CP56Time2a) 
 	
 	local info = c$iec104;
 
-	# print fmt("FINAL!!!!: %s", final);
-
-
-	# local info_obj_type_loc = info$asdu$info_obj_type;
-	# print fmt("info_obj_type_loc: %s", info_obj_type_loc);
-
-	# local asdu_loc = info$asdu;
-	# print fmt("asdu!!!!: %s", asdu_loc);
-	# print fmt("asdu!!!!: %s", asdu_loc$info_obj_type);
-
-	# Trying to "zero out" those fields
-	# info$asdu$interrogation_command = QOI();
-
 	info$asdu = Asdu();
 
-	print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 	local next_num: count;
 	next_num = |SIQ_CP56Time2a_vec| + 1;
 	
 	SIQ_CP56Time2a_temp += next_num;
 	SIQ_CP56Time2a_vec += next_num;
 	
-	print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-	print(SIQ_CP56Time2a_temp);
 	# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
 	
 	local new_SIQ_CP56Time2a = SIQ_CP56Time2a($Asdu_num=next_num);
@@ -1218,60 +1149,6 @@ event iec104::SIQ_CP56Time2a_evt(c: connection, siq_CP56Time2a: SIQ_CP56Time2a) 
 	
 	Log::write(iec104::LOG_SIQ_CP56Time2a, new_SIQ_CP56Time2a);
 	
-	# if (final$info_obj_type_b == 30) {
-		# info$asdu$single_point_information_CP56Time2a = SIQ_CP56Time2a();
-		# local v1: vector of SIQ_CP56Time2a;
-		# local v1: set[SIQ_CP56Time2a];
-		# info$asdu$single_point_information_CP56Time2a = v1;
-		
-		# local new_SIQ_CP56Time2a = SIQ_CP56Time2a();
-		# new_SIQ_CP56Time2a$info_obj_addr = final$info_obj_addr;
-		# new_SIQ_CP56Time2a$siq = final$siq;
-		# new_SIQ_CP56Time2a$CP56Time2a = final$CP56Time2a;
-
-		# print fmt("NEW!!! %s", new_SIQ_CP56Time2a);
-
-		# add single_point_information_CP56Time2a_set[new_SIQ_CP56Time2a];
-
-		# info$asdu$single_point_information_CP56Time2a = single_point_information_CP56Time2a_set;
-		# info$asdu$single_point_information_CP56Time2a = vector(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-
-		# local v1: vector of SIQ_CP56Time2a;
-		# info$asdu$single_point_information_CP56Time2a = v1;
-		# info$asdu$single_point_information_CP56Time2a += new_SIQ_CP56Time2a;
-
-		# local v1: vector of count;
-		# v1 += |SIQ_CP56Time2a_vec| + 1;
-		# info$asdu$single_point_information_CP56Time2a = v1;
-		# single_point_information_CP56Time2a_temp = v1;
-
-		# ====================
-		# local next_num: count;
-		# next_num = |SIQ_CP56Time2a_vec| + 1;
-		
-		# single_point_information_CP56Time2a_temp += next_num;
-		# SIQ_CP56Time2a_vec += next_num;
-		
-		# print fmt("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		# print(single_point_information_CP56Time2a_temp);
-		# # print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
-		
-		# local new_SIQ_CP56Time2a = SIQ_CP56Time2a($Asdu_num=next_num);
-		# new_SIQ_CP56Time2a$info_obj_addr = final$info_obj_addr;
-		# new_SIQ_CP56Time2a$siq = final$siq;
-		# new_SIQ_CP56Time2a$CP56Time2a = final$CP56Time2a;
-		
-		# Log::write(iec104::LOG_SIQ_CP56Time2a, new_SIQ_CP56Time2a);
-	# }
-
-	# TODO: We do not have the info_obj_type yet here, needs to figure this out.
-	# if (info$asdu$info_obj_type == iec104::M_SP_TB_1) {
-	# 	info$asdu$single_point_information_CP56Time2a = siq_CP56Time2a;
-	# 	print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
-	# }
-
-	# info$asdu$single_point_information_CP56Time2a = siq_CP56Time2a;
-
 	
 }
 
@@ -1285,9 +1162,6 @@ event iec104::SIQ_CP24Time2a_evt(c: connection, siq_CP24Time2a: SIQ_CP24Time2a) 
 	
 	SIQ_CP24Time2a_temp += next_num;
 	SIQ_CP24Time2a_vec += next_num;
-	
-	print(SIQ_CP24Time2a_temp);
-	# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
 	
 	local new_SIQ_CP24Time2a = SIQ_CP24Time2a($Asdu_num=next_num);
 	new_SIQ_CP24Time2a$info_obj_addr = siq_CP24Time2a$info_obj_addr;
@@ -1310,9 +1184,6 @@ event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: DIQ_CP56Time2a) 
 	DIQ_CP56Time2a_temp += next_num;
 	DIQ_CP56Time2a_vec += next_num;
 	
-	print(DIQ_CP56Time2a_temp);
-	# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
-	
 	local new_DIQ_CP56Time2a = DIQ_CP56Time2a($Asdu_num=next_num);
 	new_DIQ_CP56Time2a$info_obj_addr = diq_CP56Time2a$info_obj_addr;
 	new_DIQ_CP56Time2a$diq = diq_CP56Time2a$diq;
@@ -1332,9 +1203,6 @@ event iec104::DIQ_CP24Time2a_evt(c: connection, diq_CP24Time2a: DIQ_CP24Time2a) 
 	DIQ_CP24Time2a_temp += next_num;
 	DIQ_CP24Time2a_vec += next_num;
 	
-	print(DIQ_CP24Time2a_temp);
-	# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
-	
 	local new_DIQ_CP24Time2a = DIQ_CP24Time2a($Asdu_num=next_num);
 	new_DIQ_CP24Time2a$info_obj_addr = diq_CP24Time2a$info_obj_addr;
 	new_DIQ_CP24Time2a$diq = diq_CP24Time2a$diq;
@@ -1353,9 +1221,6 @@ event iec104::VTI_QDS_CP56Time2a_evt(c: connection, vti_QDS_CP56Time2a: VTI_QDS_
 	
 	VTI_QDS_CP56Time2a_temp += next_num;
 	VTI_QDS_CP56Time2a_vec += next_num;
-	
-	print(VTI_QDS_CP56Time2a_temp);
-	# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
 	
 	local new_VTI_QDS_CP56Time2a = VTI_QDS_CP56Time2a($Asdu_num=next_num);
 	new_VTI_QDS_CP56Time2a$info_obj_addr = vti_QDS_CP56Time2a$info_obj_addr;
@@ -1377,9 +1242,6 @@ event iec104::VTI_QDS_CP24Time2a_evt(c: connection, vti_QDS_CP24Time2a: VTI_QDS_
 	VTI_QDS_CP24Time2a_temp += next_num;
 	VTI_QDS_CP24Time2a_vec += next_num;
 	
-	print(VTI_QDS_CP24Time2a_temp);
-	# print fmt("info$asdu$single_point_information_CP24Time2a: %s", info$asdu$single_point_information_CP24Time2a);
-	
 	local new_VTI_QDS_CP24Time2a = VTI_QDS_CP24Time2a($Asdu_num=next_num);
 	new_VTI_QDS_CP24Time2a$info_obj_addr = vti_QDS_CP24Time2a$info_obj_addr;
 	new_VTI_QDS_CP24Time2a$value = vti_QDS_CP24Time2a$value;
@@ -1399,9 +1261,6 @@ event iec104::BSI_QDS_CP56Time2a_evt(c: connection, bsi_QDS_CP56Time2a: BSI_QDS_
 	
 	BSI_QDS_CP56Time2a_temp += next_num;
 	BSI_QDS_CP56Time2a_vec += next_num;
-	
-	print(BSI_QDS_CP56Time2a_temp);
-	# print fmt("info$asdu$single_point_information_CP24Time2a: %s", info$asdu$single_point_information_CP24Time2a);
 	
 	local new_BSI_QDS_CP56Time2a = BSI_QDS_CP56Time2a($Asdu_num=next_num);
 	new_BSI_QDS_CP56Time2a$info_obj_addr = bsi_QDS_CP56Time2a$info_obj_addr;
@@ -1424,9 +1283,6 @@ event iec104::BSI_QDS_CP24Time2a_evt(c: connection, bsi_QDS_CP24Time2a: BSI_QDS_
 	BSI_QDS_CP24Time2a_temp += next_num;
 	BSI_QDS_CP24Time2a_vec += next_num;
 	
-	print(BSI_QDS_CP24Time2a_temp);
-	# print fmt("info$asdu$single_point_information_CP24Time2a: %s", info$asdu$single_point_information_CP24Time2a);
-	
 	local new_BSI_QDS_CP24Time2a = BSI_QDS_CP24Time2a($Asdu_num=next_num);
 	new_BSI_QDS_CP24Time2a$info_obj_addr = bsi_QDS_CP24Time2a$info_obj_addr;
 	new_BSI_QDS_CP24Time2a$bsi = bsi_QDS_CP24Time2a$bsi;
@@ -1447,9 +1303,6 @@ event iec104::COI_evt(c: connection, coi: COI) {
 	COI_temp += next_num;
 	COI_vec += next_num;
 	
-	print(COI_temp);
-	# print fmt("info$asdu$single_point_information_CP24Time2a: %s", info$asdu$single_point_information_CP24Time2a);
-	
 	local new_coi = COI($Asdu_num=next_num);
 	new_coi$info_obj_addr = coi$info_obj_addr;
 	new_coi$coi = coi$coi;
@@ -1466,8 +1319,6 @@ event iec104::NVA_QDS_CP56Time2a_evt(c: connection, nva_QDS_CP56Time2a: NVA_QDS_
 	
 	NVA_QDS_CP56Time2a_temp += next_num;
 	NVA_QDS_CP56Time2a_vec += next_num;
-	
-	print(NVA_QDS_CP56Time2a_temp);
 	
 	local new_NVA_QDS_CP56Time2a = NVA_QDS_CP56Time2a($Asdu_num=next_num);
 	new_NVA_QDS_CP56Time2a$info_obj_addr = nva_QDS_CP56Time2a$info_obj_addr;
@@ -1489,8 +1340,6 @@ event iec104::NVA_QDS_CP24Time2a_evt(c: connection, nva_QDS_CP24Time2a: NVA_QDS_
 	NVA_QDS_CP24Time2a_temp += next_num;
 	NVA_QDS_CP24Time2a_vec += next_num;
 	
-	print(NVA_QDS_CP24Time2a_temp);
-	
 	local new_NVA_QDS_CP24Time2a = NVA_QDS_CP24Time2a($Asdu_num=next_num);
 	new_NVA_QDS_CP24Time2a$info_obj_addr = nva_QDS_CP24Time2a$info_obj_addr;
 	new_NVA_QDS_CP24Time2a$NVA = nva_QDS_CP24Time2a$NVA;
@@ -1510,8 +1359,6 @@ event iec104::SVA_QDS_CP24Time2a_evt(c: connection, sva_QDS_CP24Time2a: SVA_QDS_
 	
 	SVA_QDS_CP24Time2a_temp += next_num;
 	SVA_QDS_CP24Time2a_vec += next_num;
-	
-	print(SVA_QDS_CP24Time2a_temp);
 	
 	local new_SVA_QDS_CP24Time2a = SVA_QDS_CP24Time2a($Asdu_num=next_num);
 	new_SVA_QDS_CP24Time2a$info_obj_addr = sva_QDS_CP24Time2a$info_obj_addr;
@@ -1533,8 +1380,6 @@ event iec104::SVA_QDS_CP56Time2a_evt(c: connection, sva_QDS_CP56Time2a: SVA_QDS_
 	SVA_QDS_CP56Time2a_temp += next_num;
 	SVA_QDS_CP56Time2a_vec += next_num;
 	
-	print(SVA_QDS_CP56Time2a_temp);
-	
 	local new_SVA_QDS_CP56Time2a = SVA_QDS_CP56Time2a($Asdu_num=next_num);
 	new_SVA_QDS_CP56Time2a$info_obj_addr = sva_QDS_CP56Time2a$info_obj_addr;
 	new_SVA_QDS_CP56Time2a$SVA = sva_QDS_CP56Time2a$SVA;
@@ -1554,8 +1399,6 @@ event iec104::IEEE_754_QDS_CP56Time2a_evt(c: connection, ieee_754_QDS_CP56Time2a
 	
 	IEEE_754_QDS_CP56Time2a_temp += next_num;
 	IEEE_754_QDS_CP56Time2a_vec += next_num;
-	
-	print(IEEE_754_QDS_CP56Time2a_temp);
 	
 	local new_IEEE_754_QDS_CP56Time2a = IEEE_754_QDS_CP56Time2a($Asdu_num=next_num);
 	new_IEEE_754_QDS_CP56Time2a$info_obj_addr = ieee_754_QDS_CP56Time2a$info_obj_addr;
@@ -1577,8 +1420,6 @@ event iec104::IEEE_754_QDS_CP24Time2a_evt(c: connection, ieee_754_QDS_CP24Time2a
 	IEEE_754_QDS_CP24Time2a_temp += next_num;
 	IEEE_754_QDS_CP24Time2a_vec += next_num;
 	
-	print(IEEE_754_QDS_CP24Time2a_temp);
-	
 	local new_IEEE_754_QDS_CP24Time2a = IEEE_754_QDS_CP24Time2a($Asdu_num=next_num);
 	new_IEEE_754_QDS_CP24Time2a$info_obj_addr = ieee_754_QDS_CP24Time2a$info_obj_addr;
 	new_IEEE_754_QDS_CP24Time2a$value = ieee_754_QDS_CP24Time2a$value;
@@ -1599,8 +1440,6 @@ event iec104::Read_Command_client_evt(c: connection, read_Command_client: Read_C
 	Read_Command_client_temp += next_num;
 	Read_Command_client_vec += next_num;
 	
-	print(Read_Command_client_temp);
-	
 	local new_Read_Command_client = Read_Command_client($Asdu_num=next_num);
 	new_Read_Command_client$info_obj_addr = read_Command_client$info_obj_addr;
 	new_Read_Command_client$raw_data = read_Command_client$raw_data;
@@ -1620,8 +1459,6 @@ event iec104::Read_Command_server_evt(c: connection, read_Command_server: Read_C
 	Read_Command_server_temp += next_num;
 	Read_Command_server_vec += next_num;
 	
-	print(Read_Command_server_temp);
-	
 	local new_Read_Command_server = Read_Command_server($Asdu_num=next_num);
 	new_Read_Command_server$info_obj_addr = read_Command_server$info_obj_addr;
 	
@@ -1639,8 +1476,6 @@ event iec104::QRP_client_evt(c: connection, qrp_client: QRP_client) {
 	
 	QRP_client_temp += next_num;
 	QRP_client_vec += next_num;
-	
-	print(QRP_client_temp);
 	
 	local new_QRP_client = QRP_client($Asdu_num=next_num);
 	new_QRP_client$info_obj_addr = qrp_client$info_obj_addr;
@@ -1660,8 +1495,6 @@ event iec104::QRP_server_evt(c: connection, qrp_server: QRP_server) {
 	
 	QRP_server_temp += next_num;
 	QRP_server_vec += next_num;
-	
-	print(QRP_server_temp);
 	
 	local new_QRP_server = QRP_server($Asdu_num=next_num);
 	new_QRP_server$info_obj_addr = qrp_server$info_obj_addr;
