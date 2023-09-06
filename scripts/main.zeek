@@ -4,7 +4,7 @@ module iec104;
 global type_i_counter = 0;
 global type_s_counter = 0;
 global type_u_counter = 0;
-global apduLen = 0;
+global apdu_len = 0;
 global apci_type = "";
 # global apci_tx: count &log;
 # global apci_rx: count &log;
@@ -527,7 +527,7 @@ export {
 		# TODO: Adapt subsequent fields as needed.
 
 		apdu_len: count &log;
-		# apduLen : count &optional;
+		# apdu_len : count &optional;
 
 		# apci_type : count &log;
 		# apci_type : count &optional;
@@ -692,10 +692,10 @@ hook set_session(c: connection)
 	if ( c?$iec104 )
 		return;
 
-	# c$iec104 = Info($ts=network_time(), $uid=c$uid, $id=c$id, $apduLen=apduLen, $apci_type=apci_type,  $type_i_counter=type_i_counter, $type_s_counter=type_s_counter, $type_u_counter=type_u_counter);
+	# c$iec104 = Info($ts=network_time(), $uid=c$uid, $id=c$id, $apdu_len=apdu_len, $apci_type=apci_type,  $type_i_counter=type_i_counter, $type_s_counter=type_s_counter, $type_u_counter=type_u_counter);
 	#c$iec104 = Info($ts=network_time(), $uid=c$uid, $id=c$id,  $type_i_counter=type_i_counter, $type_s_counter=type_s_counter, $type_u_counter=type_u_counter);
 	
-	c$iec104 = Info($ts=network_time(), $uid=c$uid, $id=c$id,  $apduLen=apduLen, $apci_type=apci_type);
+	c$iec104 = Info($ts=network_time(), $uid=c$uid, $id=c$id,  $apdu_len=apdu_len, $apci_type=apci_type);
 	c$iec104$asdu = Asdu();
 	
 	# c$iec104_ASDU = Asdu();
@@ -722,7 +722,7 @@ function emit_log(c: connection)
 # 		info$reply = payload;
 # 	}
 
-event iec104::apci(c: connection, is_orig : bool, apduLen : count, not_i_type : count, apci_type : count, apci_tx : count, u_start_dt : count, u_stop_dt : count, u_test_fr : count, apci_rx : count) &priority=4
+event iec104::apci(c: connection, is_orig : bool, apdu_len : count, not_i_type : count, apci_type : count, apci_tx : count, u_start_dt : count, u_stop_dt : count, u_test_fr : count, apci_rx : count) &priority=4
 # event iec104::apci(c: connection)	
 	{
 		hook set_session(c);
@@ -745,7 +745,7 @@ event iec104::apci(c: connection, is_orig : bool, apduLen : count, not_i_type : 
 		# 	U = 3
 		# };
 
-		info$apduLen = apduLen;
+		info$apdu_len = apdu_len;
 		if (not_i_type == 0) {
 			info$apci_type = apci_types[0];
 		}
@@ -767,7 +767,7 @@ event iec104::apci(c: connection, is_orig : bool, apduLen : count, not_i_type : 
 			info$asdu = Asdu();
 		}
 
-		# print "APCI request", c$id, info$apduLen, conv_type, i_send_seq, u_start_dt, u_stop_dt, u_test_fr, recv_seq;
+		# print "APCI request", c$id, info$apdu_len, conv_type, i_send_seq, u_start_dt, u_stop_dt, u_test_fr, recv_seq;
 
 		# Just messing around with that for debugging, I do not think that should be here but propably in the log.
 		if (u_test_fr == 1){
@@ -795,35 +795,89 @@ event iec104::apci(c: connection, is_orig : bool, apduLen : count, not_i_type : 
 		}
 
 		# TODO: Neews for the rest as well
+		if( |COI_temp| != 0)
+			info$asdu$end_of_initialization = COI_temp;
 		
-		info$asdu$end_of_initialization = COI_temp;
-		info$asdu$interrogation_command = QOI_temp;
-		info$asdu$single_point_information = SIQ_temp;
-		info$asdu$single_command = SCO_temp;
-		info$asdu$double_command = DCO_temp;
-		info$asdu$regulating_step_command = RCO_temp;
-		info$asdu$bit_string_32_bit = BSI_temp;
-		info$asdu$setpoint_command_scaled_value = SVA_QOS_temp;
-		info$asdu$measured_value_scaled_value = SVA_QDS_temp;
-		info$asdu$step_position_information = VTI_QDS_temp;
-		info$asdu$single_point_information_CP56Time2a = SIQ_CP56Time2a_temp;
-		info$asdu$single_point_information_CP24Time2a = SIQ_CP24Time2a_temp;
-		info$asdu$double_point_information_CP56Time2a = DIQ_CP56Time2a_temp;
-		info$asdu$double_point_information_CP24Time2a = DIQ_CP24Time2a_temp;
-		info$asdu$step_position_information_CP56Time2a = VTI_QDS_CP56Time2a_temp;
-		info$asdu$step_position_information_CP24Time2a = VTI_QDS_CP24Time2a_temp;
-		info$asdu$bit_string_32_bit_CP56Time2a = BSI_QDS_CP56Time2a_temp;
-		info$asdu$bit_string_32_bit_CP24Time2a = BSI_QDS_CP24Time2a_temp;
-		info$asdu$measured_value_normalized_CP56Time2a = NVA_QDS_CP56Time2a_temp;
-		info$asdu$measured_value_normalized_CP24Time2a = NVA_QDS_CP24Time2a_temp;
-		info$asdu$measured_value_scaled_CP24Time2a = SVA_QDS_CP24Time2a_temp;
-		info$asdu$measured_value_scaled_CP56Time2a = SVA_QDS_CP56Time2a_temp;
-		info$asdu$measured_value_short_floating_point_CP56Time2a = IEEE_754_QDS_CP56Time2a_temp;
-		info$asdu$measured_value_short_floating_point_CP24Time2a = IEEE_754_QDS_CP24Time2a_temp;
-		info$asdu$read_Command_client = Read_Command_client_temp;
-		info$asdu$read_Command_server = Read_Command_server_temp;
-		info$asdu$qrp_client = QRP_client_temp;
-		info$asdu$qrp_server = QRP_server_temp;
+		if( |QOI_temp| != 0)
+			info$asdu$interrogation_command = QOI_temp;
+		
+		if( |SIQ_temp| != 0)
+			info$asdu$single_point_information = SIQ_temp;
+		
+		if( |SCO_temp| != 0)
+			info$asdu$single_command = SCO_temp;
+		
+		if( |DCO_temp| != 0)
+			info$asdu$double_command = DCO_temp;
+		
+		if( |RCO_temp| != 0)
+			info$asdu$regulating_step_command = RCO_temp;
+		
+		if( |BSI_temp| != 0)
+			info$asdu$bit_string_32_bit = BSI_temp;
+		
+		if( |SVA_QOS_temp| != 0)
+			info$asdu$setpoint_command_scaled_value = SVA_QOS_temp;
+		
+		if( |SVA_QDS_temp| != 0)
+			info$asdu$measured_value_scaled_value = SVA_QDS_temp;
+		
+		if( |VTI_QDS_temp| != 0)
+			info$asdu$step_position_information = VTI_QDS_temp;
+		
+		if( |SIQ_CP56Time2a_temp| != 0)
+			info$asdu$single_point_information_CP56Time2a = SIQ_CP56Time2a_temp;
+		
+		if( |SIQ_CP24Time2a_temp| != 0)
+			info$asdu$single_point_information_CP24Time2a = SIQ_CP24Time2a_temp;
+		
+		if( |DIQ_CP56Time2a_temp| != 0)
+			info$asdu$double_point_information_CP56Time2a = DIQ_CP56Time2a_temp;
+		
+		if( |DIQ_CP24Time2a_temp| != 0)
+			info$asdu$double_point_information_CP24Time2a = DIQ_CP24Time2a_temp;
+		
+		if( |VTI_QDS_CP56Time2a_temp| != 0)
+			info$asdu$step_position_information_CP56Time2a = VTI_QDS_CP56Time2a_temp;
+		
+		if( |VTI_QDS_CP24Time2a_temp| != 0)
+			info$asdu$step_position_information_CP24Time2a = VTI_QDS_CP24Time2a_temp;
+		
+		if( |BSI_QDS_CP56Time2a_temp| != 0)
+			info$asdu$bit_string_32_bit_CP56Time2a = BSI_QDS_CP56Time2a_temp;
+		
+		if( |BSI_QDS_CP24Time2a_temp| != 0)
+			info$asdu$bit_string_32_bit_CP24Time2a = BSI_QDS_CP24Time2a_temp;
+		
+		if( |NVA_QDS_CP56Time2a_temp| != 0)
+			info$asdu$measured_value_normalized_CP56Time2a = NVA_QDS_CP56Time2a_temp;
+		
+		if( |NVA_QDS_CP24Time2a_temp| != 0)
+			info$asdu$measured_value_normalized_CP24Time2a = NVA_QDS_CP24Time2a_temp;
+		
+		if( |SVA_QDS_CP24Time2a_temp| != 0)
+			info$asdu$measured_value_scaled_CP24Time2a = SVA_QDS_CP24Time2a_temp;
+		
+		if( |SVA_QDS_CP56Time2a_temp| != 0)
+			info$asdu$measured_value_scaled_CP56Time2a = SVA_QDS_CP56Time2a_temp;
+		
+		if( |IEEE_754_QDS_CP56Time2a_temp| != 0)
+			info$asdu$measured_value_short_floating_point_CP56Time2a = IEEE_754_QDS_CP56Time2a_temp;
+		
+		if( |IEEE_754_QDS_CP24Time2a_temp| != 0)
+			info$asdu$measured_value_short_floating_point_CP24Time2a = IEEE_754_QDS_CP24Time2a_temp;
+		
+		if( |Read_Command_client_temp| != 0)
+			info$asdu$read_Command_client = Read_Command_client_temp;
+		
+		if( |Read_Command_server_temp| != 0)
+			info$asdu$read_Command_server = Read_Command_server_temp;
+		
+		if( |QRP_client_temp| != 0)
+			info$asdu$qrp_client = QRP_client_temp;
+		
+		if( |QRP_server_temp| != 0)
+			info$asdu$qrp_server = QRP_server_temp;
 		
 		
 		# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);

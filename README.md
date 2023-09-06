@@ -21,7 +21,7 @@ TODO: Neede to add some installation instructions once sure that most of the fea
 ### IEC 104 Log (iec104.log)
 
 #### Fields Captured
-This log captures and logs each IEC 104 message transmitted over TCP port 2404 to `iec104.log`. All packets up to the ASDU's Common Address are logged in a single file. After that, based on the ASDU type, a list is populated and a corresponding log file is created. The list contains indices with the correponding IOAs that might exist. This way a multitude of them in a single packete they can be logged together. The structure of the main `iec104.log` file follows:
+This log captures and logs each IEC 104 message transmitted over TCP port 2404 to `iec104.log`. All packets up to the ASDU's Common Address are logged in a single file. After that, based on the ASDU type, a list is populated and a corresponding log file is created. The list contains indices with the correponding IOAs that exist. This way if a multitude of them in a single packet they can be logged together in a separate log file. The structure of the main `iec104.log` file follows:
 
 
 | Field             | Type           | Description                                               |
