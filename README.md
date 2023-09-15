@@ -6,7 +6,7 @@ A Zeek Parser for the IEC 60870-5-104 protocol (aka IEC 104) built using Spicy.
 Zeek-iec104 is a Zeek plugin (written in [Spicy](https://docs.zeek.org/projects/spicy/en/latest/)) for parsing and logging fields used by the IEC 104 protocol. This protocol transmitts supervisory data and data acquisition requests for controlling
 power transmission grids. As many other industrial protocols, it was first used over serial connections as IEC 60870-5-101, but today its messages are as application data (L7) over TCP port 2404. The communication follows a standard client-server model or what is referred to the IEC terminology as *controlled and the controlling stations*.
 
-The parsing logic of this plugin was developed based on the corresponding Wireshark disssector and the technlology report produced by Brno University of Technology (see *Resources*).
+The parsing logic of this plugin was developed based on the corresponding Wireshark disssector and the technology report produced by the Brno University of Technology (see *Resources*).
 
 This parser produces one log file, `iec104.log`, defined under [scripts/main.zeek](./scripts/main.zeek).
 
