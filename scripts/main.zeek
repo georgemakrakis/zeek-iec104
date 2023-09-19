@@ -1025,6 +1025,7 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 		# print fmt("!!!!!!ISSUE!!!!!!");
 		local cur_time  = current_time();
 		local default_iec104: Info = [$ts=cur_time, $uid=""];
+
 		
 		c$iec104 = default_iec104;
 	}
