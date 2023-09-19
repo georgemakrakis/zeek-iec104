@@ -522,16 +522,16 @@ export {
 		## Unique ID for the connection.
 		uid: string &log;
 		## The connection's 4-tuple of endpoint addresses/ports.
-		id: conn_id &log;
+		id: conn_id &log &optional;
 
 		# TODO: Adapt subsequent fields as needed.
 
-		apdu_len: count &log;
+		apdu_len: count &log &optional;
 		# apdu_len : count &optional;
 
 		# apci_type : count &log;
 		# apci_type : count &optional;
-		apci_type: string &log;
+		apci_type: string &log &optional;
 
 		apci_tx: count &log &optional;
 		apci_rx: count &log &optional;
@@ -714,8 +714,8 @@ function emit_log(c: connection)
 # event iec104::message(c: connection, is_orig: bool, payload: string)
 # 	{
 # 	hook set_session(c);
-
-# 	local info = c$iec104;
+# 
+#	local info = c$iec104;
 # 	if ( is_orig )
 # 		info$request = payload;
 # 	else
@@ -727,7 +727,15 @@ event iec104::apci(c: connection, is_orig : bool, apdu_len : count, not_i_type :
 	{
 		hook set_session(c);
 
-		local info = c$iec104;
+		if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
+	local info = c$iec104;
 
 		# if ( is_orig ) {
 		# 	info$request = "ORIGINATOR";
@@ -960,6 +968,14 @@ event iec104::i (c:connection, send_seq: count, recv_seq: count) {
 
 	hook set_session(c);
 
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$type_i_counter = type_i_counter;
 }
@@ -969,6 +985,14 @@ event iec104::s (c: connection, start: count, len: count, recv_seq: count) {
 
 	hook set_session(c);
 
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$type_s_counter = type_s_counter;
 }
@@ -977,6 +1001,14 @@ event iec104::u (c: connection){
 	type_u_counter += 1;
 
 	hook set_session(c);
+
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
 
 	local info = c$iec104;
 	info$type_u_counter = type_u_counter;
@@ -988,6 +1020,14 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 					# , interrogation_command : vector of QOI) &priority=3 {
 
 	hook set_session(c);
+
+	if (! c?$iec104 ) {
+		# print fmt("!!!!!!ISSUE!!!!!!");
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
 
 	local info = c$iec104;
 	info$asdu$info_obj_type = info_obj_type;
@@ -1005,6 +1045,14 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 
 event iec104::QOI_evt(c: connection, qoi: QOI) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	# print fmt("QOI");
 	# print (qoi);
@@ -1028,7 +1076,14 @@ event iec104::QOI_evt(c: connection, qoi: QOI) {
 
 
 event iec104::SIQ_evt(c: connection, siq: SIQ) {
-	
+
+	if (! c?$iec104 ) {
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	
 	info$asdu = Asdu();
@@ -1048,6 +1103,14 @@ event iec104::SIQ_evt(c: connection, siq: SIQ) {
 
 event iec104::SCO_evt(c: connection, sco: SCO) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	
 	info$asdu = Asdu();
@@ -1067,6 +1130,14 @@ event iec104::SCO_evt(c: connection, sco: SCO) {
 
 event iec104::DCO_evt(c: connection, dco: DCO) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	
 	info$asdu = Asdu();
@@ -1086,6 +1157,14 @@ event iec104::DCO_evt(c: connection, dco: DCO) {
 
 event iec104::RCO_evt(c: connection, rco: RCO) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1104,6 +1183,14 @@ event iec104::RCO_evt(c: connection, rco: RCO) {
 
 event iec104::BSI_evt(c: connection, bsi: BSI) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1123,6 +1210,14 @@ event iec104::BSI_evt(c: connection, bsi: BSI) {
 
 event iec104::SVA_QOS_evt(c: connection, sva_qos: SVA_QOS) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1142,6 +1237,14 @@ event iec104::SVA_QOS_evt(c: connection, sva_qos: SVA_QOS) {
 
 event iec104::SVA_QDS_evt(c: connection, sva_qds: SVA_QDS) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1161,6 +1264,14 @@ event iec104::SVA_QDS_evt(c: connection, sva_qds: SVA_QDS) {
 
 event iec104::VTI_QDS_evt(c: connection, vti_qds: VTI_QDS) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1184,6 +1295,14 @@ event iec104::SIQ_CP56Time2a_evt(c: connection, siq_CP56Time2a: SIQ_CP56Time2a) 
 	
 	hook set_session(c);
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 
 	info$asdu = Asdu();
@@ -1208,6 +1327,14 @@ event iec104::SIQ_CP56Time2a_evt(c: connection, siq_CP56Time2a: SIQ_CP56Time2a) 
 
 event iec104::SIQ_CP24Time2a_evt(c: connection, siq_CP24Time2a: SIQ_CP24Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1229,6 +1356,14 @@ event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: DIQ_CP56Time2a) 
 	
 	hook set_session(c);
 
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1248,6 +1383,14 @@ event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: DIQ_CP56Time2a) 
 
 event iec104::DIQ_CP24Time2a_evt(c: connection, diq_CP24Time2a: DIQ_CP24Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1267,6 +1410,14 @@ event iec104::DIQ_CP24Time2a_evt(c: connection, diq_CP24Time2a: DIQ_CP24Time2a) 
 
 event iec104::VTI_QDS_CP56Time2a_evt(c: connection, vti_QDS_CP56Time2a: VTI_QDS_CP56Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1287,6 +1438,14 @@ event iec104::VTI_QDS_CP56Time2a_evt(c: connection, vti_QDS_CP56Time2a: VTI_QDS_
 
 event iec104::VTI_QDS_CP24Time2a_evt(c: connection, vti_QDS_CP24Time2a: VTI_QDS_CP24Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1307,6 +1466,14 @@ event iec104::VTI_QDS_CP24Time2a_evt(c: connection, vti_QDS_CP24Time2a: VTI_QDS_
 
 event iec104::BSI_QDS_CP56Time2a_evt(c: connection, bsi_QDS_CP56Time2a: BSI_QDS_CP56Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1328,6 +1495,14 @@ event iec104::BSI_QDS_CP56Time2a_evt(c: connection, bsi_QDS_CP56Time2a: BSI_QDS_
 
 event iec104::BSI_QDS_CP24Time2a_evt(c: connection, bsi_QDS_CP24Time2a: BSI_QDS_CP24Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1348,6 +1523,14 @@ event iec104::BSI_QDS_CP24Time2a_evt(c: connection, bsi_QDS_CP24Time2a: BSI_QDS_
 
 event iec104::COI_evt(c: connection, coi: COI) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1365,6 +1548,14 @@ event iec104::COI_evt(c: connection, coi: COI) {
 }
 
 event iec104::NVA_QDS_CP56Time2a_evt(c: connection, nva_QDS_CP56Time2a: NVA_QDS_CP56Time2a) {
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1385,6 +1576,14 @@ event iec104::NVA_QDS_CP56Time2a_evt(c: connection, nva_QDS_CP56Time2a: NVA_QDS_
 
 event iec104::NVA_QDS_CP24Time2a_evt(c: connection, nva_QDS_CP24Time2a: NVA_QDS_CP24Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1405,6 +1604,14 @@ event iec104::NVA_QDS_CP24Time2a_evt(c: connection, nva_QDS_CP24Time2a: NVA_QDS_
 
 event iec104::SVA_QDS_CP24Time2a_evt(c: connection, sva_QDS_CP24Time2a: SVA_QDS_CP24Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1425,6 +1632,14 @@ event iec104::SVA_QDS_CP24Time2a_evt(c: connection, sva_QDS_CP24Time2a: SVA_QDS_
 
 event iec104::SVA_QDS_CP56Time2a_evt(c: connection, sva_QDS_CP56Time2a: SVA_QDS_CP56Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1445,6 +1660,14 @@ event iec104::SVA_QDS_CP56Time2a_evt(c: connection, sva_QDS_CP56Time2a: SVA_QDS_
 
 event iec104::IEEE_754_QDS_CP56Time2a_evt(c: connection, ieee_754_QDS_CP56Time2a: IEEE_754_QDS_CP56Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1465,6 +1688,14 @@ event iec104::IEEE_754_QDS_CP56Time2a_evt(c: connection, ieee_754_QDS_CP56Time2a
 
 event iec104::IEEE_754_QDS_CP24Time2a_evt(c: connection, ieee_754_QDS_CP24Time2a: IEEE_754_QDS_CP24Time2a) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1485,6 +1716,14 @@ event iec104::IEEE_754_QDS_CP24Time2a_evt(c: connection, ieee_754_QDS_CP24Time2a
 
 event iec104::Read_Command_client_evt(c: connection, read_Command_client: Read_Command_client) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1504,6 +1743,14 @@ event iec104::Read_Command_client_evt(c: connection, read_Command_client: Read_C
 
 event iec104::Read_Command_server_evt(c: connection, read_Command_server: Read_Command_server) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1522,6 +1769,14 @@ event iec104::Read_Command_server_evt(c: connection, read_Command_server: Read_C
 
 event iec104::QRP_client_evt(c: connection, qrp_client: QRP_client) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
@@ -1541,6 +1796,14 @@ event iec104::QRP_client_evt(c: connection, qrp_client: QRP_client) {
 
 event iec104::QRP_server_evt(c: connection, qrp_server: QRP_server) {
 	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
 	local info = c$iec104;
 	info$asdu = Asdu();
 
