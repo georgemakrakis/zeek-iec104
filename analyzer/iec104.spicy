@@ -719,8 +719,8 @@ type Asdu = unit {
     read_command_f_client : Read_Command_client()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RD_NA_1 && self.cause_of_transmission.negative == 0);
     read_command_f_server: Read_Command_server()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RD_NA_1 && self.cause_of_transmission.negative == 1);
 
-    QRP_f_client : QRP_client()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RP_NA_1 && self.cause_of_transmission.negative == 0);
-    QRP_f_server: QRP_server()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RP_NA_1 && self.cause_of_transmission.negative == 1);
+    QRP_f_client : QRP_client()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RP_NC_1 && self.cause_of_transmission.negative == 0);
+    QRP_f_server: QRP_server()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RP_NC_1 && self.cause_of_transmission.negative == 1);
 
     # TODO: We have to specify the rest here of fields based on info_obj_type
 

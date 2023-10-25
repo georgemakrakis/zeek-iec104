@@ -1205,7 +1205,7 @@ event iec104::BSI_evt(c: connection, bsi: BSI) {
 	new_BSI$info_obj_addr = bsi$info_obj_addr;
 	new_BSI$BSI = bsi$BSI;
 	
-	Log::write(iec104::LOG_RCO, new_BSI);	
+	Log::write(iec104::LOG_BSI, new_BSI);	
 }
 
 
@@ -1287,7 +1287,7 @@ event iec104::VTI_QDS_evt(c: connection, vti_qds: VTI_QDS) {
 	new_VTI_QDS$value = vti_qds$value;
 	new_VTI_QDS$qds = vti_qds$qds;
 	
-	Log::write(iec104::LOG_SVA_QDS, new_VTI_QDS);
+	Log::write(iec104::LOG_VTI_QDS, new_VTI_QDS);
 }
 
 # event iec104::SIQ_CP56Time2a_evt(c: connection, asdu_b: Asdu, siq_CP56Time2a: SIQ_CP56Time2a) {
