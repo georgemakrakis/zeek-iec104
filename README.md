@@ -99,7 +99,7 @@ Below is also a list of the currently implemented information object codes.
 |#65-69 do not exist or are reserved?
 |M_EI_NA_1          |70|x
 |#The 71-99 do not exist or are reserved?
-|C_IC_NA_1          |100|Y
+|C_IC_NA_1          |100|x
 |C_CI_NA_1          |101|
 |C_RD_NA_1          |102|x
 |C_CS_NA_1          |103|
