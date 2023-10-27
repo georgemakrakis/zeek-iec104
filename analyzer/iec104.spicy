@@ -671,14 +671,25 @@ type Asdu = unit {
     # The line below is for debugging purposes.
     # b2: bytes &eod if (self.info_obj_type == info_obj_code::M_SP_NA_1);
 
+    # Just trying out this approach
+    switch (self.info_obj_type) {
+        info_obj_code::M_SP_NA_1 -> siq_f: SIQ()[self.data_unit_identifier.num_ix];
+        
+        info_obj_code::M_DP_NA_1 -> diq_f : DIQ()[self.data_unit_identifier.num_ix];
 
-    siq_f: SIQ()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_SP_NA_1);
+        info_obj_code::M_ST_NA_1 -> vti_qds_f : VTI_QDS()[self.data_unit_identifier.num_ix];
+        
+        info_obj_code::M_BO_NA_1 -> bsi_qds_f : BSI_QDS()[self.data_unit_identifier.num_ix];
+
+    };
+
+    #siq_f: SIQ()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_SP_NA_1);
     
-    diq_f : DIQ()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_DP_NA_1);
+    #diq_f : DIQ()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_DP_NA_1);
 
-    vti_qds_f : VTI_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_NA_1);
+    #vti_qds_f : VTI_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_NA_1);
 
-    bsi_qds_f : BSI_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_BO_NA_1);
+    #bsi_qds_f : BSI_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_BO_NA_1);
 
     nva_qds_f : NVA_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_NA_1);
 
