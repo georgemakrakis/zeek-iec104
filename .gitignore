@@ -1,3 +1,5 @@
 *.hlto
 *.dat
 *.log
+
+compile_run.sh
