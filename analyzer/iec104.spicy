@@ -740,113 +740,295 @@ public function QOI_ret (asdu: QOI) : tuple <uint64, uint64, uint8> {
 }
 
 public function SIQ_ret (asdu: SIQ) : tuple<uint64, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
-    return (0, asdu.info_obj_addr, asdu.siq);
+    local temp_spi = asdu.siq.spi;
+    local temp_bl = asdu.siq.bl;
+    local temp_sb = asdu.siq.sb;
+    local temp_nt = asdu.siq.nt;
+    local temp_iv = asdu.siq.iv;
+
+    local siq_tuple = (temp_spi, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, siq_tuple);
 }
 
 public function SCO_ret (asdu: SCO) :tuple<uint64, uint64, tuple<sco_on: uint8, qu: uint8, se: uint8>> {
-    return (0, asdu.info_obj_addr, asdu.sco);
+    local temp_sco_on = asdu.sco.sco_on;
+    local temp_qu = asdu.sco.qu;
+    local temp_se = asdu.sco.se;
+
+    local sco_tuple = (temp_sco_on, temp_qu, temp_se);
+    
+    return (0, asdu.info_obj_addr, sco_tuple);
 }
 
 public function DCO_ret (asdu: DCO) :tuple<uint64, uint64, tuple<dco_on: uint8, qu: uint8, se: uint8>> {
-    return (0, asdu.info_obj_addr, asdu.dco);
+    local temp_dco_on = asdu.dco.dco_on;
+    local temp_qu = asdu.dco.qu;
+    local temp_se = asdu.dco.se;
+
+    local dco_tuple = (temp_dco_on, temp_qu, temp_se);
+    
+    return (0, asdu.info_obj_addr, dco_tuple);
 }
 
 public function RCO_ret (asdu: RCO) :tuple<uint64, uint64, tuple<up_down: uint8, qu: uint8, se: uint8>> {
-    return (0, asdu.info_obj_addr, asdu.rco);
+    
+    local temp_up_down = asdu.rco.up_down;
+    local temp_qu = asdu.rco.qu;
+    local temp_se = asdu.rco.se;
+
+    local rco_tuple = (temp_up_down, temp_qu, temp_se);
+    
+    return (0, asdu.info_obj_addr, rco_tuple);
 }
 
-public function BSI_ret (asdu: BSI) :tuple<uint64, uint64, tuple<value: uint32>> {
-    return (0, asdu.info_obj_addr, asdu.bsi);
+#public function BSI_ret (asdu: BSI) :tuple<uint64, uint64, tuple<value: uint32>> {
+public function BSI_ret (asdu: BSI) :tuple<uint64, uint64, uint32> {
+
+    local value = asdu.bsi.value;
+
+    #local bsi_tuple = (value);
+
+    return (0, asdu.info_obj_addr, value);
 }
 
 public function SVA_QOS_ret (asdu: SVA_QOS) :tuple<uint64, uint64, uint64, tuple<ql: uint8, se: uint8>> {
-    return (0, asdu.info_obj_addr, asdu.SVA, asdu.qos);
+    
+    local temp_ql = asdu.qos.ql;
+    local temp_se = asdu.qos.se;
+
+    local qos_tuple = (temp_ql, temp_se);
+
+    return (0, asdu.info_obj_addr, asdu.SVA, qos_tuple);
 }
 
 public function SVA_QDS_ret (asdu: SVA_QDS) :tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
-    return (0, asdu.info_obj_addr, asdu.SVA, asdu.qds);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, asdu.SVA, qds_tuple);
 }
 
 
 public function IEEE_754_QOS_ret (asdu: IEEE_754_QOS) : tuple<uint64, uint64, real, tuple<ql: uint8, se: uint8>> {
-    return (0, asdu.info_obj_addr, asdu.value, asdu.qos);
+    local temp_ql = asdu.qos.ql;
+    local temp_se = asdu.qos.se;
+
+    local qos_tuple = (temp_ql, temp_se);
+    
+    return (0, asdu.info_obj_addr, asdu.value, qos_tuple);
 }
 
 public function IEEE_754_QDS_ret (asdu: IEEE_754_QDS) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
-    return (0, asdu.info_obj_addr, asdu.value, asdu.qds);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+    
+    return (0, asdu.info_obj_addr, asdu.value, qds_tuple);
 }
 
 public function VTI_QDS_ret (asdu: VTI_QDS) : tuple<uint64, uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
-    return (0, asdu.info_obj_addr, asdu.value, asdu.qds);
+    
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, asdu.value, qds_tuple);
 }
 
 #public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<uint64, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
 #    return (0, asdu.info_obj_addr, asdu.siq ,asdu.CP56Time2a);
 #}
 
-#public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<iec104::info_obj_code, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
 public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<uint64, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
-#public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.siq, asdu.CP56Time2a);
-#    return (30, asdu.info_obj_addr, asdu.siq, asdu.CP56Time2a);
+    local temp_spi = asdu.siq.spi;
+    local temp_bl = asdu.siq.bl;
+    local temp_sb = asdu.siq.sb;
+    local temp_nt = asdu.siq.nt;
+    local temp_iv = asdu.siq.iv;
+
+    local siq_tuple = (temp_spi, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, siq_tuple, asdu.CP56Time2a);
 }
 
 public function SIQ_CP24Time2a_ret (asdu: SIQ_CP24Time2a) : tuple<uint64, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.siq ,asdu.CP24Time2a);
+    local temp_spi = asdu.siq.spi;
+    local temp_bl = asdu.siq.bl;
+    local temp_sb = asdu.siq.sb;
+    local temp_nt = asdu.siq.nt;
+    local temp_iv = asdu.siq.iv;
+
+    local siq_tuple = (temp_spi, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, siq_tuple ,asdu.CP24Time2a);
 }
 
-#public function DIQ_CP56Time2a_ret (asdu: DIQ_CP56Time2a) : tuple<uint64, uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
 public function DIQ_CP56Time2a_ret (asdu: DIQ_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
-    return (0, 31 ,asdu.info_obj_addr, asdu.diq ,asdu.CP56Time2a);
+    
+    local temp_dpi = asdu.diq.dpi;
+    local temp_bl = asdu.diq.bl;
+    local temp_sb = asdu.diq.sb;
+    local temp_nt = asdu.diq.nt;
+    local temp_iv = asdu.diq.iv;
+
+    local diq_tuple = (temp_dpi, temp_bl, temp_sb, temp_nt, temp_iv);
+    return (0, 31 ,asdu.info_obj_addr, diq_tuple ,asdu.CP56Time2a);
     
 }
 
 public function DIQ_CP24Time2a_ret (asdu: DIQ_CP24Time2a) : tuple<uint64, uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.diq ,asdu.CP24Time2a);
+    local temp_dpi = asdu.diq.dpi;
+    local temp_bl = asdu.diq.bl;
+    local temp_sb = asdu.diq.sb;
+    local temp_nt = asdu.diq.nt;
+    local temp_iv = asdu.diq.iv;
+
+    local diq_tuple = (temp_dpi, temp_bl, temp_sb, temp_nt, temp_iv);
+    
+    return (0, asdu.info_obj_addr, diq_tuple ,asdu.CP24Time2a);
 }
 
 public function VTI_QDS_CP56Time2a_ret (asdu: VTI_QDS_CP56Time2a) : tuple<uint64, uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.value, asdu.qds, asdu.CP56Time2a);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, asdu.value, qds_tuple, asdu.CP56Time2a);
 }
 
 public function VTI_QDS_CP24Time2a_ret (asdu: VTI_QDS_CP24Time2a) : tuple<uint64, uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.value, asdu.qds, asdu.CP24Time2a);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, asdu.value, qds_tuple, asdu.CP24Time2a);
 }
 
 public function BSI_QDS_CP56Time2a_ret (asdu: BSI_QDS_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.bsi, asdu.qds, asdu.CP56Time2a);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, asdu.bsi, qds_tuple, asdu.CP56Time2a);
 }
 
 public function BSI_QDS_CP24Time2a_ret (asdu: BSI_QDS_CP24Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.bsi, asdu.qds, asdu.CP24Time2a);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+    
+    return (0, asdu.info_obj_addr, asdu.bsi, qds_tuple, asdu.CP24Time2a);
 }
 
 public function COI_ret (asdu: COI) : tuple<uint64, uint64, tuple<r: uint8, i: uint8>> {
-    return (0, asdu.info_obj_addr, asdu.coi);
+    # local temp_r = asdu.coi.r;
+    # local temp_i = asdu.coi.i;
+
+    local coi_tuple = (asdu.coi.r, asdu.coi.i);
+    
+    return (0, asdu.info_obj_addr, coi_tuple);
 }
 
 public function NVA_QDS_CP56Time2a_ret (asdu: NVA_QDS_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.NVA, asdu.qds, asdu.CP56Time2a);
+    # local temp_ov = asdu.qds.ov;
+    # local temp_bl = asdu.qds.bl;
+    # local temp_sb = asdu.qds.sb;
+    # local temp_nt = asdu.qds.nt;
+    # local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (asdu.qds.ov, asdu.qds.bl, asdu.qds.sb, asdu.qds.nt, asdu.qds.iv);
+    
+    return (0, asdu.info_obj_addr, asdu.NVA, qds_tuple, asdu.CP56Time2a);
 }
 
 public function NVA_QDS_CP24Time2a_ret (asdu: NVA_QDS_CP24Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.NVA, asdu.qds, asdu.CP24Time2a);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, asdu.NVA, qds_tuple, asdu.CP24Time2a);
 }
 
 public function SVA_QDS_CP56Time2a_ret (asdu: SVA_QDS_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.SVA, asdu.qds, asdu.CP56Time2a);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, asdu.SVA, qds_tuple, asdu.CP56Time2a);
 }
 
 public function SVA_QDS_CP24Time2a_ret (asdu: SVA_QDS_CP24Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.SVA, asdu.qds, asdu.CP24Time2a);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, asdu.SVA, qds_tuple, asdu.CP24Time2a);
 }
 
 public function IEEE_754_QDS_CP56Time2a_ret (asdu: IEEE_754_QDS_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.value, asdu.qds, asdu.CP56Time2a);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+
+    return (0, asdu.info_obj_addr, asdu.value, qds_tuple, asdu.CP56Time2a);
 }
 
 public function IEEE_754_QDS_CP24Time2a_ret (asdu: IEEE_754_QDS_CP24Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
-    return (0, asdu.info_obj_addr, asdu.value, asdu.qds, asdu.CP24Time2a);
+    local temp_ov = asdu.qds.ov;
+    local temp_bl = asdu.qds.bl;
+    local temp_sb = asdu.qds.sb;
+    local temp_nt = asdu.qds.nt;
+    local temp_iv = asdu.qds.iv;
+
+    local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+    
+    return (0, asdu.info_obj_addr, asdu.value, qds_tuple, asdu.CP24Time2a);
 }
 
 public function Read_Command_client_ret (asdu: Read_Command_client) : tuple<uint64, uint64, string> {

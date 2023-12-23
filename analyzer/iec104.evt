@@ -1,5 +1,5 @@
 import iec104;
-import Zeek_iec104;
+#import Zeek_iec104;
 
 # TODO: Adjust below how/when the analyzer will be activated. The example
 # defines a well-known port to trigger it. For more information, see:
