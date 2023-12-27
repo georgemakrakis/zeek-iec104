@@ -243,7 +243,8 @@ export {
 		Asdu_num : count &log; 
     	info_obj_addr: count &log &optional;
 		# This is bifield in packet/spicy
-    	BSI : BSI_field &log &optional;
+    	# BSI : BSI_field &log &optional;
+    	BSI : count &log &optional;
 	};
 
 	type QOS_field : record {
@@ -1045,7 +1046,7 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 
 
 event iec104::QOI_evt(c: connection, qoi: QOI) {
-	
+
 	if (! c?$iec104 ) {
 		
 		local cur_time  = current_time();
@@ -1103,7 +1104,7 @@ event iec104::SIQ_evt(c: connection, siq: SIQ) {
 }
 
 event iec104::SCO_evt(c: connection, sco: SCO) {
-	
+
 	if (! c?$iec104 ) {
 		
 		local cur_time  = current_time();
@@ -1130,7 +1131,7 @@ event iec104::SCO_evt(c: connection, sco: SCO) {
 }
 
 event iec104::DCO_evt(c: connection, dco: DCO) {
-	
+
 	if (! c?$iec104 ) {
 		
 		local cur_time  = current_time();
@@ -1157,7 +1158,7 @@ event iec104::DCO_evt(c: connection, dco: DCO) {
 }
 
 event iec104::RCO_evt(c: connection, rco: RCO) {
-	
+
 	if (! c?$iec104 ) {
 		
 		local cur_time  = current_time();
@@ -1200,7 +1201,7 @@ event iec104::BSI_evt(c: connection, bsi: BSI) {
 	
 	BSI_temp += next_num;
 	BSI_vec += next_num;
-	
+
 	local new_BSI = BSI($Asdu_num=next_num);
 	new_BSI$info_obj_addr = bsi$info_obj_addr;
 	new_BSI$BSI = bsi$BSI;

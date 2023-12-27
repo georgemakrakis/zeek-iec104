@@ -782,7 +782,6 @@ public function RCO_ret (asdu: RCO) :tuple<uint64, uint64, tuple<up_down: uint8,
     return (0, asdu.info_obj_addr, rco_tuple);
 }
 
-#public function BSI_ret (asdu: BSI) :tuple<uint64, uint64, tuple<value: uint32>> {
 public function BSI_ret (asdu: BSI) :tuple<uint64, uint64, uint32> {
 
     local value = asdu.bsi.value;
@@ -939,6 +938,7 @@ public function BSI_QDS_CP56Time2a_ret (asdu: BSI_QDS_CP56Time2a) : tuple<uint64
 }
 
 public function BSI_QDS_CP24Time2a_ret (asdu: BSI_QDS_CP24Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    
     local temp_ov = asdu.qds.ov;
     local temp_bl = asdu.qds.bl;
     local temp_sb = asdu.qds.sb;
