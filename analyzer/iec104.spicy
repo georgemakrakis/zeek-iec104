@@ -4,9 +4,6 @@ module iec104;
 
 import spicy;
 
-# Need to enforce a specific version of Spicy?
-# Use command "spicy-config --version-number" to find version
-#%spicy-version = "VERSION";
 
 #public type Packet = unit {
 #    payload: bytes &eod;
