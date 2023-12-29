@@ -1,8 +1,8 @@
 #FROM zeekurity/zeek:5.0.3
 
 # They have moved the new versions to the Dockerhub repo below
-FROM zeek/zeek:6.0.0
-# FROM zeek/zeek:latest
+# FROM zeek/zeek:6.0.0
+FROM zeek/zeek:latest
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt update
