@@ -30,6 +30,7 @@ export {
 		LOG_DIQ_CP24Time2a,
 		LOG_VTI_QDS_CP56Time2a,
 		LOG_VTI_QDS_CP24Time2a,
+		LOG_BSI_QDS,
 		LOG_BSI_QDS_CP56Time2a,
 		LOG_BSI_QDS_CP24Time2a,
 		LOG_NVA_QDS_CP56Time2a,
@@ -364,6 +365,14 @@ export {
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
+	type BSI_QDS  : record {
+		Asdu_num : count &log; 
+		info_obj_addr: count &log &optional;
+		# bsi : BSI_field &log &optional;
+		bsi : count &log &optional;
+		qds : QDS_field &log &optional;
+	};
+
 	type BSI_QDS_CP56Time2a  : record {
 		Asdu_num : count &log; 
 		info_obj_addr: count &log &optional;
@@ -614,6 +623,8 @@ global VTI_QDS_CP56Time2a_vec : vector of count;
 global VTI_QDS_CP56Time2a_temp : vector of count;
 global VTI_QDS_CP24Time2a_vec : vector of count;
 global VTI_QDS_CP24Time2a_temp : vector of count;
+global BSI_QDS_vec : vector of count;
+global BSI_QDS_temp : vector of count;
 global BSI_QDS_CP56Time2a_vec : vector of count;
 global BSI_QDS_CP56Time2a_temp : vector of count;
 global BSI_QDS_CP24Time2a_vec : vector of count;
@@ -673,6 +684,7 @@ event zeek_init() &priority=5
 		Log::create_stream(iec104::LOG_DIQ_CP24Time2a, [$columns=DIQ_CP24Time2a, $path="iec104-DIQ_CP24Time2a"]);
 		Log::create_stream(iec104::LOG_VTI_QDS_CP56Time2a, [$columns=VTI_QDS_CP56Time2a, $path="iec104-VTI_QDS_CP56Time2a"]);
 		Log::create_stream(iec104::LOG_VTI_QDS_CP24Time2a, [$columns=VTI_QDS_CP24Time2a, $path="iec104-VTI_QDS_CP24Time2a"]);
+		Log::create_stream(iec104::LOG_BSI_QDS, [$columns=BSI_QDS, $path="iec104-BSI_QDS"]);
 		Log::create_stream(iec104::LOG_BSI_QDS_CP56Time2a, [$columns=BSI_QDS_CP56Time2a, $path="iec104-BSI_QDS_CP56Time2a"]);
 		Log::create_stream(iec104::LOG_BSI_QDS_CP24Time2a, [$columns=BSI_QDS_CP24Time2a, $path="iec104-BSI_QDS_CP24Time2a"]);
 		Log::create_stream(iec104::LOG_NVA_QDS_CP56Time2a, [$columns=NVA_QDS_CP56Time2a, $path="iec104-NVA_QDS_CP56Time2a"]);
@@ -852,6 +864,9 @@ event iec104::apci(c: connection, is_orig : bool, apdu_len : count, not_i_type :
 		if( |VTI_QDS_CP24Time2a_temp| != 0)
 			info$asdu$step_position_information_CP24Time2a = VTI_QDS_CP24Time2a_temp;
 		
+		if( |BSI_QDS_temp| != 0)
+			info$asdu$bit_string_32_bit = BSI_QDS_temp;
+
 		if( |BSI_QDS_CP56Time2a_temp| != 0)
 			info$asdu$bit_string_32_bit_CP56Time2a = BSI_QDS_CP56Time2a_temp;
 		
@@ -938,6 +953,8 @@ event iec104::apci(c: connection, is_orig : bool, apdu_len : count, not_i_type :
 		VTI_QDS_CP56Time2a_temp = empty_VTI_QDS_CP56Time2a_temp;
 		local empty_VTI_QDS_CP24Time2a_temp : vector of count;
 		VTI_QDS_CP24Time2a_temp = empty_VTI_QDS_CP24Time2a_temp;
+		local empty_BSI_QDS_temp : vector of count;
+		BSI_QDS_temp = empty_BSI_QDS_temp;
 		local empty_BSI_QDS_CP56Time2a_temp : vector of count;
 		BSI_QDS_CP56Time2a_temp = empty_BSI_QDS_CP56Time2a_temp;
 		local empty_BSI_QDS_CP24Time2a_temp : vector of count;
@@ -1085,6 +1102,16 @@ event iec104::SIQ_evt(c: connection, siq: SIQ) {
 		
 		c$iec104 = default_iec104;
 	}
+
+	# Infinity loop for testing the log ouputs
+	# local iter = 0;
+
+	# while ( iter < 5 )
+	# {
+	# 	print ++iter;
+	# 	if( iter == 5)
+	# 		iter = 0;
+	# }
 
 	local info = c$iec104;
 	
@@ -1464,6 +1491,33 @@ event iec104::VTI_QDS_CP24Time2a_evt(c: connection, vti_QDS_CP24Time2a: VTI_QDS_
 	new_VTI_QDS_CP24Time2a$CP24Time2a = vti_QDS_CP24Time2a$CP24Time2a;
 	
 	Log::write(iec104::LOG_VTI_QDS_CP24Time2a, new_VTI_QDS_CP24Time2a);
+}
+
+event iec104::BSI_QDS_evt(c: connection, bsi_QDS: BSI_QDS) {
+	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
+	local info = c$iec104;
+	info$asdu = Asdu();
+
+	local next_num: count;
+	next_num = |BSI_QDS_vec| + 1;
+	
+	BSI_QDS_temp += next_num;
+	BSI_QDS_vec += next_num;
+	
+	local new_BSI_QDS = BSI_QDS($Asdu_num=next_num);
+	new_BSI_QDS$info_obj_addr = bsi_QDS$info_obj_addr;
+	new_BSI_QDS$bsi = bsi_QDS$bsi;
+	new_BSI_QDS$qds = bsi_QDS$qds;
+	
+	Log::write(iec104::LOG_BSI_QDS, new_BSI_QDS);
 }
 
 event iec104::BSI_QDS_CP56Time2a_evt(c: connection, bsi_QDS_CP56Time2a: BSI_QDS_CP56Time2a) {

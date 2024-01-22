@@ -922,6 +922,18 @@ import spicy;
         return (0, asdu.info_obj_addr, asdu.value, qds_tuple, asdu.CP24Time2a);
     }
 
+    public function BSI_QDS_ret (asdu: BSI_QDS) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
+        local temp_ov = asdu.qds.ov;
+        local temp_bl = asdu.qds.bl;
+        local temp_sb = asdu.qds.sb;
+        local temp_nt = asdu.qds.nt;
+        local temp_iv = asdu.qds.iv;
+
+        local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
+
+        return (0, asdu.info_obj_addr, asdu.bsi, qds_tuple);
+    }
+
     public function BSI_QDS_CP56Time2a_ret (asdu: BSI_QDS_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;

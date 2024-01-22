@@ -106,6 +106,10 @@ on iec104::VTI_QDS_CP56Time2a ->
 on iec104::VTI_QDS_CP24Time2a ->
 	event iec104::VTI_QDS_CP24Time2a_evt($conn, iec104::VTI_QDS_CP24Time2a_ret(self));
 
+
+on iec104::BSI_QDS ->
+	event iec104::BSI_QDS_evt($conn, iec104::BSI_QDS_ret(self));
+
 on iec104::BSI_QDS_CP56Time2a ->
 	event iec104::BSI_QDS_CP56Time2a_evt($conn, iec104::BSI_QDS_CP56Time2a_ret(self));
 
