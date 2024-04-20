@@ -144,3 +144,7 @@ Various resources that assist to the development of this parser.
 ## Streams
 
 The streams for the above PCAPs are created using ``zeek -C -r <path to PCAP> Conn::default_extract=T``. For the files in the **second/**,  **third/** and  **fourth/** directories the ``-C`` option needs to be provided to properly extract the IEC 104 streams. The same applied for testing the parser in Zeek.
+
+## How to contribute?
+
+You can find more information in [CONTRIBUTING](CONTRIBUTING.md)
