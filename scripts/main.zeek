@@ -24,8 +24,10 @@ export {
 		LOG_SVA_QOS,
 		LOG_SVA_QDS,
 		LOG_VTI_QDS,
+		LOG_CP56Time2a,
 		LOG_SIQ_CP56Time2a,
 		LOG_SIQ_CP24Time2a,
+		LOG_DIQ,
 		LOG_DIQ_CP56Time2a,
 		LOG_DIQ_CP24Time2a,
 		LOG_VTI_QDS_CP56Time2a,
@@ -37,6 +39,7 @@ export {
 		LOG_NVA_QDS_CP24Time2a,
 		LOG_SVA_QDS_CP56Time2a,
 		LOG_SVA_QDS_CP24Time2a,
+		LOG_IEEE_754_QDS,
 		LOG_IEEE_754_QDS_CP56Time2a,
 		LOG_IEEE_754_QDS_CP24Time2a,
 		LOG_Read_Command_client,
@@ -176,8 +179,7 @@ export {
 	};
 
 	type QOI  : record {
-		Asdu_num : count &log &optional; 
-    	info_obj_addr: count &log &optional;
+		Asdu_num : count &log &optional;
     	qoi : count &log &optional;
 	};
 
@@ -189,7 +191,6 @@ export {
 
 	type SCO  : record {
 		Asdu_num : count &log; 
-    	info_obj_addr: count &log &optional;
 		# This is bifield in packet/spicy
     	sco : SCO_field &log &optional;
 	};
@@ -201,8 +202,7 @@ export {
 	};
 
 	type DCO  : record {
-		Asdu_num : count &log; 
-    	info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		# This is bifield in packet/spicy
     	dco : DCO_field &log &optional;
 	};
@@ -216,8 +216,7 @@ export {
 	};
 
 	type SIQ  : record {
-		Asdu_num : count &log; 
-    	info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		# This is bifield in packet/spicy
     	siq : SIQ_field &log &optional;
 	};
@@ -230,7 +229,6 @@ export {
 
 	type RCO  : record {
 		Asdu_num : count &log; 
-    	info_obj_addr: count &log &optional;
 		# This is bifield in packet/spicy
     	RCO : RCO_field &log &optional;
 	};
@@ -242,7 +240,6 @@ export {
 
 	type BSI  : record {
 		Asdu_num : count &log; 
-    	info_obj_addr: count &log &optional;
 		# This is bifield in packet/spicy
     	# BSI : BSI_field &log &optional;
     	BSI : count &log &optional;
@@ -255,7 +252,6 @@ export {
 
 	type SVA_QOS  : record {
 		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
 		SVA: count &log &optional;
 		qos : QOS_field &log &optional;
 	};
@@ -269,15 +265,13 @@ export {
 	};
 
 	type SVA_QDS  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		SVA: count &log &optional;
 		qds : QDS_field &log &optional;
 	};
 
 	type VTI_QDS  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		value: string &log &optional;
 		qds : QDS_field &log &optional;
 	};
@@ -312,15 +306,13 @@ export {
 	};
 
 	type SIQ_CP56Time2a : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		siq : SIQ_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
 	type SIQ_CP24Time2a  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		siq : SIQ_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
@@ -333,24 +325,31 @@ export {
         iv : count &log &optional;
 	};
 
+	type CP56Time2a_T  : record {
+		Asdu_num : count &log;
+		CP56Time2a_t : CP56TIME2A &log &optional;
+	};
+
+	type DIQ  : record {
+		Asdu_num : count &log;
+		diq : DIQ_field &log &optional;
+	};
+
 	type DIQ_CP56Time2a  : record {
 		Asdu_num : count &log; 
 		info_obj_type: count &log &optional;
-		info_obj_addr: count &log &optional;
 		diq : DIQ_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
 	type DIQ_CP24Time2a  : record {
 		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
 		diq : DIQ_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
 	type VTI_QDS_CP56Time2a  : record {
 		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
 		value : string &log &optional;
 		qds : QDS_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
@@ -358,8 +357,7 @@ export {
 
 	
 	type VTI_QDS_CP24Time2a  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		value : string &log &optional;
 		qds : QDS_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
@@ -367,25 +365,19 @@ export {
 
 	type BSI_QDS  : record {
 		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
-		# bsi : BSI_field &log &optional;
 		bsi : count &log &optional;
 		qds : QDS_field &log &optional;
 	};
 
 	type BSI_QDS_CP56Time2a  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
-		# bsi : BSI_field &log &optional;
+		Asdu_num : count &log;
 		bsi : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
 	type BSI_QDS_CP24Time2a  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
-		# bsi : BSI_field &log &optional;
+		Asdu_num : count &log;
 		bsi : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
@@ -397,54 +389,53 @@ export {
 	};
 
 	type COI  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
     	coi : COI_field &log &optional;
 	};
 
 	type NVA_QDS_CP56Time2a  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		NVA : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
 	type NVA_QDS_CP24Time2a  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		NVA : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
 	type SVA_QDS_CP56Time2a  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		SVA : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
 	type SVA_QDS_CP24Time2a  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		SVA : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
 	};
 
+	type IEEE_754_QDS  : record {
+		Asdu_num : count &log;
+		value : double &log &optional;
+		qds : QDS_field &log &optional;
+	};
+
 	type IEEE_754_QDS_CP56Time2a  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		value : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP56Time2a : CP56TIME2A &log &optional;
 	};
 
 	type IEEE_754_QDS_CP24Time2a  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		value : count &log &optional;
 		qds : QDS_field &log &optional;
 		CP24Time2a : CP24TIME2A &log &optional;
@@ -452,24 +443,20 @@ export {
 
 	type Read_Command_client  : record {
 		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
 		raw_data : string &log &optional;
 	};
 
 	type Read_Command_server  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 	};
 
 	type QRP_client  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 		raw_data : string &log &optional;
 	};
 
 	type QRP_server  : record {
-		Asdu_num : count &log; 
-		info_obj_addr: count &log &optional;
+		Asdu_num : count &log;
 	};
 
 	type Asdu: record {
@@ -483,6 +470,8 @@ export {
 		test :  count &log &optional;
 		originator_address : count &log &optional;
 		common_address :  count &log &optional;
+
+		info_obj_addr: vector of count &log &optional;
 
 		# interrogation_command : QOI &log &optional;
 		interrogation_command : vector of count &log &optional;
@@ -504,6 +493,8 @@ export {
 		single_point_information_CP56Time2a : vector of count &log &optional;
 		single_point_information_CP24Time2a : vector of count &log &optional;
 		# double_point_information_CP56Time2a : DIQ_CP56Time2a &log &optional;
+		clock_synchronization_command : vector of count &log &optional;
+		double_point_information : vector of count &log &optional;
 		double_point_information_CP56Time2a : vector of count &log &optional;
 		double_point_information_CP24Time2a : vector of count &log &optional;
 
@@ -516,6 +507,7 @@ export {
 		measured_value_normalized_CP24Time2a : vector of count &log &optional;
 		measured_value_scaled_CP24Time2a : vector of count &log &optional;
 		measured_value_scaled_CP56Time2a : vector of count &log &optional;
+		measured_value_short_floating_point : vector of count &log &optional;
 		measured_value_short_floating_point_CP56Time2a : vector of count &log &optional;
 		measured_value_short_floating_point_CP24Time2a : vector of count &log &optional;
 		read_Command_client : vector of count &log &optional;
@@ -587,6 +579,9 @@ export {
 	global log_iec104: event(rec: Info);
 }
 
+global IOA_vec : vector of count;
+global IOA_temp : vector of count;
+
 global COI_vec : vector of count;
 global COI_temp : vector of count;
 
@@ -615,8 +610,12 @@ global SIQ_CP56Time2a_vec : vector of count;
 global SIQ_CP56Time2a_temp : vector of count;
 global SIQ_CP24Time2a_vec : vector of count;
 global SIQ_CP24Time2a_temp : vector of count;
+global DIQ_vec : vector of count;
+global DIQ_temp : vector of count;
 global DIQ_CP56Time2a_vec : vector of count;
 global DIQ_CP56Time2a_temp : vector of count;
+global CP56Time2a_vec : vector of count;
+global CP56Time2a_temp : vector of count;
 global DIQ_CP24Time2a_vec : vector of count;
 global DIQ_CP24Time2a_temp : vector of count;
 global VTI_QDS_CP56Time2a_vec : vector of count;
@@ -637,6 +636,8 @@ global SVA_QDS_CP56Time2a_vec : vector of count;
 global SVA_QDS_CP56Time2a_temp : vector of count;
 global SVA_QDS_CP24Time2a_vec : vector of count;
 global SVA_QDS_CP24Time2a_temp : vector of count;
+global IEEE_754_QDS_vec : vector of count;
+global IEEE_754_QDS_temp : vector of count;
 global IEEE_754_QDS_CP56Time2a_vec : vector of count;
 global IEEE_754_QDS_CP56Time2a_temp : vector of count;
 global IEEE_754_QDS_CP24Time2a_vec : vector of count;
@@ -680,6 +681,8 @@ event zeek_init() &priority=5
 		Log::create_stream(iec104::LOG_VTI_QDS, [$columns=VTI_QDS, $path="iec104-M_ST_NA_1"]);
 		Log::create_stream(iec104::LOG_SIQ_CP56Time2a, [$columns=SIQ_CP56Time2a, $path="iec104-M_SP_TB_1"]);
 		Log::create_stream(iec104::LOG_SIQ_CP24Time2a, [$columns=SIQ_CP24Time2a, $path="iec104-M_SP_TA_1"]);
+		Log::create_stream(iec104::LOG_CP56Time2a, [$columns=CP56Time2a_T, $path="iec104-C_CS_NA_1"]);
+		Log::create_stream(iec104::LOG_DIQ, [$columns=DIQ, $path="iec104-M_DP_NA_1"]);
 		Log::create_stream(iec104::LOG_DIQ_CP56Time2a, [$columns=DIQ_CP56Time2a, $path="iec104-M_DP_TB_1"]);
 		Log::create_stream(iec104::LOG_DIQ_CP24Time2a, [$columns=DIQ_CP24Time2a, $path="iec104-M_DP_TA_1"]);
 		Log::create_stream(iec104::LOG_VTI_QDS_CP56Time2a, [$columns=VTI_QDS_CP56Time2a, $path="iec104-M_ST_TB_1"]);
@@ -691,6 +694,7 @@ event zeek_init() &priority=5
 		Log::create_stream(iec104::LOG_NVA_QDS_CP24Time2a, [$columns=NVA_QDS_CP24Time2a, $path="iec104-M_ME_TA_1"]);
 		Log::create_stream(iec104::LOG_SVA_QDS_CP56Time2a, [$columns=SVA_QDS_CP56Time2a, $path="iec104-M_ME_TE_1"]);
 		Log::create_stream(iec104::LOG_SVA_QDS_CP24Time2a, [$columns=SVA_QDS_CP24Time2a, $path="iec104-M_ME_TB_1"]);
+		Log::create_stream(iec104::LOG_IEEE_754_QDS, [$columns=IEEE_754_QDS, $path="iec104-M_ME_NC_1"]);
 		Log::create_stream(iec104::LOG_IEEE_754_QDS_CP56Time2a, [$columns=IEEE_754_QDS_CP56Time2a, $path="iec104-M_ME_TF_1"]);
 		Log::create_stream(iec104::LOG_IEEE_754_QDS_CP24Time2a, [$columns=IEEE_754_QDS_CP24Time2a, $path="iec104-M_ME_TC_1"]);
 		Log::create_stream(iec104::LOG_Read_Command_client, [$columns=Read_Command_client, $path="iec104-C_RD_NA_1-Read_Command_client"]);
@@ -816,6 +820,10 @@ event iec104::apci(c: connection, is_orig : bool, apdu_len : count, not_i_type :
 		}
 
 		# TODO: Neews for the rest as well
+
+		if( |IOA_temp| != 0)
+			info$asdu$info_obj_addr = IOA_temp;
+
 		if( |COI_temp| != 0)
 			info$asdu$end_of_initialization = COI_temp;
 		
@@ -852,8 +860,14 @@ event iec104::apci(c: connection, is_orig : bool, apdu_len : count, not_i_type :
 		if( |SIQ_CP24Time2a_temp| != 0)
 			info$asdu$single_point_information_CP24Time2a = SIQ_CP24Time2a_temp;
 		
+		if( |DIQ_temp| != 0)
+			info$asdu$double_point_information = DIQ_temp;
+		
 		if( |DIQ_CP56Time2a_temp| != 0)
 			info$asdu$double_point_information_CP56Time2a = DIQ_CP56Time2a_temp;
+
+		if( |CP56Time2a_temp| != 0)
+			info$asdu$clock_synchronization_command  = CP56Time2a_temp;
 		
 		if( |DIQ_CP24Time2a_temp| != 0)
 			info$asdu$double_point_information_CP24Time2a = DIQ_CP24Time2a_temp;
@@ -885,6 +899,9 @@ event iec104::apci(c: connection, is_orig : bool, apdu_len : count, not_i_type :
 		if( |SVA_QDS_CP56Time2a_temp| != 0)
 			info$asdu$measured_value_scaled_CP56Time2a = SVA_QDS_CP56Time2a_temp;
 		
+		if( |IEEE_754_QDS_temp| != 0)
+			info$asdu$measured_value_short_floating_point = IEEE_754_QDS_temp;
+
 		if( |IEEE_754_QDS_CP56Time2a_temp| != 0)
 			info$asdu$measured_value_short_floating_point_CP56Time2a = IEEE_754_QDS_CP56Time2a_temp;
 		
@@ -917,6 +934,10 @@ event iec104::apci(c: connection, is_orig : bool, apdu_len : count, not_i_type :
 			
 		# single_point_information_CP56Time2a_set = set();
 		
+		local empty_IOA_temp : vector of count;
+		IOA_temp = empty_IOA_temp;
+
+
 		local empty_COI_temp : vector of count;
 		COI_temp = empty_COI_temp;
 
@@ -945,6 +966,10 @@ event iec104::apci(c: connection, is_orig : bool, apdu_len : count, not_i_type :
 		SIQ_CP56Time2a_temp = empty_SIQ_CP56Time2a_temp;
 		local empty_SIQ_CP24Time2a_temp : vector of count;
 		SIQ_CP24Time2a_temp = empty_SIQ_CP24Time2a_temp;
+		local empty_CP56Time2a_temp : vector of count;
+		CP56Time2a_temp = empty_CP56Time2a_temp;
+		local empty_DIQ_temp : vector of count;
+		DIQ_temp = empty_DIQ_temp;
 		local empty_DIQ_CP56Time2a_temp : vector of count;
 		DIQ_CP56Time2a_temp = empty_DIQ_CP56Time2a_temp;
 		local empty_DIQ_CP24Time2a_temp : vector of count;
@@ -967,6 +992,8 @@ event iec104::apci(c: connection, is_orig : bool, apdu_len : count, not_i_type :
 		SVA_QDS_CP56Time2a_temp = empty_SVA_QDS_CP56Time2a_temp;
 		local empty_SVA_QDS_CP24Time2a_temp : vector of count;
 		SVA_QDS_CP24Time2a_temp = empty_SVA_QDS_CP24Time2a_temp;
+		local empty_IEEE_754_QDS_temp : vector of count;
+		IEEE_754_QDS_temp = empty_IEEE_754_QDS_temp;
 		local empty_IEEE_754_QDS_CP56Time2a_temp : vector of count;
 		IEEE_754_QDS_CP56Time2a_temp = empty_IEEE_754_QDS_CP56Time2a_temp;
 		local empty_IEEE_754_QDS_CP24Time2a_temp : vector of count;
@@ -1062,6 +1089,25 @@ event iec104::asdu (c: connection, info_obj_type : info_obj_code, seq : count, n
 }
 
 
+event iec104::io(c: connection, info_obj_addr: int){
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+	
+	local info = c$iec104;
+	info$asdu = Asdu();
+
+	local next_num: count;
+	next_num = |IOA_vec| + 1;
+	
+	IOA_temp += info_obj_addr;
+	IOA_vec += info_obj_addr;
+}
+
 event iec104::QOI_evt(c: connection, qoi: QOI) {
 
 	if (! c?$iec104 ) {
@@ -1085,8 +1131,6 @@ event iec104::QOI_evt(c: connection, qoi: QOI) {
 	QOI_vec += next_num;
 	
 	local new_QOI = QOI($Asdu_num=next_num);
-	# local new_QOI = QOI();
-	new_QOI$info_obj_addr = qoi$info_obj_addr;
 	new_QOI$qoi = qoi$qoi;
 	
 	Log::write(iec104::LOG_QOI, new_QOI);
@@ -1103,16 +1147,6 @@ event iec104::SIQ_evt(c: connection, siq: SIQ) {
 		c$iec104 = default_iec104;
 	}
 
-	# Infinity loop for testing the log ouputs
-	# local iter = 0;
-
-	# while ( iter < 5 )
-	# {
-	# 	print ++iter;
-	# 	if( iter == 5)
-	# 		iter = 0;
-	# }
-
 	local info = c$iec104;
 	
 	info$asdu = Asdu();
@@ -1124,8 +1158,9 @@ event iec104::SIQ_evt(c: connection, siq: SIQ) {
 	SIQ_vec += next_num;
 	
 	local new_SIQ = SIQ($Asdu_num=next_num);
-	new_SIQ$info_obj_addr = siq$info_obj_addr;
 	new_SIQ$siq = siq$siq;
+
+	# print "SQI", siq$info_obj_addr;
 	
 	Log::write(iec104::LOG_SIQ, new_SIQ);
 }
@@ -1151,7 +1186,6 @@ event iec104::SCO_evt(c: connection, sco: SCO) {
 	SCO_vec += next_num;
 	
 	local new_SCO = SCO($Asdu_num=next_num);
-	new_SCO$info_obj_addr = sco$info_obj_addr;
 	new_SCO$sco = sco$sco;
 	
 	Log::write(iec104::LOG_SCO, new_SCO);
@@ -1178,7 +1212,6 @@ event iec104::DCO_evt(c: connection, dco: DCO) {
 	DCO_vec += next_num;
 	
 	local new_DCO = DCO($Asdu_num=next_num);
-	new_DCO$info_obj_addr = dco$info_obj_addr;
 	new_DCO$dco = dco$dco;
 	
 	Log::write(iec104::LOG_DCO, new_DCO);
@@ -1204,7 +1237,6 @@ event iec104::RCO_evt(c: connection, rco: RCO) {
 	RCO_vec += next_num;
 	
 	local new_RCO = RCO($Asdu_num=next_num);
-	new_RCO$info_obj_addr = rco$info_obj_addr;
 	new_RCO$RCO = rco$RCO;
 	
 	Log::write(iec104::LOG_RCO, new_RCO);	
@@ -1230,7 +1262,6 @@ event iec104::BSI_evt(c: connection, bsi: BSI) {
 	BSI_vec += next_num;
 
 	local new_BSI = BSI($Asdu_num=next_num);
-	new_BSI$info_obj_addr = bsi$info_obj_addr;
 	new_BSI$BSI = bsi$BSI;
 	
 	Log::write(iec104::LOG_BSI, new_BSI);	
@@ -1257,7 +1288,6 @@ event iec104::SVA_QOS_evt(c: connection, sva_qos: SVA_QOS) {
 	SVA_QOS_vec += next_num;
 	
 	local new_SVA_QOS = SVA_QOS($Asdu_num=next_num);
-	new_SVA_QOS$info_obj_addr = sva_qos$info_obj_addr;
 	new_SVA_QOS$SVA = sva_qos$SVA;
 	new_SVA_QOS$qos = sva_qos$qos;
 	
@@ -1284,7 +1314,6 @@ event iec104::SVA_QDS_evt(c: connection, sva_qds: SVA_QDS) {
 	SVA_QDS_vec += next_num;
 	
 	local new_SVA_QDS = SVA_QDS($Asdu_num=next_num);
-	new_SVA_QDS$info_obj_addr = sva_qds$info_obj_addr;
 	new_SVA_QDS$SVA = sva_qds$SVA;
 	new_SVA_QDS$qds = sva_qds$qds;
 	
@@ -1311,16 +1340,13 @@ event iec104::VTI_QDS_evt(c: connection, vti_qds: VTI_QDS) {
 	VTI_QDS_vec += next_num;
 	
 	local new_VTI_QDS = VTI_QDS($Asdu_num=next_num);
-	new_VTI_QDS$info_obj_addr = vti_qds$info_obj_addr;
 	new_VTI_QDS$value = vti_qds$value;
 	new_VTI_QDS$qds = vti_qds$qds;
 	
 	Log::write(iec104::LOG_VTI_QDS, new_VTI_QDS);
 }
 
-# event iec104::SIQ_CP56Time2a_evt(c: connection, asdu_b: Asdu, siq_CP56Time2a: SIQ_CP56Time2a) {
 event iec104::SIQ_CP56Time2a_evt(c: connection, siq_CP56Time2a: SIQ_CP56Time2a) {
-# event iec104::SIQ_CP56Time2a_evt(c: connection, final: siq_CP56Time2a_w_info_obj_type) &priority=2 {
 	
 	hook set_session(c);
 	
@@ -1345,7 +1371,6 @@ event iec104::SIQ_CP56Time2a_evt(c: connection, siq_CP56Time2a: SIQ_CP56Time2a) 
 	# print fmt("info$asdu$single_point_information_CP56Time2a: %s", info$asdu$single_point_information_CP56Time2a);
 	
 	local new_SIQ_CP56Time2a = SIQ_CP56Time2a($Asdu_num=next_num);
-	new_SIQ_CP56Time2a$info_obj_addr = siq_CP56Time2a$info_obj_addr;
 	new_SIQ_CP56Time2a$siq = siq_CP56Time2a$siq;
 	new_SIQ_CP56Time2a$CP56Time2a = siq_CP56Time2a$CP56Time2a;
 	
@@ -1374,11 +1399,37 @@ event iec104::SIQ_CP24Time2a_evt(c: connection, siq_CP24Time2a: SIQ_CP24Time2a) 
 	SIQ_CP24Time2a_vec += next_num;
 	
 	local new_SIQ_CP24Time2a = SIQ_CP24Time2a($Asdu_num=next_num);
-	new_SIQ_CP24Time2a$info_obj_addr = siq_CP24Time2a$info_obj_addr;
 	new_SIQ_CP24Time2a$siq = siq_CP24Time2a$siq;
 	new_SIQ_CP24Time2a$CP24Time2a = siq_CP24Time2a$CP24Time2a;
 	
 	Log::write(iec104::LOG_SIQ_CP24Time2a, new_SIQ_CP24Time2a);
+}
+
+event iec104::DIQ_evt(c: connection, diq: DIQ) {
+	
+	# hook set_session(c);
+
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
+	local info = c$iec104;
+	info$asdu = Asdu();
+
+	local next_num: count;
+	next_num = |DIQ_CP56Time2a_vec| + 1;
+	
+	DIQ_temp += next_num;
+	DIQ_vec += next_num;
+
+	local new_DIQ = DIQ($Asdu_num=next_num);
+	new_DIQ$diq = diq$diq;
+
+	Log::write(iec104::LOG_DIQ, new_DIQ);
 }
 
 event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: DIQ_CP56Time2a) {
@@ -1403,11 +1454,37 @@ event iec104::DIQ_CP56Time2a_evt(c: connection, diq_CP56Time2a: DIQ_CP56Time2a) 
 	DIQ_CP56Time2a_vec += next_num;
 	
 	local new_DIQ_CP56Time2a = DIQ_CP56Time2a($Asdu_num=next_num);
-	new_DIQ_CP56Time2a$info_obj_addr = diq_CP56Time2a$info_obj_addr;
 	new_DIQ_CP56Time2a$diq = diq_CP56Time2a$diq;
 	new_DIQ_CP56Time2a$CP56Time2a = diq_CP56Time2a$CP56Time2a;
 	
 	Log::write(iec104::LOG_DIQ_CP56Time2a, new_DIQ_CP56Time2a);
+}
+
+event iec104::CP56Time2a_evt(c: connection, CP56Time2a_t: CP56Time2a_T) {
+
+	hook set_session(c);
+
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
+	local info = c$iec104;
+	info$asdu = Asdu();
+
+	local next_num: count;
+	next_num = |CP56Time2a_vec| + 1;
+	
+	CP56Time2a_temp += next_num;
+	CP56Time2a_vec += next_num;
+	
+	local new_CP56Time2a = CP56Time2a_T($Asdu_num=next_num);
+	new_CP56Time2a$CP56Time2a_t = CP56Time2a_t$CP56Time2a_t;
+	
+	Log::write(iec104::LOG_CP56Time2a, new_CP56Time2a);
 }
 
 event iec104::DIQ_CP24Time2a_evt(c: connection, diq_CP24Time2a: DIQ_CP24Time2a) {
@@ -1430,7 +1507,6 @@ event iec104::DIQ_CP24Time2a_evt(c: connection, diq_CP24Time2a: DIQ_CP24Time2a) 
 	DIQ_CP24Time2a_vec += next_num;
 	
 	local new_DIQ_CP24Time2a = DIQ_CP24Time2a($Asdu_num=next_num);
-	new_DIQ_CP24Time2a$info_obj_addr = diq_CP24Time2a$info_obj_addr;
 	new_DIQ_CP24Time2a$diq = diq_CP24Time2a$diq;
 	new_DIQ_CP24Time2a$CP24Time2a = diq_CP24Time2a$CP24Time2a;
 	
@@ -1457,7 +1533,6 @@ event iec104::VTI_QDS_CP56Time2a_evt(c: connection, vti_QDS_CP56Time2a: VTI_QDS_
 	VTI_QDS_CP56Time2a_vec += next_num;
 	
 	local new_VTI_QDS_CP56Time2a = VTI_QDS_CP56Time2a($Asdu_num=next_num);
-	new_VTI_QDS_CP56Time2a$info_obj_addr = vti_QDS_CP56Time2a$info_obj_addr;
 	new_VTI_QDS_CP56Time2a$value = vti_QDS_CP56Time2a$value;
 	new_VTI_QDS_CP56Time2a$qds = vti_QDS_CP56Time2a$qds;
 	new_VTI_QDS_CP56Time2a$CP56Time2a = vti_QDS_CP56Time2a$CP56Time2a;
@@ -1485,7 +1560,6 @@ event iec104::VTI_QDS_CP24Time2a_evt(c: connection, vti_QDS_CP24Time2a: VTI_QDS_
 	VTI_QDS_CP24Time2a_vec += next_num;
 	
 	local new_VTI_QDS_CP24Time2a = VTI_QDS_CP24Time2a($Asdu_num=next_num);
-	new_VTI_QDS_CP24Time2a$info_obj_addr = vti_QDS_CP24Time2a$info_obj_addr;
 	new_VTI_QDS_CP24Time2a$value = vti_QDS_CP24Time2a$value;
 	new_VTI_QDS_CP24Time2a$qds = vti_QDS_CP24Time2a$qds;
 	new_VTI_QDS_CP24Time2a$CP24Time2a = vti_QDS_CP24Time2a$CP24Time2a;
@@ -1513,7 +1587,6 @@ event iec104::BSI_QDS_evt(c: connection, bsi_QDS: BSI_QDS) {
 	BSI_QDS_vec += next_num;
 	
 	local new_BSI_QDS = BSI_QDS($Asdu_num=next_num);
-	new_BSI_QDS$info_obj_addr = bsi_QDS$info_obj_addr;
 	new_BSI_QDS$bsi = bsi_QDS$bsi;
 	new_BSI_QDS$qds = bsi_QDS$qds;
 	
@@ -1540,7 +1613,6 @@ event iec104::BSI_QDS_CP56Time2a_evt(c: connection, bsi_QDS_CP56Time2a: BSI_QDS_
 	BSI_QDS_CP56Time2a_vec += next_num;
 	
 	local new_BSI_QDS_CP56Time2a = BSI_QDS_CP56Time2a($Asdu_num=next_num);
-	new_BSI_QDS_CP56Time2a$info_obj_addr = bsi_QDS_CP56Time2a$info_obj_addr;
 	new_BSI_QDS_CP56Time2a$bsi = bsi_QDS_CP56Time2a$bsi;
 	new_BSI_QDS_CP56Time2a$qds = bsi_QDS_CP56Time2a$qds;
 	new_BSI_QDS_CP56Time2a$CP56Time2a = bsi_QDS_CP56Time2a$CP56Time2a;
@@ -1569,7 +1641,6 @@ event iec104::BSI_QDS_CP24Time2a_evt(c: connection, bsi_QDS_CP24Time2a: BSI_QDS_
 	BSI_QDS_CP24Time2a_vec += next_num;
 	
 	local new_BSI_QDS_CP24Time2a = BSI_QDS_CP24Time2a($Asdu_num=next_num);
-	new_BSI_QDS_CP24Time2a$info_obj_addr = bsi_QDS_CP24Time2a$info_obj_addr;
 	new_BSI_QDS_CP24Time2a$bsi = bsi_QDS_CP24Time2a$bsi;
 	new_BSI_QDS_CP24Time2a$qds = bsi_QDS_CP24Time2a$qds;
 	new_BSI_QDS_CP24Time2a$CP24Time2a = bsi_QDS_CP24Time2a$CP24Time2a;
@@ -1597,7 +1668,6 @@ event iec104::COI_evt(c: connection, coi: COI) {
 	COI_vec += next_num;
 	
 	local new_coi = COI($Asdu_num=next_num);
-	new_coi$info_obj_addr = coi$info_obj_addr;
 	new_coi$coi = coi$coi;
 	
 	Log::write(iec104::LOG_COI, new_coi);
@@ -1622,7 +1692,6 @@ event iec104::NVA_QDS_CP56Time2a_evt(c: connection, nva_QDS_CP56Time2a: NVA_QDS_
 	NVA_QDS_CP56Time2a_vec += next_num;
 	
 	local new_NVA_QDS_CP56Time2a = NVA_QDS_CP56Time2a($Asdu_num=next_num);
-	new_NVA_QDS_CP56Time2a$info_obj_addr = nva_QDS_CP56Time2a$info_obj_addr;
 	new_NVA_QDS_CP56Time2a$NVA = nva_QDS_CP56Time2a$NVA;
 	new_NVA_QDS_CP56Time2a$qds = nva_QDS_CP56Time2a$qds;
 	new_NVA_QDS_CP56Time2a$CP56Time2a = nva_QDS_CP56Time2a$CP56Time2a;
@@ -1650,7 +1719,6 @@ event iec104::NVA_QDS_CP24Time2a_evt(c: connection, nva_QDS_CP24Time2a: NVA_QDS_
 	NVA_QDS_CP24Time2a_vec += next_num;
 	
 	local new_NVA_QDS_CP24Time2a = NVA_QDS_CP24Time2a($Asdu_num=next_num);
-	new_NVA_QDS_CP24Time2a$info_obj_addr = nva_QDS_CP24Time2a$info_obj_addr;
 	new_NVA_QDS_CP24Time2a$NVA = nva_QDS_CP24Time2a$NVA;
 	new_NVA_QDS_CP24Time2a$qds = nva_QDS_CP24Time2a$qds;
 	new_NVA_QDS_CP24Time2a$CP24Time2a = nva_QDS_CP24Time2a$CP24Time2a;
@@ -1678,7 +1746,6 @@ event iec104::SVA_QDS_CP24Time2a_evt(c: connection, sva_QDS_CP24Time2a: SVA_QDS_
 	SVA_QDS_CP24Time2a_vec += next_num;
 	
 	local new_SVA_QDS_CP24Time2a = SVA_QDS_CP24Time2a($Asdu_num=next_num);
-	new_SVA_QDS_CP24Time2a$info_obj_addr = sva_QDS_CP24Time2a$info_obj_addr;
 	new_SVA_QDS_CP24Time2a$SVA = sva_QDS_CP24Time2a$SVA;
 	new_SVA_QDS_CP24Time2a$qds = sva_QDS_CP24Time2a$qds;
 	new_SVA_QDS_CP24Time2a$CP24Time2a = sva_QDS_CP24Time2a$CP24Time2a;
@@ -1706,12 +1773,36 @@ event iec104::SVA_QDS_CP56Time2a_evt(c: connection, sva_QDS_CP56Time2a: SVA_QDS_
 	SVA_QDS_CP56Time2a_vec += next_num;
 	
 	local new_SVA_QDS_CP56Time2a = SVA_QDS_CP56Time2a($Asdu_num=next_num);
-	new_SVA_QDS_CP56Time2a$info_obj_addr = sva_QDS_CP56Time2a$info_obj_addr;
 	new_SVA_QDS_CP56Time2a$SVA = sva_QDS_CP56Time2a$SVA;
 	new_SVA_QDS_CP56Time2a$qds = sva_QDS_CP56Time2a$qds;
 	new_SVA_QDS_CP56Time2a$CP56Time2a = sva_QDS_CP56Time2a$CP56Time2a;
 	
 	Log::write(iec104::LOG_SVA_QDS_CP56Time2a, new_SVA_QDS_CP56Time2a);
+}
+
+event iec104::IEEE_754_QDS_evt(c: connection, ieee_754_QDS: IEEE_754_QDS) {
+	
+	if (! c?$iec104 ) {
+		
+		local cur_time  = current_time();
+		local default_iec104: Info = [$ts=cur_time, $uid=""];
+		
+		c$iec104 = default_iec104;
+	}
+
+	local info = c$iec104;
+	info$asdu = Asdu();
+
+	local next_num: count;
+	next_num = |IEEE_754_QDS_vec| + 1;
+	
+	IEEE_754_QDS_temp += next_num;
+	IEEE_754_QDS_vec += next_num;
+	
+	local new_IEEE_754_QDS = IEEE_754_QDS($Asdu_num=next_num);
+	new_IEEE_754_QDS$value = ieee_754_QDS$value;
+	new_IEEE_754_QDS$qds = ieee_754_QDS$qds;
+	Log::write(iec104::LOG_IEEE_754_QDS, new_IEEE_754_QDS);
 }
 
 event iec104::IEEE_754_QDS_CP56Time2a_evt(c: connection, ieee_754_QDS_CP56Time2a: IEEE_754_QDS_CP56Time2a) {
@@ -1734,7 +1825,6 @@ event iec104::IEEE_754_QDS_CP56Time2a_evt(c: connection, ieee_754_QDS_CP56Time2a
 	IEEE_754_QDS_CP56Time2a_vec += next_num;
 	
 	local new_IEEE_754_QDS_CP56Time2a = IEEE_754_QDS_CP56Time2a($Asdu_num=next_num);
-	new_IEEE_754_QDS_CP56Time2a$info_obj_addr = ieee_754_QDS_CP56Time2a$info_obj_addr;
 	new_IEEE_754_QDS_CP56Time2a$value = ieee_754_QDS_CP56Time2a$value;
 	new_IEEE_754_QDS_CP56Time2a$qds = ieee_754_QDS_CP56Time2a$qds;
 	new_IEEE_754_QDS_CP56Time2a$CP56Time2a = ieee_754_QDS_CP56Time2a$CP56Time2a;
@@ -1762,7 +1852,6 @@ event iec104::IEEE_754_QDS_CP24Time2a_evt(c: connection, ieee_754_QDS_CP24Time2a
 	IEEE_754_QDS_CP24Time2a_vec += next_num;
 	
 	local new_IEEE_754_QDS_CP24Time2a = IEEE_754_QDS_CP24Time2a($Asdu_num=next_num);
-	new_IEEE_754_QDS_CP24Time2a$info_obj_addr = ieee_754_QDS_CP24Time2a$info_obj_addr;
 	new_IEEE_754_QDS_CP24Time2a$value = ieee_754_QDS_CP24Time2a$value;
 	new_IEEE_754_QDS_CP24Time2a$qds = ieee_754_QDS_CP24Time2a$qds;
 	new_IEEE_754_QDS_CP24Time2a$CP24Time2a = ieee_754_QDS_CP24Time2a$CP24Time2a;
@@ -1790,7 +1879,6 @@ event iec104::Read_Command_client_evt(c: connection, read_Command_client: Read_C
 	Read_Command_client_vec += next_num;
 	
 	local new_Read_Command_client = Read_Command_client($Asdu_num=next_num);
-	new_Read_Command_client$info_obj_addr = read_Command_client$info_obj_addr;
 	new_Read_Command_client$raw_data = read_Command_client$raw_data;
 	
 	Log::write(iec104::LOG_Read_Command_client, new_Read_Command_client);
@@ -1817,7 +1905,6 @@ event iec104::Read_Command_server_evt(c: connection, read_Command_server: Read_C
 	Read_Command_server_vec += next_num;
 	
 	local new_Read_Command_server = Read_Command_server($Asdu_num=next_num);
-	new_Read_Command_server$info_obj_addr = read_Command_server$info_obj_addr;
 	
 	Log::write(iec104::LOG_Read_Command_server, new_Read_Command_server);
 }
@@ -1843,7 +1930,6 @@ event iec104::QRP_client_evt(c: connection, qrp_client: QRP_client) {
 	QRP_client_vec += next_num;
 	
 	local new_QRP_client = QRP_client($Asdu_num=next_num);
-	new_QRP_client$info_obj_addr = qrp_client$info_obj_addr;
 	new_QRP_client$raw_data = qrp_client$raw_data;
 	
 	Log::write(iec104::LOG_QRP_client, new_QRP_client);
@@ -1870,7 +1956,6 @@ event iec104::QRP_server_evt(c: connection, qrp_server: QRP_server) {
 	QRP_server_vec += next_num;
 	
 	local new_QRP_server = QRP_server($Asdu_num=next_num);
-	new_QRP_server$info_obj_addr = qrp_server$info_obj_addr;
 	
 	Log::write(iec104::LOG_QRP_server, new_QRP_server);
 }

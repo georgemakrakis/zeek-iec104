@@ -47,6 +47,9 @@ on iec104::Asdu ->
 	            		self.cause_of_transmission.cause_tx, self.cause_of_transmission.negative, self.cause_of_transmission.test, 
 						self.originator_address, self.common_address);
 
+on iec104::IO -> 
+	event iec104::io($conn, self.info_obj_addr);
+
 on iec104::QOI ->
 	event iec104::QOI_evt($conn, iec104::QOI_ret(self));
 
@@ -93,8 +96,14 @@ on iec104::SIQ_CP56Time2a ->
 on iec104::SIQ_CP24Time2a ->
 	event iec104::SIQ_CP24Time2a_evt($conn, iec104::SIQ_CP24Time2a_ret(self));
 
+on iec104::DIQ ->
+	event iec104::DIQ_evt($conn, iec104::DIQ_ret(self));
+
 on iec104::DIQ_CP56Time2a ->
 	event iec104::DIQ_CP56Time2a_evt($conn, iec104::DIQ_CP56Time2a_ret(self));
+
+on iec104::CP56Time2a_t ->
+	event iec104::CP56Time2a_evt($conn, iec104::CP56Time2a_ret(self));
 
 on iec104::DIQ_CP24Time2a ->
 	event iec104::DIQ_CP24Time2a_evt($conn, iec104::DIQ_CP24Time2a_ret(self));

@@ -155,7 +155,7 @@ import spicy;
 
 
     type SIQ = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        # 
         siq : bitfield(8) { 
             spi : 0;
             bl : 4;
@@ -166,7 +166,7 @@ import spicy;
     };
 
     type DIQ = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         diq : bitfield(8) {
             dpi : 0..1;
             bl : 4;
@@ -185,7 +185,7 @@ import spicy;
     #};
 
     type NVA_QOS = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         NVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qos : bitfield(8) {
             ql : 0..6;
@@ -194,7 +194,7 @@ import spicy;
     };
 
     type NVA_QDS = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         NVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -206,7 +206,7 @@ import spicy;
     };
 
     type BSI_QDS = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         bsi : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -218,7 +218,7 @@ import spicy;
     };
 
     type SVA_QOS = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         SVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qos : bitfield(8) {
             ql : 0..6;
@@ -227,7 +227,7 @@ import spicy;
     };
 
     type SVA_QDS = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         SVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -239,7 +239,7 @@ import spicy;
     };
 
     type IEEE_754_QOS = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         value : real &type=spicy::RealType::IEEE754_Single &byte-order = spicy::ByteOrder::Little;
         qos : bitfield(8) {
             ql : 0..6;
@@ -249,8 +249,9 @@ import spicy;
 
 
     type IEEE_754_QDS = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
-        value : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
+        # value : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        value : real &type=spicy::RealType::IEEE754_Single &byte-order = spicy::ByteOrder::Little;
         qds : bitfield(8) {
             ov : 0;
             bl : 4;
@@ -261,7 +262,7 @@ import spicy;
     };
 
     type VTI_QDS = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
         qds : bitfield(8) {
             ov : 0;
@@ -293,6 +294,11 @@ import spicy;
         year : uint8;
     };
 
+    type CP56Time2a_t = unit{
+        # 
+        CP56Time2a : CP56TIME2A;
+    };
+
     type CP24TIME2A = unit{
         milli : uint16 &byte-order = spicy::ByteOrder::Little; 
         minute : bitfield(8){
@@ -302,7 +308,7 @@ import spicy;
     };
 
     type SIQ_CP56Time2a = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         siq : bitfield(8) { 
             spi : 0;
             bl : 4;
@@ -314,7 +320,7 @@ import spicy;
     };
 
     type SIQ_CP24Time2a = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         siq : bitfield(8) { 
             spi : 0;
             bl : 4;
@@ -326,7 +332,7 @@ import spicy;
     };
 
     type DIQ_CP56Time2a = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         diq : bitfield(8) {
             dpi : 0..1;
             bl : 4;
@@ -338,7 +344,7 @@ import spicy;
     };
 
     type DIQ_CP24Time2a = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         diq : bitfield(8) {
             dpi : 0..1;
             bl : 4;
@@ -350,7 +356,7 @@ import spicy;
     };
 
     type VTI_QDS_CP56Time2a = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
         qds : bitfield(8) {
             ov : 0;
@@ -363,7 +369,7 @@ import spicy;
     };
 
     type VTI_QDS_CP24Time2a = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
         qds : bitfield(8) {
             ov : 0;
@@ -376,7 +382,7 @@ import spicy;
     };
 
     type BSI_QDS_CP56Time2a = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         bsi : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -389,7 +395,7 @@ import spicy;
     };
 
     type BSI_QDS_CP24Time2a = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         bsi : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -402,7 +408,7 @@ import spicy;
     };
 
     type SCO = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         sco : bitfield(8) {
             sco_on : 0;    
             qu : 2..6;
@@ -411,7 +417,7 @@ import spicy;
     };  
 
     type DCO = unit{ 
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         dco : bitfield(8) {
             dco_on : 0..1;    
             qu : 2..6;
@@ -420,7 +426,7 @@ import spicy;
     };
 
     type RCO = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         rco : bitfield(8) {
             up_down : 0..1;    
             qu : 2..6;
@@ -429,19 +435,19 @@ import spicy;
     };
 
     type BSI = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         bsi : bitfield(32) {
             value : 0..31;
         };
     };
 
     type QOI = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        # 
         qoi : uint8;
     };
 
     type COI = unit {
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         coi : bitfield(8) {
             r : 0..6;
             i : 7;
@@ -449,7 +455,7 @@ import spicy;
     };
 
     type NVA_QDS_CP56Time2a = unit { 
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         NVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -462,7 +468,7 @@ import spicy;
     };
 
     type NVA_QDS_CP24Time2a = unit { 
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         NVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -475,7 +481,7 @@ import spicy;
     };
 
     type SVA_QDS_CP56Time2a = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         SVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -488,7 +494,7 @@ import spicy;
     };
 
     type SVA_QDS_CP24Time2a = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         SVA : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -501,7 +507,7 @@ import spicy;
     };
 
     type IEEE_754_QDS_CP56Time2a = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         value : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -514,7 +520,7 @@ import spicy;
     };
 
     type IEEE_754_QDS_CP24Time2a = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
         value : bytes &size=4 &convert=$$.to_uint(spicy::ByteOrder::Little);
         qds : bitfield(8) {
             ov : 0;
@@ -527,23 +533,23 @@ import spicy;
     };
 
     type Read_Command_client = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
 
         raw_data : bytes &size=1 &convert=spicy::bytes_to_hexstring($$);
     };
 
     type Read_Command_server = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
     };
 
     type QRP_client = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
 
         raw_data : bytes &size=1 &convert=spicy::bytes_to_hexstring($$);
     };
 
     type QRP_server = unit{
-        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        
     };
 
     public type Apcis = unit {
@@ -639,85 +645,110 @@ import spicy;
         common_address : uint16 &byte-order = spicy::ByteOrder::Little;
 
         # The length is 3 bytes for IEC 104
-        #info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
+        #
 
         # Skipping the IOAs for now.
         #: void &size=(Apci_glob.apduLen - 13);
 
-        qoi_f : QOI()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_IC_NA_1);
-        #SCO: uint8 if (self.info_obj_type == info_obj_code::C_SC_NA_1);
+        switch ( self.data_unit_identifier.seq ){
+            0 -> {
+                io: IO(self.info_obj_type, self.data_unit_identifier.seq, 1, self.cause_of_transmission.negative)[self.data_unit_identifier.num_ix];
+            }
+            1 -> {
+                io: IO(self.info_obj_type, self.data_unit_identifier.seq, self.data_unit_identifier.num_ix, self.cause_of_transmission.negative)[1];
+            }
+        };
+        
+    };
 
-        sco_f : SCO()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_SC_NA_1);
+    type IO = unit (info_obj_type: info_obj_code, seq: uint8, num_ix: uint32, cause_of_transmission_negative: uint8) {
 
-        dco_f : DCO()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_DC_NA_1);
+        info_obj_addr: bytes &size=3 &convert=$$.to_uint(spicy::ByteOrder::Little);
 
-        rco_f : RCO()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RC_NA_1);
+        # Information elements (IE)
+        switch ( seq ){
+            0 -> ie: IE(info_obj_type, cause_of_transmission_negative)[1];
+            1 -> ie: IE(info_obj_type, cause_of_transmission_negative)[num_ix];
+        };
 
-        bsi_f : BSI()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_BO_NA_1);
+    };
+
+    type IE = unit (info_obj_type: info_obj_code, cause_of_transmission_negative: uint8) {
+
+        CP56Time2a_f : CP56Time2a_t() if (info_obj_type == info_obj_code::C_CS_NA_1);
+
+        siq_f: SIQ() if (info_obj_type == info_obj_code::M_SP_NA_1);
+
+        qoi_f : QOI() if (info_obj_type == info_obj_code::C_IC_NA_1);
+
+        sco_f : SCO() if (info_obj_type == info_obj_code::C_SC_NA_1);
+
+        dco_f : DCO() if (info_obj_type == info_obj_code::C_DC_NA_1);
+
+        rco_f : RCO() if (info_obj_type == info_obj_code::C_RC_NA_1);
+
+        bsi_f : BSI() if (info_obj_type == info_obj_code::C_BO_NA_1);
 
         #TODO: Can we combine these two in one type (as unit)?
-        #NVA_f : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little) if (self.info_obj_type == info_obj_code::C_SE_NA_1);
+        #NVA_f : bytes &size=2 &convert=$$.to_uint(spicy::ByteOrder::Little) if (info_obj_type == info_obj_code::C_SE_NA_1);
 
-        nva_qos_f : NVA_QOS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_SE_NA_1);
-        sva_qos_f : SVA_QOS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_SE_NB_1);
+        nva_qos_f : NVA_QOS() if (info_obj_type == info_obj_code::C_SE_NA_1);
+        sva_qos_f : SVA_QOS() if (info_obj_type == info_obj_code::C_SE_NB_1);
 
-        ieee_754_qos_f : IEEE_754_QOS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_SE_NC_1);
+        ieee_754_qos_f : IEEE_754_QOS() if (info_obj_type == info_obj_code::C_SE_NC_1);
 
-        coi_f : COI()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_EI_NA_1);
+        coi_f : COI() if (info_obj_type == info_obj_code::M_EI_NA_1);
 
         # The line below is for debugging purposes.
-        # b2: bytes &eod if (self.info_obj_type == info_obj_code::M_SP_NA_1);
-
-
-        siq_f: SIQ()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_SP_NA_1);
+        # b2: bytes &eod if (info_obj_type == info_obj_code::M_SP_NA_1);
         
-        diq_f : DIQ()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_DP_NA_1);
+        diq_f : DIQ() if (info_obj_type == info_obj_code::M_DP_NA_1);
 
-        vti_qds_f : VTI_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_NA_1);
+        vti_qds_f : VTI_QDS() if (info_obj_type == info_obj_code::M_ST_NA_1);
 
-        bsi_qds_f : BSI_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_BO_NA_1);
+        bsi_qds_f : BSI_QDS() if (info_obj_type == info_obj_code::M_BO_NA_1);
 
-        nva_qds_f : NVA_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_NA_1);
+        nva_qds_f : NVA_QDS() if (info_obj_type == info_obj_code::M_ME_NA_1);
 
-        sva_qds_f : SVA_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_NB_1);
+        sva_qds_f : SVA_QDS() if (info_obj_type == info_obj_code::M_ME_NB_1);
 
-        ieee_754_qds_f : IEEE_754_QDS()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_NC_1);
+        ieee_754_qds_f : IEEE_754_QDS() if (info_obj_type == info_obj_code::M_ME_NC_1);
 
-        siq_CP56Time2a_f : SIQ_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_SP_TB_1);
+        siq_CP56Time2a_f : SIQ_CP56Time2a() if (info_obj_type == info_obj_code::M_SP_TB_1);
 
-        siq_CP24Time2a_f : SIQ_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_SP_TA_1);
+        siq_CP24Time2a_f : SIQ_CP24Time2a() if (info_obj_type == info_obj_code::M_SP_TA_1);
 
-        diq_CP56Time2a_f : DIQ_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_DP_TB_1);
-        
-        diq_CP24Time2a_f : DIQ_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_DP_TA_1);
+        diq_CP56Time2a_f : DIQ_CP56Time2a() if (info_obj_type == info_obj_code::M_DP_TB_1);
 
-        vti_qds_CP56Time2a_f : VTI_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_TB_1);
-        
-        vti_qds_CP24Time2a_f : VTI_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ST_TA_1);
+        diq_CP24Time2a_f : DIQ_CP24Time2a() if (info_obj_type == info_obj_code::M_DP_TA_1);
 
-        bsi_qds_CP56Time2a_f : BSI_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_BO_TB_1);
+        vti_qds_CP56Time2a_f : VTI_QDS_CP56Time2a() if (info_obj_type == info_obj_code::M_ST_TB_1);
         
-        bsi_qds_CP24Time2a_f : BSI_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_BO_TA_1);
-        
-        nva_qds_CP56Time2a_f : NVA_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TD_1);
-        
-        nva_qds_CP24Time2a_f : NVA_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TA_1);
-        
-        sva_qds_CP56Time2a_f : SVA_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TE_1);
-        
-        sva_qds_CP24Time2a_f : SVA_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TB_1);
-        
-        ieee_754_qds_CP56Time2a_f : IEEE_754_QDS_CP56Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TF_1);
-        
-        ieee_754_qds_CP24Time2a_f : IEEE_754_QDS_CP24Time2a()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::M_ME_TC_1);
-        
-        #: void if (self.info_obj_type == info_obj_code::C_RD_NA_1);
-        
-        read_command_f_client : Read_Command_client()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RD_NA_1 && self.cause_of_transmission.negative == 0);
-        read_command_f_server: Read_Command_server()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RD_NA_1 && self.cause_of_transmission.negative == 1);
+        vti_qds_CP24Time2a_f : VTI_QDS_CP24Time2a() if (info_obj_type == info_obj_code::M_ST_TA_1);
 
-        QRP_f_client : QRP_client()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RP_NC_1 && self.cause_of_transmission.negative == 0);
-        QRP_f_server: QRP_server()[self.data_unit_identifier.num_ix] if (self.info_obj_type == info_obj_code::C_RP_NC_1 && self.cause_of_transmission.negative == 1);
+        bsi_qds_CP56Time2a_f : BSI_QDS_CP56Time2a() if (info_obj_type == info_obj_code::M_BO_TB_1);
+        
+        bsi_qds_CP24Time2a_f : BSI_QDS_CP24Time2a() if (info_obj_type == info_obj_code::M_BO_TA_1);
+        
+        nva_qds_CP56Time2a_f : NVA_QDS_CP56Time2a() if (info_obj_type == info_obj_code::M_ME_TD_1);
+        
+        nva_qds_CP24Time2a_f : NVA_QDS_CP24Time2a() if (info_obj_type == info_obj_code::M_ME_TA_1);
+        
+        sva_qds_CP56Time2a_f : SVA_QDS_CP56Time2a() if (info_obj_type == info_obj_code::M_ME_TE_1);
+        
+        sva_qds_CP24Time2a_f : SVA_QDS_CP24Time2a() if (info_obj_type == info_obj_code::M_ME_TB_1);
+        
+        ieee_754_qds_CP56Time2a_f : IEEE_754_QDS_CP56Time2a() if (info_obj_type == info_obj_code::M_ME_TF_1);
+        
+        ieee_754_qds_CP24Time2a_f : IEEE_754_QDS_CP24Time2a() if (info_obj_type == info_obj_code::M_ME_TC_1);
+        
+        #: void if (info_obj_type == info_obj_code::C_RD_NA_1);
+        
+        read_command_f_client : Read_Command_client() if (info_obj_type == info_obj_code::C_RD_NA_1 && cause_of_transmission_negative == 0);
+        read_command_f_server: Read_Command_server() if (info_obj_type == info_obj_code::C_RD_NA_1 && cause_of_transmission_negative == 1);
+
+        QRP_f_client : QRP_client() if (info_obj_type == info_obj_code::C_RP_NC_1 && cause_of_transmission_negative == 0);
+        QRP_f_server: QRP_server() if (info_obj_type == info_obj_code::C_RP_NC_1 && cause_of_transmission_negative == 1);
 
         # TODO: We have to specify the rest here of fields based on info_obj_type
 
@@ -731,12 +762,11 @@ import spicy;
         }
     };
 
-
-    public function QOI_ret (asdu: QOI) : tuple <uint64, uint64, uint8> {
-        return (0, asdu.info_obj_addr, asdu.qoi);
+    public function QOI_ret (asdu: QOI) : tuple <uint64, uint8> {
+        return (0, asdu.qoi);
     }
 
-    public function SIQ_ret (asdu: SIQ) : tuple<uint64, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
+    public function SIQ_ret (asdu: SIQ) : tuple<uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
         local temp_spi = asdu.siq.spi;
         local temp_bl = asdu.siq.bl;
         local temp_sb = asdu.siq.sb;
@@ -745,30 +775,30 @@ import spicy;
 
         local siq_tuple = (temp_spi, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, siq_tuple);
+        return (0, siq_tuple);
     }
 
-    public function SCO_ret (asdu: SCO) :tuple<uint64, uint64, tuple<sco_on: uint8, qu: uint8, se: uint8>> {
+    public function SCO_ret (asdu: SCO) :tuple<uint64, tuple<sco_on: uint8, qu: uint8, se: uint8>> {
         local temp_sco_on = asdu.sco.sco_on;
         local temp_qu = asdu.sco.qu;
         local temp_se = asdu.sco.se;
 
         local sco_tuple = (temp_sco_on, temp_qu, temp_se);
         
-        return (0, asdu.info_obj_addr, sco_tuple);
+        return (0, sco_tuple);
     }
 
-    public function DCO_ret (asdu: DCO) :tuple<uint64, uint64, tuple<dco_on: uint8, qu: uint8, se: uint8>> {
+    public function DCO_ret (asdu: DCO) :tuple<uint64, tuple<dco_on: uint8, qu: uint8, se: uint8>> {
         local temp_dco_on = asdu.dco.dco_on;
         local temp_qu = asdu.dco.qu;
         local temp_se = asdu.dco.se;
 
         local dco_tuple = (temp_dco_on, temp_qu, temp_se);
         
-        return (0, asdu.info_obj_addr, dco_tuple);
+        return (0, dco_tuple);
     }
 
-    public function RCO_ret (asdu: RCO) :tuple<uint64, uint64, tuple<up_down: uint8, qu: uint8, se: uint8>> {
+    public function RCO_ret (asdu: RCO) :tuple<uint64, tuple<up_down: uint8, qu: uint8, se: uint8>> {
         
         local temp_up_down = asdu.rco.up_down;
         local temp_qu = asdu.rco.qu;
@@ -776,29 +806,29 @@ import spicy;
 
         local rco_tuple = (temp_up_down, temp_qu, temp_se);
         
-        return (0, asdu.info_obj_addr, rco_tuple);
+        return (0, rco_tuple);
     }
 
-    public function BSI_ret (asdu: BSI) :tuple<uint64, uint64, uint32> {
+    public function BSI_ret (asdu: BSI) :tuple<uint64, uint32> {
 
         local value = asdu.bsi.value;
 
         #local bsi_tuple = (value);
 
-        return (0, asdu.info_obj_addr, value);
+        return (0, value);
     }
 
-    public function SVA_QOS_ret (asdu: SVA_QOS) :tuple<uint64, uint64, uint64, tuple<ql: uint8, se: uint8>> {
+    public function SVA_QOS_ret (asdu: SVA_QOS) :tuple<uint64, uint64, tuple<ql: uint8, se: uint8>> {
         
         local temp_ql = asdu.qos.ql;
         local temp_se = asdu.qos.se;
 
         local qos_tuple = (temp_ql, temp_se);
 
-        return (0, asdu.info_obj_addr, asdu.SVA, qos_tuple);
+        return (0, asdu.SVA, qos_tuple);
     }
 
-    public function SVA_QDS_ret (asdu: SVA_QDS) :tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
+    public function SVA_QDS_ret (asdu: SVA_QDS) :tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -807,20 +837,20 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, asdu.SVA, qds_tuple);
+        return (0, asdu.SVA, qds_tuple);
     }
 
 
-    public function IEEE_754_QOS_ret (asdu: IEEE_754_QOS) : tuple<uint64, uint64, real, tuple<ql: uint8, se: uint8>> {
+    public function IEEE_754_QOS_ret (asdu: IEEE_754_QOS) : tuple<uint64, real, tuple<ql: uint8, se: uint8>> {
         local temp_ql = asdu.qos.ql;
         local temp_se = asdu.qos.se;
 
         local qos_tuple = (temp_ql, temp_se);
         
-        return (0, asdu.info_obj_addr, asdu.value, qos_tuple);
+        return (0, asdu.value, qos_tuple);
     }
 
-    public function IEEE_754_QDS_ret (asdu: IEEE_754_QDS) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
+    public function IEEE_754_QDS_ret (asdu: IEEE_754_QDS) : tuple<uint64, real, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -829,10 +859,10 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
         
-        return (0, asdu.info_obj_addr, asdu.value, qds_tuple);
+        return (0, asdu.value, qds_tuple);
     }
 
-    public function VTI_QDS_ret (asdu: VTI_QDS) : tuple<uint64, uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
+    public function VTI_QDS_ret (asdu: VTI_QDS) : tuple<uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
         
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
@@ -842,14 +872,14 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, asdu.value, qds_tuple);
+        return (0, asdu.value, qds_tuple);
     }
 
     #public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<uint64, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
     #    return (0, asdu.info_obj_addr, asdu.siq ,asdu.CP56Time2a);
     #}
 
-    public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<uint64, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    public function SIQ_CP56Time2a_ret (asdu: SIQ_CP56Time2a) : tuple<uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
         local temp_spi = asdu.siq.spi;
         local temp_bl = asdu.siq.bl;
         local temp_sb = asdu.siq.sb;
@@ -858,10 +888,10 @@ import spicy;
 
         local siq_tuple = (temp_spi, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, siq_tuple, asdu.CP56Time2a);
+        return (0, siq_tuple, asdu.CP56Time2a);
     }
 
-    public function SIQ_CP24Time2a_ret (asdu: SIQ_CP24Time2a) : tuple<uint64, uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    public function SIQ_CP24Time2a_ret (asdu: SIQ_CP24Time2a) : tuple<uint64, tuple<spi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
         local temp_spi = asdu.siq.spi;
         local temp_bl = asdu.siq.bl;
         local temp_sb = asdu.siq.sb;
@@ -870,10 +900,10 @@ import spicy;
 
         local siq_tuple = (temp_spi, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, siq_tuple ,asdu.CP24Time2a);
+        return (0, siq_tuple ,asdu.CP24Time2a);
     }
 
-    public function DIQ_CP56Time2a_ret (asdu: DIQ_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    public function DIQ_CP56Time2a_ret (asdu: DIQ_CP56Time2a) : tuple<uint64, uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
         
         local temp_dpi = asdu.diq.dpi;
         local temp_bl = asdu.diq.bl;
@@ -882,11 +912,30 @@ import spicy;
         local temp_iv = asdu.diq.iv;
 
         local diq_tuple = (temp_dpi, temp_bl, temp_sb, temp_nt, temp_iv);
-        return (0, 31 ,asdu.info_obj_addr, diq_tuple ,asdu.CP56Time2a);
+        return (0, 31, diq_tuple ,asdu.CP56Time2a);
         
     }
 
-    public function DIQ_CP24Time2a_ret (asdu: DIQ_CP24Time2a) : tuple<uint64, uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    # public function CP56Time2a_ret (asdu: CP56Time2a_t) : tuple<uint64, uint64, CP56TIME2A> {
+    public function CP56Time2a_ret (asdu: CP56Time2a_t) : tuple<uint64, CP56TIME2A> {
+        
+        # return (0, asdu.info_obj_addr, asdu.CP56Time2a);
+        return (0, asdu.CP56Time2a);
+
+    }
+
+    public function DIQ_ret (asdu: DIQ) : tuple<uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>>{
+        local temp_dpi = asdu.diq.dpi;
+        local temp_bl = asdu.diq.bl;
+        local temp_sb = asdu.diq.sb;
+        local temp_nt = asdu.diq.nt;
+        local temp_iv = asdu.diq.iv;
+
+        local diq_tuple = (temp_dpi, temp_bl, temp_sb, temp_nt, temp_iv);
+        return (0, diq_tuple);
+    }
+
+    public function DIQ_CP24Time2a_ret (asdu: DIQ_CP24Time2a) : tuple<uint64, tuple<dpi: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
         local temp_dpi = asdu.diq.dpi;
         local temp_bl = asdu.diq.bl;
         local temp_sb = asdu.diq.sb;
@@ -895,10 +944,10 @@ import spicy;
 
         local diq_tuple = (temp_dpi, temp_bl, temp_sb, temp_nt, temp_iv);
         
-        return (0, asdu.info_obj_addr, diq_tuple ,asdu.CP24Time2a);
+        return (0, diq_tuple ,asdu.CP24Time2a);
     }
 
-    public function VTI_QDS_CP56Time2a_ret (asdu: VTI_QDS_CP56Time2a) : tuple<uint64, uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    public function VTI_QDS_CP56Time2a_ret (asdu: VTI_QDS_CP56Time2a) : tuple<uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -907,10 +956,10 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, asdu.value, qds_tuple, asdu.CP56Time2a);
+        return (0, asdu.value, qds_tuple, asdu.CP56Time2a);
     }
 
-    public function VTI_QDS_CP24Time2a_ret (asdu: VTI_QDS_CP24Time2a) : tuple<uint64, uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    public function VTI_QDS_CP24Time2a_ret (asdu: VTI_QDS_CP24Time2a) : tuple<uint64, bytes, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -919,10 +968,10 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, asdu.value, qds_tuple, asdu.CP24Time2a);
+        return (0, asdu.value, qds_tuple, asdu.CP24Time2a);
     }
 
-    public function BSI_QDS_ret (asdu: BSI_QDS) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
+    public function BSI_QDS_ret (asdu: BSI_QDS) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -931,10 +980,10 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, asdu.bsi, qds_tuple);
+        return (0, asdu.bsi, qds_tuple);
     }
 
-    public function BSI_QDS_CP56Time2a_ret (asdu: BSI_QDS_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    public function BSI_QDS_CP56Time2a_ret (asdu: BSI_QDS_CP56Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -943,10 +992,10 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, asdu.bsi, qds_tuple, asdu.CP56Time2a);
+        return (0, asdu.bsi, qds_tuple, asdu.CP56Time2a);
     }
 
-    public function BSI_QDS_CP24Time2a_ret (asdu: BSI_QDS_CP24Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    public function BSI_QDS_CP24Time2a_ret (asdu: BSI_QDS_CP24Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
         
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
@@ -956,19 +1005,19 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
         
-        return (0, asdu.info_obj_addr, asdu.bsi, qds_tuple, asdu.CP24Time2a);
+        return (0, asdu.bsi, qds_tuple, asdu.CP24Time2a);
     }
 
-    public function COI_ret (asdu: COI) : tuple<uint64, uint64, tuple<r: uint8, i: uint8>> {
+    public function COI_ret (asdu: COI) : tuple<uint64, tuple<r: uint8, i: uint8>> {
         # local temp_r = asdu.coi.r;
         # local temp_i = asdu.coi.i;
 
         local coi_tuple = (asdu.coi.r, asdu.coi.i);
         
-        return (0, asdu.info_obj_addr, coi_tuple);
+        return (0, coi_tuple);
     }
 
-    public function NVA_QDS_CP56Time2a_ret (asdu: NVA_QDS_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    public function NVA_QDS_CP56Time2a_ret (asdu: NVA_QDS_CP56Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
         # local temp_ov = asdu.qds.ov;
         # local temp_bl = asdu.qds.bl;
         # local temp_sb = asdu.qds.sb;
@@ -977,10 +1026,10 @@ import spicy;
 
         local qds_tuple = (asdu.qds.ov, asdu.qds.bl, asdu.qds.sb, asdu.qds.nt, asdu.qds.iv);
         
-        return (0, asdu.info_obj_addr, asdu.NVA, qds_tuple, asdu.CP56Time2a);
+        return (0, asdu.NVA, qds_tuple, asdu.CP56Time2a);
     }
 
-    public function NVA_QDS_CP24Time2a_ret (asdu: NVA_QDS_CP24Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    public function NVA_QDS_CP24Time2a_ret (asdu: NVA_QDS_CP24Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -989,10 +1038,10 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, asdu.NVA, qds_tuple, asdu.CP24Time2a);
+        return (0, asdu.NVA, qds_tuple, asdu.CP24Time2a);
     }
 
-    public function SVA_QDS_CP56Time2a_ret (asdu: SVA_QDS_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    public function SVA_QDS_CP56Time2a_ret (asdu: SVA_QDS_CP56Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -1001,10 +1050,10 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, asdu.SVA, qds_tuple, asdu.CP56Time2a);
+        return (0, asdu.SVA, qds_tuple, asdu.CP56Time2a);
     }
 
-    public function SVA_QDS_CP24Time2a_ret (asdu: SVA_QDS_CP24Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    public function SVA_QDS_CP24Time2a_ret (asdu: SVA_QDS_CP24Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -1013,10 +1062,10 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, asdu.SVA, qds_tuple, asdu.CP24Time2a);
+        return (0, asdu.SVA, qds_tuple, asdu.CP24Time2a);
     }
 
-    public function IEEE_754_QDS_CP56Time2a_ret (asdu: IEEE_754_QDS_CP56Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
+    public function IEEE_754_QDS_CP56Time2a_ret (asdu: IEEE_754_QDS_CP56Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP56TIME2A> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -1025,10 +1074,10 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
 
-        return (0, asdu.info_obj_addr, asdu.value, qds_tuple, asdu.CP56Time2a);
+        return (0, asdu.value, qds_tuple, asdu.CP56Time2a);
     }
 
-    public function IEEE_754_QDS_CP24Time2a_ret (asdu: IEEE_754_QDS_CP24Time2a) : tuple<uint64, uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
+    public function IEEE_754_QDS_CP24Time2a_ret (asdu: IEEE_754_QDS_CP24Time2a) : tuple<uint64, uint64, tuple<ov: uint8, bl: uint8, sb: uint8, nt: uint8, iv: uint8>, CP24TIME2A> {
         local temp_ov = asdu.qds.ov;
         local temp_bl = asdu.qds.bl;
         local temp_sb = asdu.qds.sb;
@@ -1037,23 +1086,23 @@ import spicy;
 
         local qds_tuple = (temp_ov, temp_bl, temp_sb, temp_nt, temp_iv);
         
-        return (0, asdu.info_obj_addr, asdu.value, qds_tuple, asdu.CP24Time2a);
+        return (0, asdu.value, qds_tuple, asdu.CP24Time2a);
     }
 
-    public function Read_Command_client_ret (asdu: Read_Command_client) : tuple<uint64, uint64, string> {
-        return (0, asdu.info_obj_addr, asdu.raw_data);
+    public function Read_Command_client_ret (asdu: Read_Command_client) : tuple<uint64, string> {
+        return (0, asdu.raw_data);
     }
 
-    public function Read_Command_server_ret (asdu: Read_Command_server) : tuple<uint64, uint64> {
-        return (0, asdu.info_obj_addr);
+    public function Read_Command_server_ret (asdu: Read_Command_server) : uint64 {
+        return 0;
     }
 
-    public function QRP_client_ret (asdu: QRP_client) : tuple<uint64, uint64, string> {
-        return (0, asdu.info_obj_addr, asdu.raw_data);
+    public function QRP_client_ret (asdu: QRP_client) : tuple<uint64, string> {
+        return (0, asdu.raw_data);
     }
 
 
-    public function QRP_server_ret (asdu: QRP_server) : tuple<uint64, uint64> {
-        return (0, asdu.info_obj_addr);
+    public function QRP_server_ret (asdu: QRP_server) : uint64 {
+        return 0;
     }
 @endif
