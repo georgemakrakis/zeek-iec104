@@ -55,17 +55,17 @@ Below is also a list of the currently implemented information object codes.
 | ----------------- |------------------|----------------------------|
 |M_SP_NA_1          |1|x
 |M_SP_TA_1          |2|x
-|M_DP_NA_1          |3| 
+|M_DP_NA_1          |3|x 
 |M_DP_TA_1          |4|x
 |M_ST_NA_1          |5|x
 |M_ST_TA_1          |6|x
-|M_BO_NA_1          |7|  
+|M_BO_NA_1          |7|x  
 |M_BO_TA_1          |8|x
 |M_ME_NA_1          |9|x
 |M_ME_TA_1          |10|x
 |M_ME_NB_1          |11|x
 |M_ME_TB_1          |12|x
-|M_ME_NC_1          |13|
+|M_ME_NC_1          |13|x
 |M_ME_TC_1          |14|x
 |M_IT_NA_1          |15|
 |M_IT_TA_1          |16|
