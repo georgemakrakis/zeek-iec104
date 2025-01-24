@@ -14,7 +14,13 @@ The *Logging Capabilities* section below provides more details for the current f
 
 ## Installation
 
-TODO: Neede to add some installation instructions once sure that most of the features are tested and work.
+To build and install the parser into Zeek the following can be used:
+
+```
+$ cd zeek-iec104
+$ cmake . && make install
+$ zeek -NN | grep iec104
+```
 
 ## Logging Capabilities
 
