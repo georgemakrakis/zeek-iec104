@@ -10,7 +10,8 @@ import spicy;
 #};
 
 #const ioa_len = 3;
-@if SPICY_VERSION <= 10900
+# @if SPICY_VERSION <= 10900
+@if SPICY_VERSION <= 11400
     type Modes = enum {
         I = 0,
         S = 1,
@@ -263,7 +264,8 @@ import spicy;
 
     type VTI_QDS = unit{
         
-        value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
+        # value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
+        value : bytes &size=1;
         qds : bitfield(8) {
             ov : 0;
             bl : 4;
@@ -357,7 +359,8 @@ import spicy;
 
     type VTI_QDS_CP56Time2a = unit {
         
-        value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
+        # value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
+        value : bytes &size=1;
         qds : bitfield(8) {
             ov : 0;
             bl : 4;
@@ -370,7 +373,8 @@ import spicy;
 
     type VTI_QDS_CP24Time2a = unit {
         
-        value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
+        # value : bytes &size=1 &byte-order = spicy::ByteOrder::Little;
+        value : bytes &size=1;
         qds : bitfield(8) {
             ov : 0;
             bl : 4;
@@ -1093,16 +1097,17 @@ import spicy;
         return (0, asdu.raw_data);
     }
 
-    public function Read_Command_server_ret (asdu: Read_Command_server) : uint64 {
-        return 0;
+    public function Read_Command_server_ret (asdu: Read_Command_server) : tuple<uint64,uint64> {
+        return (0,0);
     }
+
 
     public function QRP_client_ret (asdu: QRP_client) : tuple<uint64, string> {
         return (0, asdu.raw_data);
     }
 
 
-    public function QRP_server_ret (asdu: QRP_server) : uint64 {
-        return 0;
+    public function QRP_server_ret (asdu: QRP_server) : tuple<uint64, uint64> {
+        return (0,0);
     }
 @endif

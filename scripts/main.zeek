@@ -448,6 +448,7 @@ export {
 
 	type Read_Command_server  : record {
 		Asdu_num : count &log;
+		empty : count &optional;
 	};
 
 	type QRP_client  : record {
@@ -457,6 +458,7 @@ export {
 
 	type QRP_server  : record {
 		Asdu_num : count &log;
+		empty : count &optional;
 	};
 
 	type Asdu: record {
@@ -1782,6 +1784,8 @@ event iec104::SVA_QDS_CP56Time2a_evt(c: connection, sva_QDS_CP56Time2a: SVA_QDS_
 
 event iec104::IEEE_754_QDS_evt(c: connection, ieee_754_QDS: IEEE_754_QDS) {
 	
+	print "IEEE_754_QDS_evt!!!";
+
 	if (! c?$iec104 ) {
 		
 		local cur_time  = current_time();
